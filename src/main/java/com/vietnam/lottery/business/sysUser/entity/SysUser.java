@@ -32,10 +32,6 @@ public class SysUser extends Model<SysUser> {
     private String avatarUrl;
     //删除标志（0代表存在、2代表删除）
     private String delFlag;
-    //最后登录IP
-    private String loginIp;
-    //最后登录时间
-    private Date loginDate;
     //创建人
     private Long createBy;
     //创建时间
@@ -116,22 +112,6 @@ public class SysUser extends Model<SysUser> {
 
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
-    }
-
-    public String getLoginIp() {
-        return loginIp;
-    }
-
-    public void setLoginIp(String loginIp) {
-        this.loginIp = loginIp;
-    }
-
-    public Date getLoginDate() {
-        return loginDate;
-    }
-
-    public void setLoginDate(Date loginDate) {
-        this.loginDate = loginDate;
     }
 
     public Long getCreateBy() {
