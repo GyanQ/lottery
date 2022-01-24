@@ -1,6 +1,6 @@
-package com.vietnam.lottery.business.service.impl;
+package com.vietnam.lottery.business.sysUser.service.impl;
 
-import com.vietnam.lottery.business.service.SysUserService;
+import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import org.springframework.stereotype.Service;
 

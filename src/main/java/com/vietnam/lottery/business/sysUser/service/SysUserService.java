@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.service;
+package com.vietnam.lottery.business.sysUser.service;
 
 import java.util.Map;
 

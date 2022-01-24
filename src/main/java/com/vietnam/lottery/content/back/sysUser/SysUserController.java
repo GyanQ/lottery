@@ -1,6 +1,6 @@
 package com.vietnam.lottery.content.back.sysUser;
 
-import com.vietnam.lottery.business.service.SysUserService;
+import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
