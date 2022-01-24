@@ -45,3 +45,11 @@ mybatis-plus:
       logic-delete-value: true
       # 没有删除状态为0(false)
       logic-not-delete-value: false
+
+#jwt
+jwt:
+  header: Authorization
+  tokenPrefix: Bearer
+  secret: vietnamLottery202201241022
+  expireTime: 5
+
