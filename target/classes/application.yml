@@ -5,9 +5,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
     driver-class-name: com.mysql.cj.jdbc.Driver              # mysql驱动包
-    url: jdbc:mysql://120.78.222.109:3306/inm_villa?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-    username: inmoods
-    password: Inmoods@2016
+    url: jdbc:mysql://localhost:3306/lottery?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: root
   #redis配置
   redis:
     # 地址
@@ -33,6 +33,8 @@ spring:
 
 # MyBatisPlus的相关配置
 mybatis-plus:
+  mapperLocations: classpath*:com.vietnam.lottery/business/**/mapper/*.xml
+  typeAliasesPackage: com.vietnam.lottery.business.*.entity
   configuration:
     # 下划线转驼峰命名
     map-underscore-to-camel-case: true
