@@ -53,7 +53,7 @@ public class JwtUtil {
         this.expireTime = expireTime;
     }
 
-    /* 创建token */
+    // 创建token
     public static String createToken(Map<String, Object> map) {
         Date date = new Date(System.currentTimeMillis() + (expireTime * 60 * 1000));
 
@@ -67,7 +67,7 @@ public class JwtUtil {
         return builder.sign(algorithm);
     }
 
-    /* 验证token */
+    // 验证token
     public static Boolean validateToken(String token) {
         try {
             JWT.require(Algorithm.HMAC256(secret)).build().verify(token);
@@ -77,7 +77,7 @@ public class JwtUtil {
         return true;
     }
 
-    /* 解析token */
+    // 解析token
     public static String parseToken(String token) {
         try {
             String userId = JWT.decode(token).getAudience().get(0);
