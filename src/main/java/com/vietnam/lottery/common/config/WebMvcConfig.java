@@ -16,6 +16,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authHandlerInterceptor)
                 // 放开以下接口
-                .addPathPatterns("/**").excludePathPatterns("/doc.html").excludePathPatterns("/swagger-resources/**").excludePathPatterns("/sys/login");
+                .addPathPatterns("/**").excludePathPatterns("/doc.html").excludePathPatterns("/swagger-resources/**").excludePathPatterns("/sys/user/login");
     }
 }
