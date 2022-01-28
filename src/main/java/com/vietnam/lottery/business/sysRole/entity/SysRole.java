@@ -1,5 +1,4 @@
-package com.vietnam.lottery.business.sysUser.entity;
-
+package com.vietnam.lottery.business.sysRole.entity;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
@@ -7,30 +6,18 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户表(SysUser)表实体类
+ * 角色信息(SysRole)表实体类
  *
- * @author Gyan
- * @since 2022-01-24 17:57:19
+ * @author makejava
+ * @since 2022-01-28 15:04:18
  */
-@SuppressWarnings("sysUser")
-public class SysUser extends Model<SysUser> {
+@SuppressWarnings("serial")
+public class SysRole extends Model<SysRole> {
     //id
     private Long id;
-    //账号
-    private String account;
-    //姓名
+    //角色名称
     private String name;
-    //角色
-    private String role;
-    //用户邮箱
-    private String email;
-    //手机号码
-    private String phone;
-    //用户性别（0男 1女 2未知）
-    private String sex;
-    //头像地址
-    private String avatarUrl;
-    //删除标志（0代表存在、2代表删除）
+    //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
     private Long createBy;
@@ -38,7 +25,7 @@ public class SysUser extends Model<SysUser> {
     private Date createDate;
     //修改人
     private Long updateBy;
-    //更新时间
+    //修改时间
     private Date updateDate;
 
 
@@ -50,60 +37,12 @@ public class SysUser extends Model<SysUser> {
         this.id = id;
     }
 
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
     }
 
     public String getDelFlag() {
