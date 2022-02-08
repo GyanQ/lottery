@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Data
-public class FrontLoginRequest implements Serializable {
+public class LoginRequest implements Serializable {
     private static final long serialVersionUID = -9191474827254230835L;
 
     @ApiModelProperty(value = "账号")

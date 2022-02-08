@@ -1,6 +1,6 @@
 package com.vietnam.lottery.content.back.sysUser;
 
-import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
+import com.vietnam.lottery.business.sysUser.request.LoginRequest;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
-@Api(tags = "用户管理")
+@Api(tags = "首页")
 @RequestMapping("/sys/user")
 public class SysUserController {
     @Autowired
@@ -26,15 +26,9 @@ public class SysUserController {
 
     @PostMapping("/login")
     @ApiOperation("登录")
-    public ResultModel login(HttpServletResponse httpServletResponse) {
-        Map<String, Object> map = sysUserService.login();
+    public ResultModel login(@RequestBody @Valid LoginRequest request, HttpServletResponse httpServletResponse) {
+        Map<String, Object> map = sysUserService.login(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
-        return ResultUtil.success();
-    }
-
-    @PostMapping("/register")
-    @ApiOperation("注册")
-    public ResultModel register(@RequestBody @Valid UserRegisterRequest request) {
-        return ResultUtil.success(sysUserService.register(request));
+        return ResultUtil.success("登录成功！");
     }
 }

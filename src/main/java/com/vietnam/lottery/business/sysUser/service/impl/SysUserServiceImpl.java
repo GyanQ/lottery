@@ -4,10 +4,11 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
-import com.vietnam.lottery.business.sysUser.request.FrontLoginRequest;
+import com.vietnam.lottery.business.sysUser.request.LoginRequest;
 import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
@@ -26,10 +27,15 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserMapper sysUserMapper;
 
     @Override
-    public Map<String, Object> login() {
+    public Map<String, Object> login(LoginRequest request) {
+        SysUser user = accountIsExist(request.getAccount());
+        if (ObjectUtil.isEmpty(user)) throw new GlobalException("登录失败,没有该账号信息");
+        Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
+        if (!flag) throw new GlobalException("密码错误！");
+
         //创建token
         Map<String, Object> map = new HashMap<>();
-        map.put("userId", 1);
+        map.put("userId", user.getId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
         return map;
@@ -54,12 +60,11 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Map<String, Object> frontLogin(FrontLoginRequest request) {
-        SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("account", request.getAccount()));
+    public Map<String, Object> frontLogin(LoginRequest request) {
+        SysUser user = accountIsExist(request.getAccount());
         if (ObjectUtil.isEmpty(user)) throw new GlobalException("登录失败,没有该账号信息");
-        boolean flag = DigestUtils.md5DigestAsHex(request.getPassWord().getBytes()).equals(user.getPassWord());
+        Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
         if (!flag) throw new GlobalException("密码错误！");
-
 
         Map<String, Object> map = new HashMap<>();
         map.put("userId", user.getId());
@@ -77,5 +82,16 @@ public class SysUserServiceImpl implements SysUserService {
             return false;
         }
         return true;
+    }
+
+    /* 查询账号是否存在*/
+    private SysUser accountIsExist(String account) {
+        SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("account", account).eq("del_flag", DelFlagEnum.CODE.getCode()));
+        return user;
+    }
+
+    /* 校验密码 */
+    private Boolean checkPassWord(String first, String second) {
+        return DigestUtils.md5DigestAsHex(first.getBytes()).equals(second);
     }
 }

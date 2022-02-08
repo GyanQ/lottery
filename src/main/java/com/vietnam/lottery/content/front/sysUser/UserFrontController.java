@@ -1,6 +1,6 @@
 package com.vietnam.lottery.content.front.sysUser;
 
-import com.vietnam.lottery.business.sysUser.request.FrontLoginRequest;
+import com.vietnam.lottery.business.sysUser.request.LoginRequest;
 import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
-@Api(tags = "登录")
+@Api(tags = "首页")
 @RequestMapping("/sys/front")
 public class UserFrontController {
     @Autowired
@@ -27,7 +27,7 @@ public class UserFrontController {
 
     @PostMapping("/frontLogin")
     @ApiOperation("登录")
-    public ResultModel frontLogin(@RequestBody @Valid FrontLoginRequest request, HttpServletResponse httpServletResponse) {
+    public ResultModel frontLogin(@RequestBody @Valid LoginRequest request, HttpServletResponse httpServletResponse) {
         Map<String, Object> map = sysUserService.frontLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
         return ResultUtil.success("登录成功！");
