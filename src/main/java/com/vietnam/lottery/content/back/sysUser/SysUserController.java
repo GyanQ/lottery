@@ -27,7 +27,10 @@ public class SysUserController {
 
     @PostMapping("/login")
     @ApiOperation("登录")
-    public ResultModel login(@Valid @RequestBody LoginRequest request, HttpServletResponse httpServletResponse) {
+    public ResultModel login(@Valid @RequestBody LoginRequest request, BindingResult bindingResult, HttpServletResponse httpServletResponse) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
         Map<String, Object> map = sysUserService.login(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
         return ResultUtil.success("登录成功！");

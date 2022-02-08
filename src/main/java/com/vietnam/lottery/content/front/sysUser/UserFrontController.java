@@ -9,6 +9,7 @@ import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,10 @@ public class UserFrontController {
 
     @PostMapping("/frontLogin")
     @ApiOperation("登录")
-    public ResultModel frontLogin(@RequestBody @Valid LoginRequest request, HttpServletResponse httpServletResponse) {
+    public ResultModel frontLogin(@RequestBody @Valid LoginRequest request, BindingResult bindingResult, HttpServletResponse httpServletResponse) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
         Map<String, Object> map = sysUserService.frontLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
         return ResultUtil.success("登录成功！");
@@ -35,7 +39,10 @@ public class UserFrontController {
 
     @PostMapping("/register")
     @ApiOperation("注册")
-    public ResultModel register(@RequestBody @Valid UserRegisterRequest request) {
+    public ResultModel register(@RequestBody @Valid UserRegisterRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
         return ResultUtil.success(sysUserService.register(request));
     }
 }
