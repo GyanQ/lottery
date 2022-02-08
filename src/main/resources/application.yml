@@ -50,7 +50,7 @@ mybatis-plus:
 
 #jwt
 jwt:
-  header: Authorization
+  header: authorization
   tokenPrefix: Bearer
   secret: vietnamLottery202201241022
   expireTime: 5
