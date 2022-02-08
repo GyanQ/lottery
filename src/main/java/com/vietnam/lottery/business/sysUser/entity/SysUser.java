@@ -18,18 +18,10 @@ public class SysUser extends Model<SysUser> {
     private Long id;
     //账号
     private String account;
-    //姓名
-    private String name;
-    //角色
-    private String role;
-    //用户邮箱
-    private String email;
+    //密码
+    private String passWord;
     //手机号码
     private String phone;
-    //用户性别（0男 1女 2未知）
-    private String sex;
-    //头像地址
-    private String avatarUrl;
     //删除标志（0代表存在、2代表删除）
     private String delFlag;
     //创建人
@@ -40,7 +32,6 @@ public class SysUser extends Model<SysUser> {
     private Long updateBy;
     //更新时间
     private Date updateDate;
-
 
     public Long getId() {
         return id;
@@ -58,28 +49,12 @@ public class SysUser extends Model<SysUser> {
         this.account = account;
     }
 
-    public String getName() {
-        return name;
+    public String getPassWord() {
+        return passWord;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
 
     public String getPhone() {
@@ -88,22 +63,6 @@ public class SysUser extends Model<SysUser> {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
     }
 
     public String getDelFlag() {
