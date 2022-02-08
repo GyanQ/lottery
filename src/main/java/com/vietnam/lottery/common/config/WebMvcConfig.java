@@ -14,8 +14,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     /* 添加jwt拦截器 */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        //定义排除swagger访问的路径配置
+        String[] swaggerExcludes = new String[]{"/doc.html", "/swagger-resources/**", "/webjars/**", "/sys/user/**", "/sys/front/**"};
+
         registry.addInterceptor(authHandlerInterceptor)
                 // 放开以下接口
-                .addPathPatterns("/**").excludePathPatterns("/doc.html").excludePathPatterns("/swagger-resources/**").excludePathPatterns("/sys/user/login");
+                .addPathPatterns("/**").excludePathPatterns(swaggerExcludes);
+        WebMvcConfigurer.super.addInterceptors(registry);
     }
 }
