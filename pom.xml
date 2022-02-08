@@ -96,6 +96,11 @@
             <artifactId>commons-codec</artifactId>
             <version>1.15</version>
         </dependency>
+        <!--valid注解不生效-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

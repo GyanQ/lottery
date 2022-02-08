@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 角色信息(SysRole)表实体类
  *
- * @author makejava
+ * @author Gyan
  * @since 2022-01-28 15:04:18
  */
 @SuppressWarnings("serial")

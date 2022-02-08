@@ -80,7 +80,7 @@ public class JwtUtil {
     // 解析token
     public static String parseToken(String token) {
         try {
-            String userId = JWT.decode(token).getAudience().get(0);
+            String userId = JWT.decode(token).getClaim("userId").asString();
             return userId;
         } catch (JWTDecodeException e) {
             e.printStackTrace();

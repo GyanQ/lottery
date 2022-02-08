@@ -1,6 +1,12 @@
 package com.vietnam.lottery.business.sysRole.service;
 
-import com.vietnam.lottery.business.sysRole.entity.SysRole;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.sysMenu.request.MenuDeleteRequest;
+import com.vietnam.lottery.business.sysRole.request.RoleAddRequest;
+import com.vietnam.lottery.business.sysRole.request.RoleListRequest;
+import com.vietnam.lottery.business.sysRole.request.RoleUpdateRequest;
+import com.vietnam.lottery.business.sysRole.response.RoleDetailResponse;
+import com.vietnam.lottery.business.sysRole.response.RoleListResponse;
 import com.vietnam.lottery.common.utils.ResultModel;
 
 /**
@@ -12,6 +18,18 @@ import com.vietnam.lottery.common.utils.ResultModel;
 public interface SysRoleService {
 
     /* 新增 */
-    ResultModel add(SysRole sysRole);
+    ResultModel add(RoleAddRequest request);
+
+    /* 列表 */
+    Page<RoleListResponse> list(RoleListRequest request);
+
+    /* 修改 */
+    ResultModel update(RoleUpdateRequest request);
+
+    /* 详情 */
+    RoleDetailResponse detail(Long id);
+
+    /* 删除 */
+    ResultModel delete(MenuDeleteRequest request);
 }
 
