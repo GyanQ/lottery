@@ -1,5 +1,8 @@
 package com.vietnam.lottery.business.sysUserRoleRelation.service;
 
+import com.vietnam.lottery.business.sysUserRoleRelation.request.UserRoleAddRequest;
+import com.vietnam.lottery.common.utils.ResultModel;
+
 /**
  * 角色信息(SysUserRoleRelation)表服务接口
  *
@@ -8,5 +11,6 @@ package com.vietnam.lottery.business.sysUserRoleRelation.service;
  */
 public interface SysUserRoleRelationService {
 
+    ResultModel add(UserRoleAddRequest request);
 }
 
