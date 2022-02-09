@@ -1,9 +1,6 @@
 package com.vietnam.lottery.business.sysUser.service;
 
-import com.vietnam.lottery.business.sysUser.request.CreateAccountRequest;
-import com.vietnam.lottery.business.sysUser.request.LoginRequest;
-import com.vietnam.lottery.business.sysUser.request.UpdatePawRequest;
-import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
+import com.vietnam.lottery.business.sysUser.request.*;
 import com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse;
 import com.vietnam.lottery.common.utils.ResultModel;
 
@@ -30,4 +27,7 @@ public interface SysUserService {
 
     /* 创建账号 */
     ResultModel createAccount(CreateAccountRequest request);
+
+    /* 重置密码 */
+    ResultModel resetPaw(ResetPawRequest request);
 }

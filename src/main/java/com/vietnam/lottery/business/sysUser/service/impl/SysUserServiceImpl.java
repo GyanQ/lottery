@@ -6,10 +6,7 @@ import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
-import com.vietnam.lottery.business.sysUser.request.CreateAccountRequest;
-import com.vietnam.lottery.business.sysUser.request.LoginRequest;
-import com.vietnam.lottery.business.sysUser.request.UpdatePawRequest;
-import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
+import com.vietnam.lottery.business.sysUser.request.*;
 import com.vietnam.lottery.business.sysUser.response.MenuPermissionResponse;
 import com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
@@ -135,9 +132,37 @@ public class SysUserServiceImpl implements SysUserService {
         if (!flag) return ResultUtil.failure("该账号没有创建账号权限");
         SysUser user = new SysUser();
         user.setAccount(request.getAccount());
-        user.setPassWord(request.getPassWord());
+        user.setPassWord(DigestUtils.md5DigestAsHex(request.getPassWord().getBytes()));
         user.setCreateBy(request.getCreateBy());
+
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("账户管理");
+        record.setOperate("新增");
+        record.setContent("创建管理员账号：" + request.getAccount());
+        record.setCreateBy(request.getCreateBy());
+        sysOperateRecordService.add(record);
         return ResultUtil.success(sysUserMapper.insert(user));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel resetPaw(ResetPawRequest request) {
+        Boolean flag = sysUserMapper.isSuperAdmin("超级管理员");
+        if (!flag) return ResultUtil.failure("该账号没有重置权限");
+        SysUser user = new SysUser();
+        user.setId(request.getUserId());
+        user.setPassWord(DigestUtils.md5DigestAsHex(request.getPassWord().getBytes()));
+        user.setCreateBy(request.getCreateBy());
+
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("账户管理");
+        record.setOperate("修改");
+        record.setContent("重置管理员密码");
+        record.setCreateBy(request.getCreateBy());
+        sysOperateRecordService.add(record);
+        return ResultUtil.success(sysUserMapper.updateById(user));
     }
 
     /* 账号是否唯一 */
