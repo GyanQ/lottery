@@ -1,8 +1,12 @@
 package com.vietnam.lottery.content.back.sysUser;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysUser.request.CreateAccountRequest;
 import com.vietnam.lottery.business.sysUser.request.ResetPawRequest;
 import com.vietnam.lottery.business.sysUser.request.UpdatePawRequest;
+import com.vietnam.lottery.business.sysUser.request.UserListRequest;
+import com.vietnam.lottery.business.sysUser.response.UserDetailResponse;
+import com.vietnam.lottery.business.sysUser.response.UserListResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -11,10 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -60,5 +61,17 @@ public class SysUserController {
         String userId = JwtUtil.parseToken(token);
         request.setCreateBy(Long.valueOf(userId));
         return ResultUtil.success(sysUserService.resetPaw(request));
+    }
+
+    @PostMapping("/list")
+    @ApiOperation("列表")
+    public ResultModel<Page<UserListResponse>> list(@RequestBody UserListRequest request) {
+        return ResultUtil.success(sysUserService.list(request));
+    }
+
+    @GetMapping("/detail/{account}")
+    @ApiOperation("详情")
+    public ResultModel<UserDetailResponse> detail(@PathVariable("account") String account) {
+        return ResultUtil.success(sysUserService.detail(account));
     }
 }

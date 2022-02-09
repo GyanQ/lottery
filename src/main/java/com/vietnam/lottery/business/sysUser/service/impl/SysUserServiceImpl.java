@@ -2,28 +2,30 @@ package com.vietnam.lottery.business.sysUser.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
 import com.vietnam.lottery.business.sysUser.request.*;
 import com.vietnam.lottery.business.sysUser.response.MenuPermissionResponse;
+import com.vietnam.lottery.business.sysUser.response.UserDetailResponse;
 import com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse;
+import com.vietnam.lottery.business.sysUser.response.UserListResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
+import com.vietnam.lottery.common.utils.DateUtils;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
@@ -163,6 +165,34 @@ public class SysUserServiceImpl implements SysUserService {
         record.setCreateBy(request.getCreateBy());
         sysOperateRecordService.add(record);
         return ResultUtil.success(sysUserMapper.updateById(user));
+    }
+
+    @Override
+    public Page<UserListResponse> list(UserListRequest request) {
+        Page<SysUser> page = new Page<>(request.getCurrent(), request.getSize());
+        Page<SysUser> iPage = sysUserMapper.selectPage(page, new QueryWrapper<SysUser>().orderByDesc("create_date"));
+        Page<UserListResponse> responsePage = new Page<>(iPage.getCurrent(), iPage.getSize(), iPage.getSize());
+        if (CollectionUtils.isEmpty(iPage.getRecords())) return responsePage;
+        List<UserListResponse> list = new ArrayList<>();
+        iPage.getRecords().forEach(o -> {
+            UserListResponse resp = new UserListResponse();
+            resp.setAccount(o.getAccount());
+            resp.setId(o.getId());
+            resp.setCreateDate(DateUtils.dateConversionStr(o.getCreateDate(), DateUtils.DATETIME_PATTERN));
+            list.add(resp);
+        });
+        responsePage.setRecords(list);
+        return responsePage;
+    }
+
+    @Override
+    public UserDetailResponse detail(String account) {
+        SysUser user = accountIsExist(account);
+        UserDetailResponse response = new UserDetailResponse();
+        response.setAccount(user.getAccount());
+        response.setPhone(user.getPhone());
+        response.setCreateDate(DateUtils.dateConversionStr(user.getCreateDate(), DateUtils.DATETIME_PATTERN));
+        return response;
     }
 
     /* 账号是否唯一 */
