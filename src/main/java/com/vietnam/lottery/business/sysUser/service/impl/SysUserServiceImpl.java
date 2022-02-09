@@ -9,6 +9,8 @@ import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
 import com.vietnam.lottery.business.sysUser.request.LoginRequest;
 import com.vietnam.lottery.business.sysUser.request.UpdatePawRequest;
 import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
+import com.vietnam.lottery.business.sysUser.response.MenuPermissionResponse;
+import com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.global.DelFlagEnum;
@@ -22,6 +24,7 @@ import org.springframework.util.DigestUtils;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -116,7 +119,15 @@ public class SysUserServiceImpl implements SysUserService {
         return null;
     }
 
-    /* 账号是否唯一*/
+    @Override
+    public UserGetPermissionResponse getPermission(Long id) {
+        UserGetPermissionResponse response = sysUserMapper.selectRoleName(id);
+        List<MenuPermissionResponse> menuPermission = sysUserMapper.selectMenuPermission(response.getRoleId());
+        response.setList(menuPermission);
+        return response;
+    }
+
+    /* 账号是否唯一 */
     private Boolean isExist(String account) {
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account", account);
@@ -127,7 +138,7 @@ public class SysUserServiceImpl implements SysUserService {
         return true;
     }
 
-    /* 查询账号是否存在*/
+    /* 查询账号是否存在 */
     private SysUser accountIsExist(String account) {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("account", account).eq("del_flag", DelFlagEnum.CODE.getCode()));
         return user;

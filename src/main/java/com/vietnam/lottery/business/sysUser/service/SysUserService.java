@@ -3,6 +3,7 @@ package com.vietnam.lottery.business.sysUser.service;
 import com.vietnam.lottery.business.sysUser.request.LoginRequest;
 import com.vietnam.lottery.business.sysUser.request.UpdatePawRequest;
 import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
+import com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse;
 import com.vietnam.lottery.common.utils.ResultModel;
 
 import java.util.Map;
@@ -22,4 +23,7 @@ public interface SysUserService {
 
     /* 修改密码*/
     ResultModel updatePaw(UpdatePawRequest request);
+
+    /* 获取菜单权限 */
+    UserGetPermissionResponse getPermission(Long id);
 }
