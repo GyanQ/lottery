@@ -94,11 +94,6 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public ResultModel add() {
-        return null;
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel updatePaw(UpdatePawRequest request) {
         SysUser user = sysUserMapper.selectById(request.getCreateBy());

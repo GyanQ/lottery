@@ -19,9 +19,6 @@ public interface SysUserService {
     /* 用户登录 */
     Map<String, Object> frontLogin(LoginRequest request);
 
-    /* 用户新增 */
-    ResultModel add();
-
     /* 修改密码*/
     ResultModel updatePaw(UpdatePawRequest request);
 
