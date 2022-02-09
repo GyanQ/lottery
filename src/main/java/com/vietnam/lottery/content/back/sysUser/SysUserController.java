@@ -1,5 +1,6 @@
 package com.vietnam.lottery.content.back.sysUser;
 
+import com.vietnam.lottery.business.sysUser.request.CreateAccountRequest;
 import com.vietnam.lottery.business.sysUser.request.UpdatePawRequest;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
@@ -38,13 +39,13 @@ public class SysUserController {
 
     @PostMapping("/createAccount")
     @ApiOperation("创建账号")
-    public ResultModel createAccount(@Valid @RequestBody UpdatePawRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+    public ResultModel createAccount(@Valid @RequestBody CreateAccountRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
         request.setCreateBy(Long.valueOf(userId));
-        return ResultUtil.success(sysUserService.updatePaw(request));
+        return ResultUtil.success(sysUserService.createAccount(request));
     }
 }

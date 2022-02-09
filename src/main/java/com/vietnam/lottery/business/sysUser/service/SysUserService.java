@@ -1,5 +1,6 @@
 package com.vietnam.lottery.business.sysUser.service;
 
+import com.vietnam.lottery.business.sysUser.request.CreateAccountRequest;
 import com.vietnam.lottery.business.sysUser.request.LoginRequest;
 import com.vietnam.lottery.business.sysUser.request.UpdatePawRequest;
 import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
@@ -26,4 +27,7 @@ public interface SysUserService {
 
     /* 获取菜单权限 */
     UserGetPermissionResponse getPermission(Long id);
+
+    /* 创建账号 */
+    ResultModel createAccount(CreateAccountRequest request);
 }

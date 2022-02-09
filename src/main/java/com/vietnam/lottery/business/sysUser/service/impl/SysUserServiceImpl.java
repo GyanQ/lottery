@@ -6,6 +6,7 @@ import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
+import com.vietnam.lottery.business.sysUser.request.CreateAccountRequest;
 import com.vietnam.lottery.business.sysUser.request.LoginRequest;
 import com.vietnam.lottery.business.sysUser.request.UpdatePawRequest;
 import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
@@ -125,6 +126,18 @@ public class SysUserServiceImpl implements SysUserService {
         List<MenuPermissionResponse> menuPermission = sysUserMapper.selectMenuPermission(response.getRoleId());
         response.setList(menuPermission);
         return response;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel createAccount(CreateAccountRequest request) {
+        Boolean flag = sysUserMapper.isSuperAdmin("超级管理员");
+        if (!flag) return ResultUtil.failure("该账号没有创建账号权限");
+        SysUser user = new SysUser();
+        user.setAccount(request.getAccount());
+        user.setPassWord(request.getPassWord());
+        user.setCreateBy(request.getCreateBy());
+        return ResultUtil.success(sysUserMapper.insert(user));
     }
 
     /* 账号是否唯一 */

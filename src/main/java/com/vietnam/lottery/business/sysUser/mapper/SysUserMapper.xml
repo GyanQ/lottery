@@ -15,4 +15,11 @@
                  inner join sys_role_menu b on a.id = b.role_id
         where a.id = #{id}
     </select>
+    <select id="isSuperAdmin" resultType="java.lang.Boolean">
+        select count(0)
+        from sys_user a
+                 left join sys_user_role_relation b on a.id = b.user_id
+                 left join sys_role c on b.role_id = c.id
+        where c.name = #{name}
+    </select>
 </mapper>

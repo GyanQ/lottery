@@ -22,5 +22,8 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /* 查询角色菜单权限 */
     List<MenuPermissionResponse> selectMenuPermission(@Param("id") Long id);
+
+    /* 查询当前账号是否是超级管理员 */
+    Boolean isSuperAdmin(@Param("name") String name);
 }
 
