@@ -2,9 +2,12 @@ package com.vietnam.lottery.business.sysUser.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
+import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
 import com.vietnam.lottery.business.sysUser.request.LoginRequest;
+import com.vietnam.lottery.business.sysUser.request.UpdatePawRequest;
 import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
@@ -25,11 +28,16 @@ import java.util.Map;
 public class SysUserServiceImpl implements SysUserService {
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private SysOperateRecordService sysOperateRecordService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> login(LoginRequest request) {
+        //查询账号是否存在
         SysUser user = accountIsExist(request.getAccount());
         if (ObjectUtil.isEmpty(user)) throw new GlobalException("登录失败,没有该账号信息");
+        //校验密码
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
         if (!flag) throw new GlobalException("密码错误！");
 
@@ -38,6 +46,15 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("userId", user.getId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
+
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("管理后台登录");
+        record.setOperate("登录");
+        record.setContent("管理后台登录");
+        String userId = JwtUtil.parseToken(token);
+        record.setCreateBy(Long.valueOf(userId));
+        sysOperateRecordService.add(record);
         return map;
     }
 
@@ -71,6 +88,32 @@ public class SysUserServiceImpl implements SysUserService {
         String token = JwtUtil.createToken(map);
         map.put("token", token);
         return map;
+    }
+
+    @Override
+    public ResultModel add() {
+        return null;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel updatePaw(UpdatePawRequest request) {
+        SysUser user = sysUserMapper.selectById(request.getCreateBy());
+        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("查询不到用户信息");
+        Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
+        if (!flag) return ResultUtil.failure("原密码输入错误！");
+
+        user.setPassWord(DigestUtils.md5DigestAsHex(request.getPassWord().getBytes()));
+        sysUserMapper.updateById(user);
+
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("修改密码");
+        record.setOperate("修改");
+        record.setContent("修改密码");
+        record.setCreateBy(request.getCreateBy());
+        sysOperateRecordService.add(record);
+        return null;
     }
 
     /* 账号是否唯一*/

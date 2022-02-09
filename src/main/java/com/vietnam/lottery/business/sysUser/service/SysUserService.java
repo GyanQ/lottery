@@ -1,6 +1,7 @@
 package com.vietnam.lottery.business.sysUser.service;
 
 import com.vietnam.lottery.business.sysUser.request.LoginRequest;
+import com.vietnam.lottery.business.sysUser.request.UpdatePawRequest;
 import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
 import com.vietnam.lottery.common.utils.ResultModel;
 
@@ -15,4 +16,10 @@ public interface SysUserService {
 
     /* 用户登录 */
     Map<String, Object> frontLogin(LoginRequest request);
+
+    /* 用户新增 */
+    ResultModel add();
+
+    /* 修改密码*/
+    ResultModel updatePaw(UpdatePawRequest request);
 }

@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@Api(tags = "账户管理")
+@Api(tags = "角色管理")
 @RequestMapping("/sys/role")
 public class SysRoleController {
     @Autowired
