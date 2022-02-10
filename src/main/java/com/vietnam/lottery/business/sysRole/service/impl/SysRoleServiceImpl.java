@@ -14,6 +14,7 @@ import com.vietnam.lottery.business.sysRole.request.RoleUpdateRequest;
 import com.vietnam.lottery.business.sysRole.response.RoleDetailResponse;
 import com.vietnam.lottery.business.sysRole.response.RoleListResponse;
 import com.vietnam.lottery.business.sysRole.service.SysRoleService;
+import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
@@ -56,6 +57,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         Page<SysRole> page = new Page<>(request.getCurrent(), request.getSize());
         QueryWrapper<SysRole> query = new QueryWrapper<>();
         query.like("name", request.getName());
+        query.eq("del_flag", DelFlagEnum.CODE.getCode());
         query.orderByAsc("sort");
         Page<SysRole> iPage = sysRoleMapper.selectPage(page, query);
         Page<RoleListResponse> responsePage = new Page<>(iPage.getCurrent(), iPage.getSize(), iPage.getTotal());
