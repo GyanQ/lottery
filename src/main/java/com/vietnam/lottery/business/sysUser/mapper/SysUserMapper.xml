@@ -10,9 +10,12 @@
     </select>
     <select id="selectMenuPermission"
             resultType="com.vietnam.lottery.business.sysUser.response.MenuPermissionResponse">
-        select c.name as name, c.sort as sort
+        select c.name as name,
+               c.sort as sort,
+               c.id   as id
         from sys_role a
                  inner join sys_role_menu b on a.id = b.role_id
+                 inner join sys_menu c on a.menu_id = c.id
         where a.id = #{id}
     </select>
     <select id="isSuperAdmin" resultType="java.lang.Boolean">

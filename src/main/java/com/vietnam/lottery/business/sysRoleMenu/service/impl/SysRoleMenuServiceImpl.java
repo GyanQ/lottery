@@ -7,7 +7,10 @@ import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordSer
 import com.vietnam.lottery.business.sysRoleMenu.entity.SysRoleMenu;
 import com.vietnam.lottery.business.sysRoleMenu.mapper.SysRoleMenuMapper;
 import com.vietnam.lottery.business.sysRoleMenu.request.menuConfigRequest;
+import com.vietnam.lottery.business.sysRoleMenu.response.MenuPermissionsResponse;
 import com.vietnam.lottery.business.sysRoleMenu.service.SysRoleMenuService;
+import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
+import com.vietnam.lottery.business.sysUser.response.MenuPermissionResponse;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +35,8 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     private SysRoleMenuMapper sysRoleMenuMapper;
     @Autowired
     private SysOperateRecordService sysOperateRecordService;
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -75,6 +81,22 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
         record.setContent("新增或者修改菜单配置");
         record.setCreateBy(request.getUpdateBy());
         return ResultUtil.success(sysOperateRecordService.add(record));
+    }
+
+    @Override
+    public List<MenuPermissionsResponse> getByRoleMenuPermissions(Long roleId) {
+        List<MenuPermissionResponse> list = sysUserMapper.selectMenuPermission(roleId);
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+        List<MenuPermissionsResponse> responsesList = new ArrayList<>();
+        list.forEach(o -> {
+            MenuPermissionsResponse response = new MenuPermissionsResponse();
+            response.setId(o.getId());
+            response.setName(o.getName());
+            responsesList.add(response);
+        });
+        return responsesList;
     }
 }
 
