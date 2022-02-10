@@ -125,10 +125,14 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel createAccount(CreateAccountRequest request) {
+        SysUser sysUser = accountIsExist(request.getAccount());
+        if (!ObjectUtil.isEmpty(sysUser)) return ResultUtil.failure("账号已存在");
+
         Boolean flag = sysUserMapper.isSuperAdmin("超级管理员");
         if (!flag) return ResultUtil.failure("该账号没有创建账号权限");
         SysUser user = new SysUser();
         user.setAccount(request.getAccount());
+        user.setName(request.getName());
         user.setPassWord(DigestUtils.md5DigestAsHex(request.getPassWord().getBytes()));
         user.setCreateBy(request.getCreateBy());
 
@@ -136,7 +140,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysOperateRecord record = new SysOperateRecord();
         record.setModule("账户管理");
         record.setOperate("新增");
-        record.setContent("创建管理员账号：" + request.getAccount());
+        record.setContent("创建账号");
         record.setCreateBy(request.getCreateBy());
         sysOperateRecordService.add(record);
         return ResultUtil.success(sysUserMapper.insert(user));

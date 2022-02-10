@@ -14,6 +14,10 @@ public class CreateAccountRequest implements Serializable {
     @NotBlank(message = "账号不能为空")
     private String account;
 
+    @ApiModelProperty(value = "昵称")
+    @NotBlank(message = "昵称不能为空")
+    private String name;
+
     @ApiModelProperty(value = "新密码")
     @NotBlank(message = "密码不能为空")
     private String passWord;

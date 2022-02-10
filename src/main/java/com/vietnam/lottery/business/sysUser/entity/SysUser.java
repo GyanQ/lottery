@@ -18,6 +18,8 @@ public class SysUser extends Model<SysUser> {
     private Long id;
     //账号
     private String account;
+    //昵称
+    private String name;
     //密码
     private String passWord;
     //手机号码
@@ -47,6 +49,14 @@ public class SysUser extends Model<SysUser> {
 
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassWord() {
