@@ -64,7 +64,7 @@ public class SysUserController {
     }
 
     @PostMapping("/list")
-    @ApiOperation("列表")
+    @ApiOperation("管理后台账户列表")
     public ResultModel<Page<UserListResponse>> list(@RequestBody UserListRequest request) {
         return ResultUtil.success(sysUserService.list(request));
     }

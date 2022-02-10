@@ -4,8 +4,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 public class RoleAddRequest implements Serializable {
@@ -15,9 +15,10 @@ public class RoleAddRequest implements Serializable {
     @NotBlank(message = "角色名称不能为空")
     private String name;
 
-    @ApiModelProperty(hidden = true)
-    private Long createBy;
+    @ApiModelProperty(value = "角色名称")
+    @NotNull(message = "排序不能为空")
+    private Integer sort;
 
     @ApiModelProperty(hidden = true)
-    private Date createDate;
+    private Long createBy;
 }

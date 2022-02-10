@@ -6,7 +6,6 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 public class RoleUpdateRequest implements Serializable {
@@ -20,12 +19,9 @@ public class RoleUpdateRequest implements Serializable {
     @NotBlank(message = "角色名称不能为空")
     private String name;
 
-    @ApiModelProperty(value = "删除标志(0正常 1删除)")
-    private String delFlag;
+    @ApiModelProperty(value = "排序")
+    private Integer sort;
 
     @ApiModelProperty(hidden = true)
     private Long updateBy;
-
-    @ApiModelProperty(hidden = true)
-    private Date updateDate;
 }

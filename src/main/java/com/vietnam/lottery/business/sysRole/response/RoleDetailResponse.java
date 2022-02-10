@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 @Data
@@ -14,10 +13,7 @@ public class RoleDetailResponse implements Serializable {
     @ApiModelProperty(value = "角色名称")
     private String name;
 
-    @ApiModelProperty(value = "创建人")
-    private Long createBy;
-
-    @ApiModelProperty(value = "创建时间")
-    private Date createDate;
+    @ApiModelProperty(value = "排序")
+    private Integer sort;
 }
 

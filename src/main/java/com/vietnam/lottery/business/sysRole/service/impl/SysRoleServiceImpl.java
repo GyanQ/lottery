@@ -4,6 +4,8 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysMenu.request.MenuDeleteRequest;
+import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
+import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysRole.entity.SysRole;
 import com.vietnam.lottery.business.sysRole.mapper.SysRoleMapper;
 import com.vietnam.lottery.business.sysRole.request.RoleAddRequest;
@@ -28,6 +30,8 @@ import java.util.List;
 public class SysRoleServiceImpl implements SysRoleService {
     @Autowired
     private SysRoleMapper sysRoleMapper;
+    @Autowired
+    private SysOperateRecordService sysOperateRecordService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -35,14 +39,25 @@ public class SysRoleServiceImpl implements SysRoleService {
         SysRole role = new SysRole();
         role.setName(request.getName());
         role.setCreateBy(request.getCreateBy());
-        role.setCreateDate(new Date());
+        role.setSort(request.getSort());
+
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("角色管理");
+        record.setOperate("新增");
+        record.setContent("新增角色身份");
+        record.setCreateBy(request.getCreateBy());
+        sysOperateRecordService.add(record);
         return ResultUtil.success(sysRoleMapper.insert(role));
     }
 
     @Override
     public Page<RoleListResponse> list(RoleListRequest request) {
         Page<SysRole> page = new Page<>(request.getCurrent(), request.getSize());
-        Page<SysRole> iPage = sysRoleMapper.selectPage(page, new QueryWrapper<>());
+        QueryWrapper<SysRole> query = new QueryWrapper<>();
+        query.like("name", request.getName());
+        query.orderByAsc("sort");
+        Page<SysRole> iPage = sysRoleMapper.selectPage(page, query);
         Page<RoleListResponse> responsePage = new Page<>(iPage.getCurrent(), iPage.getSize(), iPage.getTotal());
         if (CollectionUtils.isEmpty(iPage.getRecords())) return responsePage;
 
@@ -50,10 +65,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         iPage.getRecords().forEach(o -> {
             RoleListResponse response = new RoleListResponse();
             response.setId(o.getId());
-            response.setCreateBy(o.getCreateBy());
-            response.setCreateDate(o.getCreateDate());
             response.setName(o.getName());
-            response.setDelFlag(o.getDelFlag());
             list.add(response);
         });
         responsePage.setRecords(list);
@@ -68,9 +80,17 @@ public class SysRoleServiceImpl implements SysRoleService {
             return ResultUtil.failure("无法查询到此数据!");
         }
         role.setName(request.getName());
-        role.setDelFlag(request.getDelFlag());
+        role.setSort(request.getSort());
         role.setUpdateBy(request.getUpdateBy());
         role.setUpdateDate(new Date());
+
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("角色管理");
+        record.setOperate("修改");
+        record.setContent("修改角色身份");
+        record.setCreateBy(request.getUpdateBy());
+        sysOperateRecordService.add(record);
         return ResultUtil.success(sysRoleMapper.updateById(role));
     }
 
@@ -80,15 +100,21 @@ public class SysRoleServiceImpl implements SysRoleService {
         if (ObjectUtil.isEmpty(role)) throw new GlobalException("该信息不存在");
 
         RoleDetailResponse response = new RoleDetailResponse();
-        response.setCreateBy(role.getCreateBy());
         response.setName(role.getName());
-        response.setCreateDate(role.getCreateDate());
+        response.setSort(role.getSort());
         return response;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel delete(MenuDeleteRequest request) {
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("角色管理");
+        record.setOperate("删除");
+        record.setContent("删除角色身份");
+        record.setCreateBy(request.getCreateBy());
+        sysOperateRecordService.add(record);
         return ResultUtil.success(sysRoleMapper.deleteById(request.getId()));
     }
 }

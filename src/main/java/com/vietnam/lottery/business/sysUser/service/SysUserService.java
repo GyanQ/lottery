@@ -31,7 +31,7 @@ public interface SysUserService {
     /* 重置密码 */
     ResultModel resetPaw(ResetPawRequest request);
 
-    /* 管理后台账号列表 */
+    /* 管理后台账户列表 */
     Page<UserListResponse> list(UserListRequest request);
 
     /* 详情 */

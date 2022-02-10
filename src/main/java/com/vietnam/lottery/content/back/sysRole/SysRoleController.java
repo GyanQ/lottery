@@ -65,10 +65,13 @@ public class SysRoleController {
 
     @PostMapping("/delete")
     @ApiOperation("删除")
-    public ResultModel delete(@RequestBody @Valid MenuDeleteRequest request, BindingResult bindingResult) {
+    public ResultModel delete(@RequestBody @Valid MenuDeleteRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        String userId = JwtUtil.parseToken(token);
+        request.setCreateBy(Long.valueOf(userId));
         return ResultUtil.success(sysRoleService.delete(request));
     }
 }
