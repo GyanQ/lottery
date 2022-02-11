@@ -13,19 +13,21 @@ import com.vietnam.lottery.business.sysUser.response.UserDetailResponse;
 import com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse;
 import com.vietnam.lottery.business.sysUser.response.UserListResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
+import com.vietnam.lottery.business.sysUserRoleRelation.service.SysUserRoleRelationService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
-import com.vietnam.lottery.common.utils.DateUtils;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
@@ -33,6 +35,8 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserMapper sysUserMapper;
     @Autowired
     private SysOperateRecordService sysOperateRecordService;
+    @Autowired
+    private SysUserRoleRelationService sysUserRoleRelationService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -168,30 +172,37 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public Page<UserListResponse> list(UserListRequest request) {
-        Page<SysUser> page = new Page<>(request.getCurrent(), request.getSize());
-        Page<SysUser> iPage = sysUserMapper.selectPage(page, new QueryWrapper<SysUser>().orderByDesc("create_date"));
-        Page<UserListResponse> responsePage = new Page<>(iPage.getCurrent(), iPage.getSize(), iPage.getSize());
-        if (CollectionUtils.isEmpty(iPage.getRecords())) return responsePage;
-        List<UserListResponse> list = new ArrayList<>();
-        iPage.getRecords().forEach(o -> {
-            UserListResponse resp = new UserListResponse();
-            resp.setAccount(o.getAccount());
-            resp.setId(o.getId());
-            resp.setCreateDate(DateUtils.dateConversionStr(o.getCreateDate(), DateUtils.DATETIME_PATTERN));
-            list.add(resp);
-        });
-        responsePage.setRecords(list);
-        return responsePage;
+        Page<UserListResponse> page = new Page<>(request.getCurrent(), request.getSize());
+        return sysUserMapper.list(page, request);
     }
 
     @Override
-    public UserDetailResponse detail(String account) {
-        SysUser user = accountIsExist(account);
+    public UserDetailResponse detail(Long id) {
+        SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("id", id).eq("del_flag", DelFlagEnum.CODE.getCode()));
+        if (ObjectUtil.isEmpty(user)) throw new GlobalException("查询不到该用户信息");
         UserDetailResponse response = new UserDetailResponse();
-        response.setAccount(user.getAccount());
-        response.setPhone(user.getPhone());
-        response.setCreateDate(DateUtils.dateConversionStr(user.getCreateDate(), DateUtils.DATETIME_PATTERN));
+        response.setName(user.getName());
         return response;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel update(UserDeleteRequest request) {
+        SysUser user = sysUserMapper.selectById(request.getId());
+        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("账号不存在");
+        user.setName(request.getName());
+        user.setDelFlag(request.getDelFlag());
+        user.setUpdateBy(request.getCreateBy());
+        user.setUpdateDate(new Date());
+
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("账户管理");
+        record.setOperate("修改");
+        record.setContent("修改后台账号");
+        record.setCreateBy(request.getCreateBy());
+        sysOperateRecordService.add(record);
+        return ResultUtil.success(sysUserMapper.updateById(user));
     }
 
     /* 账号是否唯一 */

@@ -1,10 +1,7 @@
 package com.vietnam.lottery.content.back.sysUser;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.sysUser.request.CreateAccountRequest;
-import com.vietnam.lottery.business.sysUser.request.ResetPawRequest;
-import com.vietnam.lottery.business.sysUser.request.UpdatePawRequest;
-import com.vietnam.lottery.business.sysUser.request.UserListRequest;
+import com.vietnam.lottery.business.sysUser.request.*;
 import com.vietnam.lottery.business.sysUser.response.UserDetailResponse;
 import com.vietnam.lottery.business.sysUser.response.UserListResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
@@ -69,9 +66,21 @@ public class SysUserController {
         return ResultUtil.success(sysUserService.list(request));
     }
 
-    @GetMapping("/detail/{account}")
+    @GetMapping("/detail/{id}")
     @ApiOperation("详情")
-    public ResultModel<UserDetailResponse> detail(@PathVariable("account") String account) {
-        return ResultUtil.success(sysUserService.detail(account));
+    public ResultModel<UserDetailResponse> detail(@PathVariable("id") Long id) {
+        return ResultUtil.success(sysUserService.detail(id));
+    }
+
+    @PostMapping("/update")
+    @ApiOperation("修改")
+    public ResultModel update(@RequestBody UserDeleteRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        String userId = JwtUtil.parseToken(token);
+        request.setCreateBy(Long.valueOf(userId));
+        return ResultUtil.success(sysUserService.update(request));
     }
 }

@@ -1,5 +1,7 @@
 package com.vietnam.lottery.business.sysUserRoleRelation.service.impl;
 
+import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
+import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysUserRoleRelation.entity.SysUserRoleRelation;
 import com.vietnam.lottery.business.sysUserRoleRelation.mapper.SysUserRoleRelationMapper;
 import com.vietnam.lottery.business.sysUserRoleRelation.request.UserRoleAddRequest;
@@ -20,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class SysUserRoleRelationServiceImpl implements SysUserRoleRelationService {
     @Autowired
     private SysUserRoleRelationMapper sysUserRoleRelationMapper;
+    @Autowired
+    private SysOperateRecordService sysOperateRecordService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -28,6 +32,14 @@ public class SysUserRoleRelationServiceImpl implements SysUserRoleRelationServic
         userRoleRelation.setUserId(request.getUserId());
         userRoleRelation.setRoleId(request.getRoleId());
         userRoleRelation.setCreateBy(request.getCreateBy());
+
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("账户管理");
+        record.setOperate("新增");
+        record.setContent("分配后台账号角色");
+        record.setCreateBy(request.getCreateBy());
+        sysOperateRecordService.add(record);
         return ResultUtil.success(sysUserRoleRelationMapper.insert(userRoleRelation));
     }
 }

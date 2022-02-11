@@ -1,9 +1,12 @@
 package com.vietnam.lottery.business.sysUser.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
+import com.vietnam.lottery.business.sysUser.request.UserListRequest;
 import com.vietnam.lottery.business.sysUser.response.MenuPermissionResponse;
 import com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse;
+import com.vietnam.lottery.business.sysUser.response.UserListResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,5 +28,8 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /* 查询当前账号是否是超级管理员 */
     Boolean isSuperAdmin(@Param("name") String name);
+
+    /* 账号管理列表 */
+    Page<UserListResponse> list(@Param("page") Page page, @Param("request") UserListRequest request);
 }
 

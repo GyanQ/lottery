@@ -34,6 +34,9 @@ public interface SysUserService {
     /* 管理后台账户列表 */
     Page<UserListResponse> list(UserListRequest request);
 
-    /* 详情 */
-    UserDetailResponse detail(String account);
+    /* 账户管理详情 */
+    UserDetailResponse detail(Long id);
+
+    /* 账号修改 */
+    ResultModel update(UserDeleteRequest request);
 }

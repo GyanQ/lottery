@@ -11,6 +11,7 @@ import com.vietnam.lottery.common.utils.ResultModel;
  */
 public interface SysUserRoleRelationService {
 
+    /* 新增 */
     ResultModel add(UserRoleAddRequest request);
 }
 
