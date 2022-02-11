@@ -17,6 +17,6 @@ public interface SysOperateRecordService extends IService<SysOperateRecord> {
     ResultModel add(SysOperateRecord request);
 
     /* 列表 */
-    Page<SysOperateRecord> List(OperateRecordListRequest request);
+    Page<SysOperateRecord> list(OperateRecordListRequest request);
 }
 

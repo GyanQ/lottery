@@ -25,4 +25,21 @@
                  left join sys_role c on b.role_id = c.id
         where c.name = #{name}
     </select>
+    <select id="list" resultType="com.vietnam.lottery.business.sysUser.response.UserListResponse">
+        select a.id as id,
+        a.account as account,
+        c.name as roleName,
+        a.name as name,
+        a.del_flag as delFlag
+        from sys_user a
+        inner join sys_user_role_relation b on a.id = b.user_id
+        inner join sys_role c on b.role_id = c.id
+        where 1 = 1
+        <if test="request.name != null and request.name != ''">
+            and a.name like concat('%',#{request.name},'%')
+        </if>
+        <if test="request.delFlag != null and request.delFlag != ''">
+            and a.del_flag = #{request.delFlag}
+        </if>
+    </select>
 </mapper>

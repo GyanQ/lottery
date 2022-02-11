@@ -35,7 +35,7 @@ public class SysOperateRecordServiceImpl extends ServiceImpl<SysOperateRecordMap
     }
 
     @Override
-    public Page<SysOperateRecord> List(OperateRecordListRequest request) {
+    public Page<SysOperateRecord> list(OperateRecordListRequest request) {
         Page<SysOperateRecord> page = new Page<>(request.getCurrent(), request.getSize());
         QueryWrapper<SysOperateRecord> query = new QueryWrapper<>();
         if (null != request.getBeginDate() && null != request.getEndDate()) {
