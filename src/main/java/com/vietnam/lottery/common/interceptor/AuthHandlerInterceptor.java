@@ -31,7 +31,6 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
         if (!flag) throw new GlobalException("token验证失败");
 
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().println("请求访问：{}，认证失败，无法访问系统资源");
         return true;
     }
 

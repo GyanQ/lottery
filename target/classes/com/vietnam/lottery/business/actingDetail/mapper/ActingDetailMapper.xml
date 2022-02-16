@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vietnam.lottery.business.actingDetail.mapper.ActingDetailMapper">
+
+    <select id="list" resultType="com.vietnam.lottery.business.actingDetail.response.ActingDetailListResponse">
+        select sum(a.commission_amount), sum(a.amount),b.user_id , b.lower_level_id
+        from acting_detail a
+        left join acting_hierarchy_relation b on a.hierarchy_relation_id = b.id
+        left join sys_user c on b.user_id = c.id
+        where 1 = 1
+        <if test="request.phone != null and request.phone != ''">
+            and c.phone = #{request.phone}
+        </if>
+        <if test="request.userId != null and request.userId != ''">
+            and b.user_id = #{request.userId}
+        </if>
+        group by b.id
+    </select>
+</mapper>
+
