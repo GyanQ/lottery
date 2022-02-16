@@ -1,13 +1,13 @@
-package com.vietnam.lottery.content.back.graRedPackets;
+package com.vietnam.lottery.content.back.unpackRedPackets;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.grabRedPackets.request.AddRequest;
-import com.vietnam.lottery.business.grabRedPackets.request.DeleteRequest;
-import com.vietnam.lottery.business.grabRedPackets.request.ListRequest;
-import com.vietnam.lottery.business.grabRedPackets.request.UpdateRequest;
-import com.vietnam.lottery.business.grabRedPackets.response.DetailResponse;
-import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
-import com.vietnam.lottery.business.grabRedPackets.service.GrabRedPacketsService;
+import com.vietnam.lottery.business.unpackRedPackets.request.UnPackAddRequest;
+import com.vietnam.lottery.business.unpackRedPackets.request.UnPackDeleteRequest;
+import com.vietnam.lottery.business.unpackRedPackets.request.UnPackListRequest;
+import com.vietnam.lottery.business.unpackRedPackets.request.UnPackUpdateRequest;
+import com.vietnam.lottery.business.unpackRedPackets.response.UnPackDetailResponse;
+import com.vietnam.lottery.business.unpackRedPackets.response.UnPackListResponse;
+import com.vietnam.lottery.business.unpackRedPackets.service.UnpackRedPacketsService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
@@ -21,57 +21,57 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@Api(tags = "抢红包配置")
-@RequestMapping("/grab")
-public class GrabRedPacketsController {
+@Api(tags = "拆红包配置")
+@RequestMapping("/unpack")
+public class UnpackRedPacketsController {
     @Autowired
-    private GrabRedPacketsService grabRedPacketsService;
+    private UnpackRedPacketsService unpackRedPacketsService;
 
     @PostMapping("/add")
     @ApiOperation("新增")
-    public ResultModel add(@RequestBody @Valid AddRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+    public ResultModel add(@RequestBody @Valid UnPackAddRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
         request.setCreateBy(Long.valueOf(userId));
-        return ResultUtil.success(grabRedPacketsService.add(request));
+        return ResultUtil.success(unpackRedPacketsService.add(request));
     }
 
     @PostMapping("/update")
     @ApiOperation("修改")
-    public ResultModel update(@RequestBody @Valid UpdateRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+    public ResultModel update(@RequestBody @Valid UnPackUpdateRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
         request.setUpdateBy(Long.valueOf(userId));
-        return ResultUtil.success(grabRedPacketsService.update(request));
+        return ResultUtil.success(unpackRedPacketsService.update(request));
     }
 
     @PostMapping("/delete")
     @ApiOperation("删除")
-    public ResultModel delete(@RequestBody @Valid DeleteRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+    public ResultModel delete(@RequestBody @Valid UnPackDeleteRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
         request.setDeleteBy(Long.valueOf(userId));
-        return ResultUtil.success(grabRedPacketsService.delete(request));
+        return ResultUtil.success(unpackRedPacketsService.delete(request));
     }
 
     @GetMapping("/detail/{id}")
     @ApiOperation("详情")
-    public ResultModel<DetailResponse> detail(@PathVariable("id") Long id) {
-        return ResultUtil.success(grabRedPacketsService.detail(id));
+    public ResultModel<UnPackDetailResponse> detail(@PathVariable("id") Long id) {
+        return ResultUtil.success(unpackRedPacketsService.detail(id));
     }
 
     @PostMapping("/list")
     @ApiOperation("列表")
-    public ResultModel<Page<ListResponse>> list(@RequestBody ListRequest request) {
-        return ResultUtil.success(grabRedPacketsService.list(request));
+    public ResultModel<Page<UnPackListResponse>> list(@RequestBody UnPackListRequest request) {
+        return ResultUtil.success(unpackRedPacketsService.list(request));
     }
 }
