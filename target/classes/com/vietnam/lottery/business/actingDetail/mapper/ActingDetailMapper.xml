@@ -3,7 +3,11 @@
 <mapper namespace="com.vietnam.lottery.business.actingDetail.mapper.ActingDetailMapper">
 
     <select id="list" resultType="com.vietnam.lottery.business.actingDetail.response.ActingDetailListResponse">
-        select sum(a.commission_amount), sum(a.amount),b.user_id , b.lower_level_id
+        select
+        ifnull(sum(a.commission_amount),0) as commissionAmount
+        ifnull(sum(a.amount),0)as amount
+        b.user_id as userId,
+        b.lower_level_id as lowerLevelId
         from acting_detail a
         left join acting_hierarchy_relation b on a.hierarchy_relation_id = b.id
         left join sys_user c on b.user_id = c.id
@@ -15,6 +19,20 @@
             and b.user_id = #{request.userId}
         </if>
         group by b.id
+    </select>
+
+    <select id="lowerLevelList"
+            resultType="com.vietnam.lottery.business.actingDetail.response.LowerLevelListResponse">
+        select a.lower_level_id    as userId,
+               b.level             as actingLevel,
+               c.commission_amount as commissionAmount,
+               c.amount            as amount,
+               d.create_date       as createDate
+        from acting_hierarchy_relation a
+                 left join acting b on a.acting_id = b.id
+                 left join acting_detail c on a.id = c.hierarchy_relation_id
+                 left join sys_user d on a.user_id = d.id
+        where a.superior_id = #{request.userId}
     </select>
 </mapper>
 

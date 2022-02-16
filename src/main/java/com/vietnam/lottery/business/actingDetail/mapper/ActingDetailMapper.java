@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.actingDetail.entity.ActingDetail;
 import com.vietnam.lottery.business.actingDetail.request.ActingDetailListRequest;
+import com.vietnam.lottery.business.actingDetail.request.LowerLevelListRequest;
 import com.vietnam.lottery.business.actingDetail.response.ActingDetailListResponse;
+import com.vietnam.lottery.business.actingDetail.response.LowerLevelListResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,5 +20,8 @@ import org.apache.ibatis.annotations.Param;
 public interface ActingDetailMapper extends BaseMapper<ActingDetail> {
     /* 代理列表 */
     Page<ActingDetailListResponse> list(@Param("page") Page page, @Param("request") ActingDetailListRequest request);
+
+    /* 下级代理列表 */
+    Page<LowerLevelListResponse> lowerLevelList(@Param("page") Page page, @Param("request") LowerLevelListRequest request);
 }
 

@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * 代理层级关系(ActingHierarchyRelation)表实体类
  *
- * @author makejava
+ * @author Gyan
  * @since 2022-02-16 11:41:44
  */
 @SuppressWarnings("serial")
@@ -18,6 +18,8 @@ public class ActingHierarchyRelation extends Model<ActingHierarchyRelation> {
     private Long id;
     //userId
     private Long userId;
+    //userId
+    private Long actingId;
     //上级代理id
     private Long superiorId;
     //下级代理id
@@ -48,6 +50,14 @@ public class ActingHierarchyRelation extends Model<ActingHierarchyRelation> {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getActingId() {
+        return actingId;
+    }
+
+    public void setActingId(Long actingId) {
+        this.actingId = actingId;
     }
 
     public Long getSuperiorId() {
