@@ -2,7 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vietnam.lottery.business.withdrawDetail.mapper.WithdrawDetailMapper">
     <select id="list" resultType="com.vietnam.lottery.business.withdrawDetail.response.WithdrawListResponse">
-        select b.id as userId,
+        select
+        a.id as id,
+        b.id as userId,
         a.amount as amount,
         a.state as state ,
         a.create_date as createDate
@@ -11,6 +13,9 @@
         where 1=1
         <if test="request.userId != null and request.userId != ''">
             and b.id = #{request.userId}
+        </if>
+        <if test="request.audit != null and request.audit != ''">
+            and a.audit = #{request.audit}
         </if>
         <if test="request.account != null and request.account != ''">
             and b.account = #{request.account}

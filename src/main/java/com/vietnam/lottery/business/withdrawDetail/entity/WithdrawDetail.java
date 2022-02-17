@@ -21,10 +21,10 @@ public class WithdrawDetail extends Model<WithdrawDetail> {
     private Long userId;
     //金额
     private BigDecimal amount;
-    //审核状态(1同意 2拒绝)
-    private Integer audit;
+    //审核状态(1未审核 2审核未通过 3审核通过)
+    private String audit;
     //提现状态(1提现中 2已提现)
-    private Integer state;
+    private String state;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
@@ -53,11 +53,11 @@ public class WithdrawDetail extends Model<WithdrawDetail> {
         this.userId = userId;
     }
 
-    public Integer getAudit() {
+    public String getAudit() {
         return audit;
     }
 
-    public void setAudit(Integer audit) {
+    public void setAudit(String audit) {
         this.audit = audit;
     }
 
@@ -69,11 +69,11 @@ public class WithdrawDetail extends Model<WithdrawDetail> {
         this.amount = amount;
     }
 
-    public Integer getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(String state) {
         this.state = state;
     }
 

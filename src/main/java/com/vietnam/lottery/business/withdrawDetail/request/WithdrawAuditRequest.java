@@ -1,0 +1,24 @@
+package com.vietnam.lottery.business.withdrawDetail.request;
+
+import com.vietnam.lottery.common.utils.PageRequest;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+
+@Data
+public class WithdrawAuditRequest extends PageRequest implements Serializable {
+    private static final long serialVersionUID = -781612067551578849L;
+
+    @ApiModelProperty(value = "id")
+    @NotNull(message = "id不能为空")
+    private Long id;
+
+    @ApiModelProperty(value = "审核状态(1同意 2拒绝)")
+    @NotNull(message = "审核状态不能为空")
+    private String audit;
+
+    @ApiModelProperty(hidden = true)
+    private Long createBy;
+}

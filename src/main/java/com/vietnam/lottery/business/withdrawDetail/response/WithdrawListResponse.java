@@ -11,6 +11,9 @@ import java.math.BigDecimal;
 public class WithdrawListResponse extends PageRequest implements Serializable {
     private static final long serialVersionUID = -781612067551178849L;
 
+    @ApiModelProperty(value = "id")
+    private Long id;
+
     @ApiModelProperty(value = "userId")
     private Long userId;
 
@@ -18,7 +21,7 @@ public class WithdrawListResponse extends PageRequest implements Serializable {
     private BigDecimal amount;
 
     @ApiModelProperty(value = "提现状态(1提现中 2已提现)")
-    private Integer state;
+    private String state;
 
     @ApiModelProperty(value = "提现时间")
     private String createDate;
