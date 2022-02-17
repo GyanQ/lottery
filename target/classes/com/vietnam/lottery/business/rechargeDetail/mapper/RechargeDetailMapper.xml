@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.vietnam.lottery.business.withdrawDetail.mapper.WithdrawDetailMapper">
-    <select id="list" resultType="com.vietnam.lottery.business.withdrawDetail.response.WithdrawListResponse">
-        select
-        a.id as id,
-        b.id as userId,
-        a.amount as amount,
-        a.state as state,
-        a.create_date as createDate
-        from withdraw_detail a
-        inner join sys_user b on a.user_id = b.id
+<mapper namespace="com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper">
+    <select id="list" resultType="com.vietnam.lottery.business.rechargeDetail.response.RechargeListResponse">
+        select b.id as userId, a.amount as amount, a.create_date as createDate
+        from recharge_detail a
+        inner join sys_user b on a.create_by = b.id
         where 1 = 1
         <if test="request.userId != null and request.userId != ''">
             and b.id = #{request.userId}
-        </if>
-        <if test="request.audit != null and request.audit != ''">
-            and a.audit = #{request.audit}
         </if>
         <if test="request.account != null and request.account != ''">
             and b.account = #{request.account}
@@ -29,7 +21,6 @@
         <if test="request.endDate != null and request.endDate != ''">
             and date_format(a.create_date, '%Y-%m-%d') &lt;= date_format(#{request.beginDate}, '%Y-%m-%d')
         </if>
-        order by a.create_date desc
     </select>
 </mapper>
 

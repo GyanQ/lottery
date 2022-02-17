@@ -1,9 +1,9 @@
-package com.vietnam.lottery.content.back.rechargDetailController;
+package com.vietnam.lottery.content.back.lotteryDetail;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.rechargeDetail.request.RechargeListRequest;
-import com.vietnam.lottery.business.rechargeDetail.response.RechargeListResponse;
-import com.vietnam.lottery.business.rechargeDetail.service.RechargeDetailService;
+import com.vietnam.lottery.business.lotteryDetail.request.LotteryListRequest;
+import com.vietnam.lottery.business.lotteryDetail.response.LotteryListResponse;
+import com.vietnam.lottery.business.lotteryDetail.service.LotteryDetailService;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = " 充值模块")
-@RequestMapping("/recharge")
-public class rechargeDetailController {
+@Api(tags = "开奖记录")
+@RequestMapping("/lottery")
+public class LotteryDetailController {
     @Autowired
-    private RechargeDetailService rechargeDetailService;
+    private LotteryDetailService lotteryDetailService;
 
     @PostMapping("/list")
     @ApiOperation("列表")
-    public ResultModel<Page<RechargeListResponse>> list(@RequestBody RechargeListRequest request) {
-        return ResultUtil.success(rechargeDetailService.list(request));
+    public ResultModel<Page<LotteryListResponse>> list(@RequestBody LotteryListRequest request) {
+        return ResultUtil.success(lotteryDetailService.list(request));
     }
 }
