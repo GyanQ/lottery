@@ -216,6 +216,12 @@ public class SysUserServiceImpl implements SysUserService {
         return iPage;
     }
 
+    @Override
+    public Page<GrabRedPacketsListResponse> grabRedPackets(GrabRedPacketsListRequest request) {
+        Page<GrabRedPacketsListResponse> page = new Page<>(request.getCurrent(), request.getSize());
+        return sysUserMapper.redPacketsList(page,request);
+    }
+
     /* 账号是否唯一 */
     private Boolean isExist(String account) {
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();

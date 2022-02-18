@@ -17,6 +17,8 @@ import java.util.Date;
 public class LotteryDetail extends Model<LotteryDetail> {
     //id
     private Long id;
+    //抢红包id
+    private Long grabRedPacketsId;
     //拆红包id
     private Long unpackRedPacketsId;
     //抽奖金额
@@ -39,6 +41,14 @@ public class LotteryDetail extends Model<LotteryDetail> {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getGrabRedPacketsId() {
+        return grabRedPacketsId;
+    }
+
+    public void setGrabRedPacketsId(Long grabRedPacketsId) {
+        this.grabRedPacketsId = grabRedPacketsId;
     }
 
     public Long getUnpackRedPacketsId() {

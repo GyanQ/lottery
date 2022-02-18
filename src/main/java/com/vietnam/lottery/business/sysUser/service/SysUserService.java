@@ -2,10 +2,7 @@ package com.vietnam.lottery.business.sysUser.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysUser.request.*;
-import com.vietnam.lottery.business.sysUser.response.UserDetailResponse;
-import com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse;
-import com.vietnam.lottery.business.sysUser.response.UserListResponse;
-import com.vietnam.lottery.business.sysUser.response.UserManageListResponse;
+import com.vietnam.lottery.business.sysUser.response.*;
 import com.vietnam.lottery.common.utils.ResultModel;
 
 import java.util.Map;
@@ -43,4 +40,7 @@ public interface SysUserService {
 
     /* 用户列表 */
     Page<UserManageListResponse> manageList(UserManageListRequest request);
+
+    /* 用户抢红包明细 */
+    Page<GrabRedPacketsListResponse> grabRedPackets(GrabRedPacketsListRequest request);
 }
