@@ -3,17 +3,14 @@ package com.vietnam.lottery.business.sysUser.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.sysLoginDetail.mapper.SysLoginDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
 import com.vietnam.lottery.business.sysUser.request.*;
-import com.vietnam.lottery.business.sysUser.response.MenuPermissionResponse;
-import com.vietnam.lottery.business.sysUser.response.UserDetailResponse;
-import com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse;
-import com.vietnam.lottery.business.sysUser.response.UserListResponse;
+import com.vietnam.lottery.business.sysUser.response.*;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
-import com.vietnam.lottery.business.sysUserRoleRelation.service.SysUserRoleRelationService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
@@ -22,6 +19,7 @@ import com.vietnam.lottery.common.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
 import java.util.Date;
@@ -36,7 +34,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Autowired
     private SysOperateRecordService sysOperateRecordService;
     @Autowired
-    private SysUserRoleRelationService sysUserRoleRelationService;
+    private SysLoginDetailMapper sysLoginDetailMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -203,6 +201,19 @@ public class SysUserServiceImpl implements SysUserService {
         record.setCreateBy(request.getCreateBy());
         sysOperateRecordService.add(record);
         return ResultUtil.success(sysUserMapper.updateById(user));
+    }
+
+    @Override
+    public Page<UserManageListResponse> manageList(UserManageListRequest request) {
+        Page<UserManageListResponse> page = new Page<>(request.getCurrent(), request.getSize());
+        Page<UserManageListResponse> iPage = sysUserMapper.manageList(page, request);
+        if (CollectionUtils.isEmpty(iPage.getRecords())) return iPage;
+
+        iPage.getRecords().forEach(o -> {
+            UserManageListResponse response = new UserManageListResponse();
+            response.setEndDate(sysLoginDetailMapper.selectDate(o.getUserId()));
+        });
+        return iPage;
     }
 
     /* 账号是否唯一 */

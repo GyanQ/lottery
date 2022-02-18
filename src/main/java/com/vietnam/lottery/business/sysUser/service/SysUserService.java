@@ -5,6 +5,7 @@ import com.vietnam.lottery.business.sysUser.request.*;
 import com.vietnam.lottery.business.sysUser.response.UserDetailResponse;
 import com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse;
 import com.vietnam.lottery.business.sysUser.response.UserListResponse;
+import com.vietnam.lottery.business.sysUser.response.UserManageListResponse;
 import com.vietnam.lottery.common.utils.ResultModel;
 
 import java.util.Map;
@@ -39,4 +40,7 @@ public interface SysUserService {
 
     /* 账号修改 */
     ResultModel update(UserDeleteRequest request);
+
+    /* 用户列表 */
+    Page<UserManageListResponse> manageList(UserManageListRequest request);
 }

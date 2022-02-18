@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.request.UserListRequest;
+import com.vietnam.lottery.business.sysUser.request.UserManageListRequest;
 import com.vietnam.lottery.business.sysUser.response.MenuPermissionResponse;
 import com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse;
 import com.vietnam.lottery.business.sysUser.response.UserListResponse;
+import com.vietnam.lottery.business.sysUser.response.UserManageListResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,5 +33,8 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /* 账号管理列表 */
     Page<UserListResponse> list(@Param("page") Page page, @Param("request") UserListRequest request);
+
+    /* 用户列表 */
+    Page<UserManageListResponse> manageList(@Param("page") Page<UserManageListResponse> page, @Param("request") UserManageListRequest request);
 }
 

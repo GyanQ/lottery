@@ -19,7 +19,7 @@
             and date_format(a.create_date, '%Y-%m-%d') &gt;= date_format(#{request.beginDate}, '%Y-%m-%d')
         </if>
         <if test="request.endDate != null and request.endDate != ''">
-            and date_format(a.create_date, '%Y-%m-%d') &lt;= date_format(#{request.beginDate}, '%Y-%m-%d')
+            and date_format(a.create_date, '%Y-%m-%d') &lt;= date_format(#{request.endDate}, '%Y-%m-%d')
         </if>
     </select>
 </mapper>
