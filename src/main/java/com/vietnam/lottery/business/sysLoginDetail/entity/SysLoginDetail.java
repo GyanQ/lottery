@@ -2,6 +2,7 @@ package com.vietnam.lottery.business.sysLoginDetail.entity;
 
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,8 +16,8 @@ import java.util.Date;
 public class SysLoginDetail extends Model<SysLoginDetail> {
     //id
     private Long id;
-    //访问方式(1临时用户 2登录用户)
-    private String interviewMethod;
+    //临时用户(0否 1是)
+    private Boolean temporaryUser;
     //ip地址
     private String ip;
     //创建人
@@ -33,12 +34,12 @@ public class SysLoginDetail extends Model<SysLoginDetail> {
         this.id = id;
     }
 
-    public String getInterviewMethod() {
-        return interviewMethod;
+    public Boolean getTemporaryUser() {
+        return temporaryUser;
     }
 
-    public void setInterviewMethod(String interviewMethod) {
-        this.interviewMethod = interviewMethod;
+    public void setTemporaryUser(Boolean temporaryUser) {
+        this.temporaryUser = temporaryUser;
     }
 
     public String getIp() {
@@ -74,5 +75,5 @@ public class SysLoginDetail extends Model<SysLoginDetail> {
     protected Serializable pkVal() {
         return this.id;
     }
-    }
+}
 
