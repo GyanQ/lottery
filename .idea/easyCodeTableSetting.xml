@@ -959,6 +959,123 @@
             </TableInfoDTO>
           </value>
         </entry>
+        <entry key="sys_login_detail">
+          <value>
+            <TableInfoDTO>
+              <option name="comment" value="用户登录详情" />
+              <option name="fullColumn">
+                <list>
+                  <ColumnInfoDTO>
+                    <option name="comment" value="id" />
+                    <option name="custom" value="false" />
+                    <option name="ext">
+                      <map>
+                        <entry key="jdbcType">
+                          <value>
+                            <Object />
+                          </value>
+                        </entry>
+                        <entry key="sqlType">
+                          <value>
+                            <Object />
+                          </value>
+                        </entry>
+                      </map>
+                    </option>
+                    <option name="name" value="id" />
+                    <option name="type" value="java.lang.Long" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="comment" value="访问方式(1临时用户 2登录用户)" />
+                    <option name="custom" value="false" />
+                    <option name="ext">
+                      <map>
+                        <entry key="jdbcType">
+                          <value>
+                            <Object />
+                          </value>
+                        </entry>
+                        <entry key="sqlType">
+                          <value>
+                            <Object />
+                          </value>
+                        </entry>
+                      </map>
+                    </option>
+                    <option name="name" value="interviewMethod" />
+                    <option name="type" value="java.lang.String" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="comment" value="ip地址" />
+                    <option name="custom" value="false" />
+                    <option name="ext">
+                      <map>
+                        <entry key="jdbcType">
+                          <value>
+                            <Object />
+                          </value>
+                        </entry>
+                        <entry key="sqlType">
+                          <value>
+                            <Object />
+                          </value>
+                        </entry>
+                      </map>
+                    </option>
+                    <option name="name" value="ip" />
+                    <option name="type" value="java.lang.String" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="comment" value="创建人" />
+                    <option name="custom" value="false" />
+                    <option name="ext">
+                      <map>
+                        <entry key="jdbcType">
+                          <value>
+                            <Object />
+                          </value>
+                        </entry>
+                        <entry key="sqlType">
+                          <value>
+                            <Object />
+                          </value>
+                        </entry>
+                      </map>
+                    </option>
+                    <option name="name" value="createBy" />
+                    <option name="type" value="java.lang.Long" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="comment" value="创建时间" />
+                    <option name="custom" value="false" />
+                    <option name="ext">
+                      <map>
+                        <entry key="jdbcType">
+                          <value>
+                            <Object />
+                          </value>
+                        </entry>
+                        <entry key="sqlType">
+                          <value>
+                            <Object />
+                          </value>
+                        </entry>
+                      </map>
+                    </option>
+                    <option name="name" value="createDate" />
+                    <option name="type" value="java.util.Date" />
+                  </ColumnInfoDTO>
+                </list>
+              </option>
+              <option name="name" value="SysLoginDetail" />
+              <option name="preName" value="" />
+              <option name="saveModelName" value="lottery" />
+              <option name="savePackageName" value="com.vietnam.lottery.business.sysLoginDetail" />
+              <option name="savePath" value="./src/main/java/com/vietnam/lottery/business/sysLoginDetail" />
+              <option name="templateGroupName" value="MybatisPlus-Mixed" />
+            </TableInfoDTO>
+          </value>
+        </entry>
         <entry key="unpack_red_packets">
           <value>
             <TableInfoDTO>
