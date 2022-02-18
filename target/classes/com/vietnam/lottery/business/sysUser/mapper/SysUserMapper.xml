@@ -68,4 +68,15 @@
             and date_format(a.create_date, '%Y-%m-%d') &lt;= date_format(#{request.endDate}, '%Y-%m-%d')
         </if>
     </select>
+    <select id="redPacketsList"
+            resultType="com.vietnam.lottery.business.sysUser.response.GrabRedPacketsListResponse">
+        select b.id          as id,
+               b.amount      as amount,
+               a.amount      as winningAmount,
+               b.create_date as createDate,
+               a.create_date as lotteryAmount
+        from lottery_detail a
+                 inner join grab_red_packets b on a.grab_red_packets_id = b.id
+        where b.create_by = #{request.userId}
+    </select>
 </mapper>
