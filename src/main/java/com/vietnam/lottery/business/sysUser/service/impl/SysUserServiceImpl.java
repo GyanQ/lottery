@@ -42,6 +42,8 @@ public class SysUserServiceImpl implements SysUserService {
         //查询账号是否存在
         SysUser user = accountIsExist(request.getAccount());
         if (ObjectUtil.isEmpty(user)) throw new GlobalException("登录失败,没有该账号信息");
+        user.setLoginWay("2");
+        sysUserMapper.updateById(user);
         //校验密码
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
         if (!flag) throw new GlobalException("密码错误！");
@@ -71,27 +73,36 @@ public class SysUserServiceImpl implements SysUserService {
 
         String passWord = DigestUtils.md5DigestAsHex(request.getPassWord().getBytes());
         SysUser user = new SysUser();
-        user.setCreateBy(1l);
-        user.setPhone(request.getPhone());
         user.setAccount(request.getAccount());
-        user.setCreateDate(new Date());
         user.setPassWord(passWord);
-
-        //todo:增加手机验证码逻辑
         return ResultUtil.success(sysUserMapper.insert(user));
     }
 
     @Override
-    public Map<String, Object> frontLogin(LoginRequest request) {
+    public Map<String, Object> amountLogin(LoginRequest request) {
+        //查询账号是否存在
         SysUser user = accountIsExist(request.getAccount());
         if (ObjectUtil.isEmpty(user)) throw new GlobalException("登录失败,没有该账号信息");
+        user.setLoginWay("2");
+        sysUserMapper.updateById(user);
+        //校验密码
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
         if (!flag) throw new GlobalException("密码错误！");
 
+        //创建token
         Map<String, Object> map = new HashMap<>();
         map.put("userId", user.getId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
+
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("前台登录");
+        record.setOperate("登录");
+        record.setContent("前台登录");
+        String userId = JwtUtil.parseToken(token);
+        record.setCreateBy(Long.valueOf(userId));
+        sysOperateRecordService.add(record);
         return map;
     }
 

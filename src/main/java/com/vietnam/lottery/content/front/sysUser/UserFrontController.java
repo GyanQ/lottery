@@ -26,13 +26,13 @@ public class UserFrontController {
     @Autowired
     private SysUserService sysUserService;
 
-    @PostMapping("/frontLogin")
-    @ApiOperation("登录")
-    public ResultModel frontLogin(@RequestBody @Valid LoginRequest request, BindingResult bindingResult, HttpServletResponse httpServletResponse) {
+    @PostMapping("/amountLogin")
+    @ApiOperation("账号登录")
+    public ResultModel amountLogin(@RequestBody @Valid LoginRequest request, BindingResult bindingResult, HttpServletResponse httpServletResponse) {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
-        Map<String, Object> map = sysUserService.frontLogin(request);
+        Map<String, Object> map = sysUserService.amountLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
         return ResultUtil.success("登录成功！");
     }

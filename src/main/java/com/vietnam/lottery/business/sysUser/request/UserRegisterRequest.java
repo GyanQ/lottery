@@ -17,8 +17,4 @@ public class UserRegisterRequest implements Serializable {
     @ApiModelProperty(value = "密码")
     @NotBlank(message = "密码不能为空")
     private String passWord;
-
-    @ApiModelProperty(value = "手机")
-    @NotBlank(message = "手机不能为空")
-    private String phone;
 }
