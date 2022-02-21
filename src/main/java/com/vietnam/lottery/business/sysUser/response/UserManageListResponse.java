@@ -26,4 +26,10 @@ public class UserManageListResponse implements Serializable {
     @ApiModelProperty(value = "最后登录时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String endDate;
+
+    @ApiModelProperty(value = "登录类型")
+    private String loginWay;
+
+    @ApiModelProperty(value = "删除标志(0正常 1停用)")
+    private String delFlag;
 }

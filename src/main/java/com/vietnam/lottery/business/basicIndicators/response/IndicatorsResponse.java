@@ -1,12 +1,15 @@
-package com.vietnam.lottery.business.BasicIndicators.response;
+package com.vietnam.lottery.business.basicIndicators.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
-public class IndicatorsResponse {
+public class IndicatorsResponse implements Serializable {
+
+    private static final long serialVersionUID = -7283739225157571577L;
 
     @ApiModelProperty(value = "访客总数")
     private Integer visitorsTotalNumber;
@@ -33,10 +36,8 @@ public class IndicatorsResponse {
     private BigDecimal totalPrize;
 
     @ApiModelProperty(value = "充值总额")
-    private BigDecimal totalRecharge ;
+    private BigDecimal totalRecharge;
 
     @ApiModelProperty(value = "提现总额")
     private BigDecimal totalWithdrawal;
-
-
 }

@@ -151,12 +151,12 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel resetPaw(ResetPawRequest request) {
-        Boolean flag = sysUserMapper.isSuperAdmin("超级管理员");
-        if (!flag) return ResultUtil.failure("该账号没有重置权限");
-        SysUser user = new SysUser();
-        user.setId(request.getUserId());
-        user.setPassWord(DigestUtils.md5DigestAsHex(request.getPassWord().getBytes()));
-        user.setCreateBy(request.getCreateBy());
+        SysUser user = sysUserMapper.selectById(request.getUserId());
+        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("查询不到该账号,重置失败");
+
+        user.setPassWord(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        user.setUpdateBy(request.getCreateBy());
+        user.setUpdateDate(new Date());
 
         //操作记录
         SysOperateRecord record = new SysOperateRecord();
@@ -219,7 +219,29 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public Page<GrabRedPacketsListResponse> grabRedPackets(GrabRedPacketsListRequest request) {
         Page<GrabRedPacketsListResponse> page = new Page<>(request.getCurrent(), request.getSize());
-        return sysUserMapper.redPacketsList(page,request);
+        return sysUserMapper.redPacketsList(page, request);
+    }
+
+    @Override
+    public UserDetailResponse userDetail(Long id) {
+        return sysUserMapper.detail(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel pullBlack(PullBlackRequest request) {
+        SysUser sysUser = sysUserMapper.selectById(request.getUserId());
+        if (ObjectUtil.isEmpty(sysUser)) return ResultUtil.failure("查询不到该用户");
+
+        sysUser.setDelFlag(request.getDelFlag());
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("用户管理");
+        record.setOperate("拉黑");
+        record.setContent("新增或修改用户");
+        record.setCreateBy(request.getCreateBy());
+        sysOperateRecordService.add(record);
+        return ResultUtil.success(sysUserMapper.updateById(sysUser));
     }
 
     /* 账号是否唯一 */

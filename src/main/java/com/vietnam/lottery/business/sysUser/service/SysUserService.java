@@ -43,4 +43,10 @@ public interface SysUserService {
 
     /* 用户抢红包明细 */
     Page<GrabRedPacketsListResponse> grabRedPackets(GrabRedPacketsListRequest request);
+
+    /* 用户详情 */
+    UserDetailResponse userDetail(Long id);
+
+    /* 拉黑 */
+    ResultModel pullBlack(PullBlackRequest request);
 }

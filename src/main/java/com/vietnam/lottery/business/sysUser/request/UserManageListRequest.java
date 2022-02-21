@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class UserManageListRequest extends PageRequest implements Serializable {
@@ -28,4 +27,7 @@ public class UserManageListRequest extends PageRequest implements Serializable {
     @ApiModelProperty(value = "结束时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String endDate;
+
+    @ApiModelProperty(value = "排序：1余额升序 2余额降序 3充值升序 4充值降序 5收益升序 6收益降序")
+    private String type;
 }

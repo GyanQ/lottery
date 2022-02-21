@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
-    /* 新增and修改 */
+    /* 新增and修改菜单配置 */
     ResultModel menuConfig(menuConfigRequest request);
 
     /* 根据角色查询菜单权限 */

@@ -1,12 +1,13 @@
 package com.vietnam.lottery.business.unpackRedPackets.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.vietnam.lottery.business.BasicIndicators.request.IndicatorsRequest;
-import com.vietnam.lottery.business.BasicIndicators.request.ProbabilityRequest;
-import com.vietnam.lottery.business.BasicIndicators.response.IndicatorsResponse;
-import com.vietnam.lottery.business.BasicIndicators.response.ProbabilityResponse;
+import com.vietnam.lottery.business.basicIndicators.request.IndicatorsRequest;
+import com.vietnam.lottery.business.basicIndicators.request.ProbabilityRequest;
+import com.vietnam.lottery.business.basicIndicators.response.IndicatorsResponse;
+import com.vietnam.lottery.business.basicIndicators.response.ProbabilityResponse;
 import com.vietnam.lottery.business.unpackRedPackets.entity.UnpackRedPackets;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,13 +20,10 @@ import java.util.List;
 @Mapper
 public interface UnpackRedPacketsMapper extends BaseMapper<UnpackRedPackets> {
 
-    /**
-     * 查看开奖概率列表
-     * @param probabilityRequest
-     * @return
-     */
-    List<ProbabilityResponse> findProbability(ProbabilityRequest probabilityRequest);
+    /* 开奖概率 */
+    List<ProbabilityResponse> drawProbability(@Param("request") ProbabilityRequest request);
 
-    IndicatorsResponse findIndicators(IndicatorsRequest indicatorsRequest);
+    /* 数据统计 */
+    IndicatorsResponse statistics(@Param("request") IndicatorsRequest request);
 }
 

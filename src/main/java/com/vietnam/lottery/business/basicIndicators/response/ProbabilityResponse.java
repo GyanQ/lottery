@@ -1,12 +1,15 @@
-package com.vietnam.lottery.business.BasicIndicators.response;
+package com.vietnam.lottery.business.basicIndicators.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
-public class ProbabilityResponse {
+public class ProbabilityResponse implements Serializable {
+
+    private static final long serialVersionUID = 1154048350591550556L;
 
     @ApiModelProperty(value = "奖项")
     private String name;

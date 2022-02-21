@@ -110,6 +110,10 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel delete(MenuDeleteRequest request) {
+        SysRole sysRole = sysRoleMapper.selectById(request.getId());
+        if (ObjectUtil.isEmpty(sysRole)) return ResultUtil.failure("查询不到该角色信息,删除失败");
+        sysRole.setDelFlag(DelFlagEnum.MESSAGE.getCode());
+
         //操作记录
         SysOperateRecord record = new SysOperateRecord();
         record.setModule("角色管理");
@@ -117,6 +121,6 @@ public class SysRoleServiceImpl implements SysRoleService {
         record.setContent("删除角色身份");
         record.setCreateBy(request.getCreateBy());
         sysOperateRecordService.add(record);
-        return ResultUtil.success(sysRoleMapper.deleteById(request.getId()));
+        return ResultUtil.success(sysRoleMapper.updateById(sysRole));
     }
 }

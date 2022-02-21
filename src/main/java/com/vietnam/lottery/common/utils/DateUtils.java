@@ -202,7 +202,7 @@ public class DateUtils {
     }
 
     /**
-     * 日期字符串转换为日期)
+     * 日期字符串转换为日期
      *
      * @param date    日期字符串
      * @param pattern 日期格式 例如DATE_PATTERN
@@ -230,6 +230,20 @@ public class DateUtils {
     public static LocalDate parseLocalDate(String localDateStr, String pattern) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
         return LocalDate.parse(localDateStr, dateTimeFormatter);
+    }
+
+    /**
+     * LocalDateTime转string
+     *
+     * @return String 日期
+     * @param: LocalDateTime 日期字符串
+     * @param: String        日期格式 例如DATE_PATTERN
+     */
+    public static String localDateParseStr(LocalDateTime date, String pattern) {
+        LocalDateTime localDateTime = date;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
+        String format = localDateTime.format(dtf);
+        return format;
     }
 
     /**

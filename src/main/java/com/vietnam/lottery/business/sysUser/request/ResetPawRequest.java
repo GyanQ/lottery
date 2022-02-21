@@ -14,10 +14,6 @@ public class ResetPawRequest implements Serializable {
     @ApiModelProperty(value = "userId")
     private Long userId;
 
-    @ApiModelProperty(value = "新密码")
-    @NotBlank(message = "密码不能为空")
-    private String passWord;
-
     @ApiModelProperty(hidden = true)
     private Long createBy;
 }

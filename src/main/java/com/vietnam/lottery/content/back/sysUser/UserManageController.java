@@ -2,21 +2,22 @@ package com.vietnam.lottery.content.back.sysUser;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysUser.request.GrabRedPacketsListRequest;
+import com.vietnam.lottery.business.sysUser.request.PullBlackRequest;
 import com.vietnam.lottery.business.sysUser.request.UserManageListRequest;
 import com.vietnam.lottery.business.sysUser.response.GrabRedPacketsListResponse;
+import com.vietnam.lottery.business.sysUser.response.UserDetailResponse;
 import com.vietnam.lottery.business.sysUser.response.UserManageListResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
+import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -39,5 +40,23 @@ public class UserManageController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         return ResultUtil.success(sysUserService.grabRedPackets(request));
+    }
+
+    @GetMapping("/detail/{id}")
+    @ApiOperation("用户详情")
+    public ResultModel<UserDetailResponse> detail(@PathVariable("id") Long id) {
+        return ResultUtil.success(sysUserService.userDetail(id));
+    }
+
+    @PostMapping("/update")
+    @ApiOperation("修改")
+    public ResultModel update(@RequestBody @Valid PullBlackRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        String userId = JwtUtil.parseToken(token);
+        request.setCreateBy(Long.valueOf(userId));
+        return ResultUtil.success(sysUserService.pullBlack(request));
     }
 }
