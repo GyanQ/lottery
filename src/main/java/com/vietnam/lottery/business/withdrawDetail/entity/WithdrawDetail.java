@@ -17,8 +17,10 @@ import java.util.Date;
 public class WithdrawDetail extends Model<WithdrawDetail> {
     //id
     private Long id;
-    //userId
-    private Long userId;
+    //commission_detail_id
+    private Long commissionDetailId;
+    //lottery_detail_id
+    private Long lotteryDetailId;
     //金额
     private BigDecimal amount;
     //审核状态(1未审核 2审核未通过 3审核通过)
@@ -45,12 +47,20 @@ public class WithdrawDetail extends Model<WithdrawDetail> {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getCommissionDetailId() {
+        return commissionDetailId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setCommissionDetailId(Long commissionDetailId) {
+        this.commissionDetailId = commissionDetailId;
+    }
+
+    public Long getLotteryDetailId() {
+        return lotteryDetailId;
+    }
+
+    public void setLotteryDetailId(Long lotteryDetailId) {
+        this.lotteryDetailId = lotteryDetailId;
     }
 
     public String getAudit() {

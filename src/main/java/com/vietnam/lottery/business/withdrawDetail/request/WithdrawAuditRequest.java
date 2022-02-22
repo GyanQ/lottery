@@ -15,7 +15,7 @@ public class WithdrawAuditRequest extends PageRequest implements Serializable {
     @NotNull(message = "id不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "审核状态(1同意 2拒绝)")
+    @ApiModelProperty(value = "审核状态(1未审核 2审核未通过 3审核通过)")
     @NotNull(message = "审核状态不能为空")
     private String audit;
 
