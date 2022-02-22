@@ -16,7 +16,7 @@ public class ActingDetailListResponse implements Serializable {
     @ApiModelProperty(value = "下级代理id")
     private Long lowerLevelId;
 
-    @ApiModelProperty(value = "累计重置金额")
+    @ApiModelProperty(value = "累计充值金额")
     private BigDecimal amount;
 
     @ApiModelProperty(value = "累计分佣金额")

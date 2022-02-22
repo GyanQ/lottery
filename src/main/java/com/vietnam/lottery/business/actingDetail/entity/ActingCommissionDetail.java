@@ -2,23 +2,20 @@ package com.vietnam.lottery.business.actingDetail.entity;
 
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 代理详情(ActingDetail)表实体类
+ * 代理详情(ActingCommissionDetail)表实体类
  *
- * @author makejava
+ * @author Gyan
  * @since 2022-02-16 11:41:30
  */
 @SuppressWarnings("serial")
-public class ActingDetail extends Model<ActingDetail> {
+public class ActingCommissionDetail extends Model<ActingCommissionDetail> {
     //id
     private Long id;
-    //代理层级关系id
-    private Long hierarchyRelationId;
-    //消费金额
-    private Double amount;
     //分佣金额
     private Double commissionAmount;
     //删除标志(0正常 1停用)
@@ -39,22 +36,6 @@ public class ActingDetail extends Model<ActingDetail> {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getHierarchyRelationId() {
-        return hierarchyRelationId;
-    }
-
-    public void setHierarchyRelationId(Long hierarchyRelationId) {
-        this.hierarchyRelationId = hierarchyRelationId;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
     }
 
     public Double getCommissionAmount() {
@@ -114,5 +95,5 @@ public class ActingDetail extends Model<ActingDetail> {
     protected Serializable pkVal() {
         return this.id;
     }
-    }
+}
 

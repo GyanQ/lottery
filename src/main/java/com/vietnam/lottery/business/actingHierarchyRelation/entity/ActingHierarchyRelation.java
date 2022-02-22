@@ -16,9 +16,7 @@ import java.util.Date;
 public class ActingHierarchyRelation extends Model<ActingHierarchyRelation> {
     //id
     private Long id;
-    //userId
-    private Long userId;
-    //userId
+    //actingId
     private Long actingId;
     //上级代理id
     private Long superiorId;
@@ -42,14 +40,6 @@ public class ActingHierarchyRelation extends Model<ActingHierarchyRelation> {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public Long getActingId() {

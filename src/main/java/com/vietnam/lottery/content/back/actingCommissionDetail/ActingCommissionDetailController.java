@@ -1,11 +1,11 @@
-package com.vietnam.lottery.content.back.actingDetail;
+package com.vietnam.lottery.content.back.actingCommissionDetail;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.actingDetail.request.ActingDetailListRequest;
 import com.vietnam.lottery.business.actingDetail.request.LowerLevelListRequest;
 import com.vietnam.lottery.business.actingDetail.response.ActingDetailListResponse;
 import com.vietnam.lottery.business.actingDetail.response.LowerLevelListResponse;
-import com.vietnam.lottery.business.actingDetail.service.ActingDetailService;
+import com.vietnam.lottery.business.actingDetail.service.ActingCommissionDetailService;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -22,14 +22,14 @@ import javax.validation.Valid;
 @RestController
 @Api(tags = "代理详情")
 @RequestMapping("/acting/detail")
-public class ActingDetailController {
+public class ActingCommissionDetailController {
     @Autowired
-    private ActingDetailService actingDetailService;
+    private ActingCommissionDetailService actingCommissionDetailService;
 
     @PostMapping("/list")
     @ApiOperation("列表")
     public ResultModel<Page<ActingDetailListResponse>> list(@RequestBody ActingDetailListRequest request) {
-        return ResultUtil.success(actingDetailService.list(request));
+        return ResultUtil.success(actingCommissionDetailService.list(request));
     }
 
     @PostMapping("/lowerLevelList")
@@ -38,6 +38,6 @@ public class ActingDetailController {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
-        return ResultUtil.success(actingDetailService.lowerLevelList(request));
+        return ResultUtil.success(actingCommissionDetailService.lowerLevelList(request));
     }
 }

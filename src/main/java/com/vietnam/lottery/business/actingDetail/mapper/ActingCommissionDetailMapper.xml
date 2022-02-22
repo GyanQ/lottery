@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.vietnam.lottery.business.actingDetail.mapper.ActingDetailMapper">
+<mapper namespace="com.vietnam.lottery.business.actingDetail.mapper.ActingCommissionDetailMapper">
 
     <select id="list" resultType="com.vietnam.lottery.business.actingDetail.response.ActingDetailListResponse">
         select

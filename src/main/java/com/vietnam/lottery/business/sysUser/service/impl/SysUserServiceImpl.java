@@ -286,6 +286,14 @@ public class SysUserServiceImpl implements SysUserService {
         return map;
     }
 
+    @Override
+    public AccountBalanceResponse accountBalance(Long userId) {
+        AccountBalanceResponse resp = new AccountBalanceResponse();
+        SysUser user = getById(userId);
+        resp.setAmount(user.getAmount());
+        return null;
+    }
+
     /* 账号是否唯一 */
     private Boolean isExist(String account) {
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
@@ -306,5 +314,11 @@ public class SysUserServiceImpl implements SysUserService {
     /* 校验密码 */
     private Boolean checkPassWord(String first, String second) {
         return DigestUtils.md5DigestAsHex(first.getBytes()).equals(second);
+    }
+
+    /* 根据userId查询用户信息 */
+    private SysUser getById(Long userId) {
+        SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("id", userId).eq("del_flag", DelFlagEnum.CODE.getCode()));
+        return user;
     }
 }
