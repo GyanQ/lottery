@@ -255,6 +255,37 @@ public class SysUserServiceImpl implements SysUserService {
         return ResultUtil.success(sysUserMapper.updateById(sysUser));
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Map<String, Object> faceBookLogin(FaceBookLoginRequest request) {
+        SysUser user = new SysUser();
+        //查询账号是否存在
+        user = accountIsExist(request.getUserId().toString());
+        if (ObjectUtil.isEmpty(user)) {
+            user.setLoginWay("2");
+            user.setAccount(request.getUserId().toString());
+            user.setCreateBy(request.getUserId());
+            user.setName(request.getName());
+            sysUserMapper.insert(user);
+        }
+
+        //创建token
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", request.getUserId());
+        String token = JwtUtil.createToken(map);
+        map.put("token", token);
+
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("前台登录");
+        record.setOperate("登录");
+        record.setContent("前台登录");
+        String userId = JwtUtil.parseToken(token);
+        record.setCreateBy(Long.valueOf(userId));
+        sysOperateRecordService.add(record);
+        return map;
+    }
+
     /* 账号是否唯一 */
     private Boolean isExist(String account) {
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();

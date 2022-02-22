@@ -53,5 +53,5 @@ jwt:
   header: authorization
   tokenPrefix: Bearer
   secret: vietnamLottery202201241022
-  expireTime: 60
+  expireTime: 10080
 

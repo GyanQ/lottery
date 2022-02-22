@@ -49,4 +49,7 @@ public interface SysUserService {
 
     /* 拉黑 */
     ResultModel pullBlack(PullBlackRequest request);
+
+    /* facebook登录 */
+    Map<String, Object> faceBookLogin(FaceBookLoginRequest request);
 }

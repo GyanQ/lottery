@@ -1,5 +1,6 @@
 package com.vietnam.lottery.content.front.sysUser;
 
+import com.vietnam.lottery.business.sysUser.request.FaceBookLoginRequest;
 import com.vietnam.lottery.business.sysUser.request.LoginRequest;
 import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
@@ -44,5 +45,16 @@ public class UserFrontController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         return ResultUtil.success(sysUserService.register(request));
+    }
+
+    @PostMapping("/faceBookLogin")
+    @ApiOperation("faceBook登录")
+    public ResultModel faceBookLogin(@RequestBody @Valid FaceBookLoginRequest request, BindingResult bindingResult, HttpServletResponse httpServletResponse) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
+        Map<String, Object> map = sysUserService.faceBookLogin(request);
+        httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
+        return ResultUtil.success("登录成功！");
     }
 }
