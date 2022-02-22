@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.actingDetail.entity;
+package com.vietnam.lottery.business.actingCommissionDetail.entity;
 
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;

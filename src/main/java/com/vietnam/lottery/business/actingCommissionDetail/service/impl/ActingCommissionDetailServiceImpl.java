@@ -1,12 +1,12 @@
-package com.vietnam.lottery.business.actingDetail.service.impl;
+package com.vietnam.lottery.business.actingCommissionDetail.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.actingDetail.mapper.ActingCommissionDetailMapper;
-import com.vietnam.lottery.business.actingDetail.request.ActingDetailListRequest;
-import com.vietnam.lottery.business.actingDetail.request.LowerLevelListRequest;
-import com.vietnam.lottery.business.actingDetail.response.ActingDetailListResponse;
-import com.vietnam.lottery.business.actingDetail.response.LowerLevelListResponse;
-import com.vietnam.lottery.business.actingDetail.service.ActingCommissionDetailService;
+import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper;
+import com.vietnam.lottery.business.actingCommissionDetail.request.ActingDetailListRequest;
+import com.vietnam.lottery.business.actingCommissionDetail.request.LowerLevelListRequest;
+import com.vietnam.lottery.business.actingCommissionDetail.response.ActingDetailListResponse;
+import com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelListResponse;
+import com.vietnam.lottery.business.actingCommissionDetail.service.ActingCommissionDetailService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

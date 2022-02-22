@@ -1,10 +1,10 @@
-package com.vietnam.lottery.business.actingDetail.service;
+package com.vietnam.lottery.business.actingCommissionDetail.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.actingDetail.request.ActingDetailListRequest;
-import com.vietnam.lottery.business.actingDetail.request.LowerLevelListRequest;
-import com.vietnam.lottery.business.actingDetail.response.ActingDetailListResponse;
-import com.vietnam.lottery.business.actingDetail.response.LowerLevelListResponse;
+import com.vietnam.lottery.business.actingCommissionDetail.request.ActingDetailListRequest;
+import com.vietnam.lottery.business.actingCommissionDetail.request.LowerLevelListRequest;
+import com.vietnam.lottery.business.actingCommissionDetail.response.ActingDetailListResponse;
+import com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelListResponse;
 
 /**
  * 代理详情(ActingCommissionDetail)表服务接口

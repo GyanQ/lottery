@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.actingDetail.response;
+package com.vietnam.lottery.business.actingCommissionDetail.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class LowerLevelListResponse implements Serializable {
     private String actingLevel;
 
     @ApiModelProperty(value = "消费金额")
-    private Long lowerLevelId;
+    private Long amount;
 
     @ApiModelProperty(value = "分佣金额")
     private BigDecimal commissionAmount;

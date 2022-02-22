@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.actingDetail.response;
+package com.vietnam.lottery.business.actingCommissionDetail.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,8 +13,8 @@ public class ActingDetailListResponse implements Serializable {
     @ApiModelProperty(value = "用户id")
     private Long userId;
 
-    @ApiModelProperty(value = "下级代理id")
-    private Long lowerLevelId;
+    @ApiModelProperty(value = " 代理id")
+    private Long actingId;
 
     @ApiModelProperty(value = "累计充值金额")
     private BigDecimal amount;

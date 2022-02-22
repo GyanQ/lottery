@@ -1,12 +1,12 @@
-package com.vietnam.lottery.business.actingDetail.mapper;
+package com.vietnam.lottery.business.actingCommissionDetail.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.actingDetail.entity.ActingCommissionDetail;
-import com.vietnam.lottery.business.actingDetail.request.ActingDetailListRequest;
-import com.vietnam.lottery.business.actingDetail.request.LowerLevelListRequest;
-import com.vietnam.lottery.business.actingDetail.response.ActingDetailListResponse;
-import com.vietnam.lottery.business.actingDetail.response.LowerLevelListResponse;
+import com.vietnam.lottery.business.actingCommissionDetail.entity.ActingCommissionDetail;
+import com.vietnam.lottery.business.actingCommissionDetail.request.ActingDetailListRequest;
+import com.vietnam.lottery.business.actingCommissionDetail.request.LowerLevelListRequest;
+import com.vietnam.lottery.business.actingCommissionDetail.response.ActingDetailListResponse;
+import com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelListResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
