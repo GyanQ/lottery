@@ -7,6 +7,7 @@ import com.vietnam.lottery.business.actingCommissionDetail.request.ActingDetailL
 import com.vietnam.lottery.business.actingCommissionDetail.request.LowerLevelListRequest;
 import com.vietnam.lottery.business.actingCommissionDetail.response.ActingDetailListResponse;
 import com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelListResponse;
+import com.vietnam.lottery.business.sysUser.response.CommissionAmountResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,5 +24,8 @@ public interface ActingCommissionDetailMapper extends BaseMapper<ActingCommissio
 
     /* 下级代理列表 */
     Page<LowerLevelListResponse> lowerLevelList(@Param("page") Page page, @Param("request") LowerLevelListRequest request);
+
+    /* 查询用户分佣余额 */
+    CommissionAmountResponse commissionAmount(@Param("userId") Long userId);
 }
 

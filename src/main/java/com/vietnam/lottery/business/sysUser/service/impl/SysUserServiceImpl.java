@@ -3,6 +3,8 @@ package com.vietnam.lottery.business.sysUser.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper;
+import com.vietnam.lottery.business.lotteryDetail.mapper.LotteryDetailMapper;
 import com.vietnam.lottery.business.sysLoginDetail.mapper.SysLoginDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
@@ -11,6 +13,7 @@ import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
 import com.vietnam.lottery.business.sysUser.request.*;
 import com.vietnam.lottery.business.sysUser.response.*;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
+import com.vietnam.lottery.business.withdrawDetail.mapper.WithdrawDetailMapper;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +39,12 @@ public class SysUserServiceImpl implements SysUserService {
     private SysOperateRecordService sysOperateRecordService;
     @Autowired
     private SysLoginDetailMapper sysLoginDetailMapper;
+    @Autowired
+    private ActingCommissionDetailMapper actingCommissionDetailMapper;
+    @Autowired
+    private WithdrawDetailMapper withdrawDetailMapper;
+    @Autowired
+    private LotteryDetailMapper lotteryDetailMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -291,7 +301,18 @@ public class SysUserServiceImpl implements SysUserService {
         AccountBalanceResponse resp = new AccountBalanceResponse();
         SysUser user = getById(userId);
         resp.setAmount(user.getAmount());
-        return null;
+        //分佣余额
+        CommissionAmountResponse commissionAmountResp = actingCommissionDetailMapper.commissionAmount(user.getId());
+        //分佣提现余额
+        BigDecimal commissionWithdraw = withdrawDetailMapper.commissionWithdraw(commissionAmountResp.getId(), null);
+        BigDecimal commissionTotal = commissionAmountResp.getAmount().subtract(commissionWithdraw);
+        resp.setCommissionBalanceAmount(commissionTotal);
+        //红包余额
+        LotteryAmountResponse lotteryAmountResp = lotteryDetailMapper.lotteryAmount(user.getId());
+        BigDecimal lotteryWithdraw = withdrawDetailMapper.commissionWithdraw(null, lotteryAmountResp.getId());
+        BigDecimal lotteryTotal = lotteryAmountResp.getAmount().subtract(lotteryWithdraw);
+        resp.setRedEnvelopeAmount(lotteryTotal);
+        return resp;
     }
 
     /* 账号是否唯一 */

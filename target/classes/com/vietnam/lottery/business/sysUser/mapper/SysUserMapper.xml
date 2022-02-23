@@ -48,6 +48,7 @@
         sum(b.amount) as rechargeTotal,
         sum(c.amount) as incomeTotal,
         a.login_way as loginWay,
+        a.del_flag as delFlag
         from sys_user a
         left join recharge_detail b on a.id = b.create_by
         left join lottery_detail c on a.id = c.create_by
@@ -67,6 +68,24 @@
         <if test="request.endDate != null and request.endDate != ''">
             and date_format(a.create_date, '%Y-%m-%d') &lt;= date_format(#{request.endDate}, '%Y-%m-%d')
         </if>
+        <if test="request.type == 1">
+            order by a.amount
+        </if>
+        <if test="request.type == 2">
+            order by a.amount desc
+        </if>
+        <if test="request.type == 3">
+            order by rechargeTotal
+        </if>
+        <if test="request.type == 4">
+            order by rechargeTotal desc
+        </if>
+        <if test="request.type == 5">
+            order by incomeTotal
+        </if>
+        <if test="request.type == 6">
+            order by incomeTotal desc
+        </if>
     </select>
     <select id="redPacketsList"
             resultType="com.vietnam.lottery.business.sysUser.response.GrabRedPacketsListResponse">
@@ -78,5 +97,17 @@
         from lottery_detail a
                  inner join grab_red_packets b on a.grab_red_packets_id = b.id
         where b.create_by = #{request.userId}
+    </select>
+    <select id="detail" resultType="com.vietnam.lottery.business.sysUser.response.UserDetailResponse">
+        select a.phone,
+               b.ip,
+               a.account,
+               b.create_date
+        from sys_user a
+                 left join
+             (select ip, create_by, create_date
+              from sys_login_detail
+              order by create_date desc limit 1) b on a.id = b.create_by
+        where a.id = #{id}
     </select>
 </mapper>

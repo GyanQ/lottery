@@ -31,5 +31,17 @@
         </if>
         order by a.create_date desc
     </select>
+
+    <select id="commissionWithdraw" resultType="java.math.BigDecimal">
+        select sum(amount)
+        from withdraw_details
+        where state = '2'
+        <if test="commissionDetailId != null">
+            and commission_detail_id = #{commissionDetailId}
+        </if>
+        <if test="lotteryDetailId != null">
+            and lottery_detail_id = #{lotteryDetailId}
+        </if>
+    </select>
 </mapper>
 
