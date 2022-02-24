@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 角色信息(SysRole)表实体类
+ * 角色配置(SysRole)表实体类
  *
  * @author Gyan
  * @since 2022-01-28 15:04:18

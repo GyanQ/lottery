@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 拆红包(UnpackRedPackets)表实体类
+ * 拆红包配置(UnpackRedPackets)表实体类
  *
  * @author makejava
  * @since 2022-02-16 18:00:37

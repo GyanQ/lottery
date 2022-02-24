@@ -27,5 +27,13 @@
             and date_format(a.create_date, '%Y-%m-%d') &lt;= date_format(#{request.endDate}, '%Y-%m-%d')
         </if>
     </select>
+
+    <select id="lotteryAmount"
+            resultType="com.vietnam.lottery.business.sysUser.response.LotteryAmountResponse">
+        select sum(amount) as amount,
+               id          as id
+        from lottery_detail
+        where create_by = #{userId}
+    </select>
 </mapper>
 

@@ -1,11 +1,12 @@
 package com.vietnam.lottery.business.sysUserRoleRelation.entity;
 
-import java.util.Date;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * 角色信息(SysUserRoleRelation)表实体类
+ * 用户角色关系(SysUserRoleRelation)表实体类
  *
  * @author makejava
  * @since 2022-01-28 15:11:41
@@ -103,5 +104,5 @@ public class SysUserRoleRelation extends Model<SysUserRoleRelation> {
     protected Serializable pkVal() {
         return this.id;
     }
-    }
+}
 

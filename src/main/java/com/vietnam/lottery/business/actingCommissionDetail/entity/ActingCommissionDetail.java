@@ -4,10 +4,11 @@ package com.vietnam.lottery.business.actingCommissionDetail.entity;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 代理详情(ActingCommissionDetail)表实体类
+ * 代理分佣明细(ActingCommissionDetail)表实体类
  *
  * @author Gyan
  * @since 2022-02-16 11:41:30
@@ -17,7 +18,7 @@ public class ActingCommissionDetail extends Model<ActingCommissionDetail> {
     //id
     private Long id;
     //分佣金额
-    private Double commissionAmount;
+    private BigDecimal commissionAmount;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
@@ -38,11 +39,11 @@ public class ActingCommissionDetail extends Model<ActingCommissionDetail> {
         this.id = id;
     }
 
-    public Double getCommissionAmount() {
+    public BigDecimal getCommissionAmount() {
         return commissionAmount;
     }
 
-    public void setCommissionAmount(Double commissionAmount) {
+    public void setCommissionAmount(BigDecimal commissionAmount) {
         this.commissionAmount = commissionAmount;
     }
 

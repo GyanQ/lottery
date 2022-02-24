@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 抢红包(GrabRedPackets)表实体类
+ * 抢红包配置(GrabRedPackets)表实体类
  *
  * @author makejava
  * @since 2022-02-16 18:00:21

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 菜单权限(SysMenu)表实体类
+ * 菜单配置(SysMenu)表实体类
  *
  * @author Gyan
  * @since 2022-02-08 10:48:07
