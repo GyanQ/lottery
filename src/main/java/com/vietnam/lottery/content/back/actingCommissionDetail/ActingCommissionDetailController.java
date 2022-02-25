@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @Api(tags = "代理详情")
@@ -34,7 +35,7 @@ public class ActingCommissionDetailController {
 
     @PostMapping("/lowerLevelList")
     @ApiOperation("下级代理列表")
-    public ResultModel<Page<LowerLevelListResponse>> lowerLevelList(@RequestBody @Valid LowerLevelListRequest request, BindingResult bindingResult) {
+    public ResultModel<List<LowerLevelListResponse>> lowerLevelList(@RequestBody @Valid LowerLevelListRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }

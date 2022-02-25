@@ -37,18 +37,24 @@
 
     <select id="lowerLevelList"
             resultType="com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelListResponse">
-        select a.lower_level_id    as userId,
-               b.level             as actingLevel,
-               c.commission_amount as commissionAmount,
-               d.create_date       as createDate,
-               e.sumTotal          as amount
+        select b.id               as userId,
+               b.level            as actingLevel,
+               c.amount           as commissionAmount,
+               c.create_date      as createDate,
+               d.sumTotal         as amount,
+               e.commissionAmount as commissionAmount,
+               a.lowerLevel_id    as lowerLevelId
         from acting_hierarchy_relation a
                  left join acting b on a.acting_id = b.id
-                 left join acting_commission_detail c on a.create_by = c.create_by
-                 left join sys_user d on a.create_by = d.id
-                 left join (select (sum(amount)) as sumTotal, create_by from grab_red_packets) e
-                           on a.create_by = e.create_by
-        where a.superior_id = #{request.userId}
+                 left join (select (sum(amount)) as commissionAmount, create_by
+                            from acting_commission_detail
+                            group by create_by) e
+                           on e.create_by = a.create_by
+                 left join (select (sum(amount)) as sumTotal, create_by from grab_red_packets group by create_by) d
+                           on a.create_by = d.create_by
+                 left join sys_user c on a.create_by = c.id
+        where a.superior_id = #{id}
+        order by c.create_date desc
     </select>
 
     <select id="commissionAmount" resultType="com.vietnam.lottery.business.sysUser.response.CommissionAmountResponse">

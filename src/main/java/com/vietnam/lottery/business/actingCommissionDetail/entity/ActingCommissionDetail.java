@@ -18,7 +18,7 @@ public class ActingCommissionDetail extends Model<ActingCommissionDetail> {
     //id
     private Long id;
     //分佣金额
-    private BigDecimal commissionAmount;
+    private BigDecimal amount;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
@@ -39,12 +39,12 @@ public class ActingCommissionDetail extends Model<ActingCommissionDetail> {
         this.id = id;
     }
 
-    public BigDecimal getCommissionAmount() {
-        return commissionAmount;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setCommissionAmount(BigDecimal commissionAmount) {
-        this.commissionAmount = commissionAmount;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public String getDelFlag() {

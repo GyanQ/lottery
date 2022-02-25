@@ -55,4 +55,7 @@ public interface SysUserService {
 
     /* 账户余额 */
     AccountBalanceResponse accountBalance(Long userId);
+
+    /* 推广二维码 */
+    PromoteResponse promote(Long id);
 }

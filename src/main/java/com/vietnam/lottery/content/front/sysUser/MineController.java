@@ -1,6 +1,7 @@
 package com.vietnam.lottery.content.front.sysUser;
 
 import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
+import com.vietnam.lottery.business.sysUser.response.PromoteResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -27,5 +28,21 @@ public class MineController {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
         return ResultUtil.success(sysUserService.accountBalance(Long.valueOf(userId)));
+    }
+
+    @PostMapping("/promote")
+    @ApiOperation("推广二维码")
+    public ResultModel<PromoteResponse> promote(HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        String userId = JwtUtil.parseToken(token);
+        return ResultUtil.success(sysUserService.promote(Long.valueOf(userId)));
+    }
+
+    @PostMapping("/partner")
+    @ApiOperation("我的伙伴")
+    public ResultModel<PromoteResponse> partner(HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        String userId = JwtUtil.parseToken(token);
+        return ResultUtil.success();
     }
 }

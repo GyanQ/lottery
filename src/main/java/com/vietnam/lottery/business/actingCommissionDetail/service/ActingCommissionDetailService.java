@@ -6,6 +6,8 @@ import com.vietnam.lottery.business.actingCommissionDetail.request.LowerLevelLis
 import com.vietnam.lottery.business.actingCommissionDetail.response.ActingDetailListResponse;
 import com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelListResponse;
 
+import java.util.List;
+
 /**
  * 代理详情(ActingCommissionDetail)表服务接口
  *
@@ -18,6 +20,6 @@ public interface ActingCommissionDetailService {
     Page<ActingDetailListResponse> list(ActingDetailListRequest request);
 
     /* 下级代理列表 */
-    Page<LowerLevelListResponse> lowerLevelList(LowerLevelListRequest request);
+    List<LowerLevelListResponse> lowerLevelList(LowerLevelListRequest request);
 }
 

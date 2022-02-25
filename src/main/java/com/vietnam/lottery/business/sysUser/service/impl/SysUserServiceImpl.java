@@ -4,6 +4,8 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper;
+import com.vietnam.lottery.business.actingHierarchyRelation.entity.ActingHierarchyRelation;
+import com.vietnam.lottery.business.actingHierarchyRelation.mapper.ActingHierarchyRelationMapper;
 import com.vietnam.lottery.business.lotteryDetail.mapper.LotteryDetailMapper;
 import com.vietnam.lottery.business.sysLoginDetail.mapper.SysLoginDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
@@ -45,6 +47,8 @@ public class SysUserServiceImpl implements SysUserService {
     private WithdrawDetailMapper withdrawDetailMapper;
     @Autowired
     private LotteryDetailMapper lotteryDetailMapper;
+    @Autowired
+    private ActingHierarchyRelationMapper actingHierarchyRelationMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -313,6 +317,11 @@ public class SysUserServiceImpl implements SysUserService {
         BigDecimal lotteryTotal = lotteryAmountResp.getAmount().subtract(lotteryWithdraw);
         resp.setRedEnvelopeAmount(lotteryTotal);
         return resp;
+    }
+
+    @Override
+    public PromoteResponse promote(Long id) {
+        return null;
     }
 
     /* 账号是否唯一 */
