@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class FaceBookLoginRequest implements Serializable {
+public class GoogleLoginRequest implements Serializable {
     private static final long serialVersionUID = -9191474827254230835L;
 
     @ApiModelProperty(value = "userId")

@@ -4,12 +4,12 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper;
-import com.vietnam.lottery.business.actingHierarchyRelation.entity.ActingHierarchyRelation;
-import com.vietnam.lottery.business.actingHierarchyRelation.mapper.ActingHierarchyRelationMapper;
 import com.vietnam.lottery.business.lotteryDetail.mapper.LotteryDetailMapper;
 import com.vietnam.lottery.business.sysLoginDetail.mapper.SysLoginDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
+import com.vietnam.lottery.business.sysSms.entity.SysSms;
+import com.vietnam.lottery.business.sysSms.mapper.SysSmsMapper;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
 import com.vietnam.lottery.business.sysUser.request.*;
@@ -17,6 +17,7 @@ import com.vietnam.lottery.business.sysUser.response.*;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.business.withdrawDetail.mapper.WithdrawDetailMapper;
 import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.config.SmsUtils;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -48,7 +49,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Autowired
     private LotteryDetailMapper lotteryDetailMapper;
     @Autowired
-    private ActingHierarchyRelationMapper actingHierarchyRelationMapper;
+    private SysSmsMapper sysSmsMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -89,6 +90,11 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser user = new SysUser();
         user.setAccount(request.getAccount());
         user.setPassWord(passWord);
+
+        String code = sysSmsMapper.selectByPhone(request.getPhone());
+        if (!code.equals(request.getCode())) {
+            return ResultUtil.failure("验证码错误");
+        }
         return ResultUtil.success(sysUserMapper.insert(user));
     }
 
@@ -108,15 +114,6 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("userId", user.getId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
-
-        //操作记录
-        SysOperateRecord record = new SysOperateRecord();
-        record.setModule("前台登录");
-        record.setOperate("登录");
-        record.setContent("前台登录");
-        String userId = JwtUtil.parseToken(token);
-        record.setCreateBy(Long.valueOf(userId));
-        sysOperateRecordService.add(record);
         return map;
     }
 
@@ -288,15 +285,6 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("userId", request.getUserId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
-
-        //操作记录
-        SysOperateRecord record = new SysOperateRecord();
-        record.setModule("前台登录");
-        record.setOperate("登录");
-        record.setContent("前台登录");
-        String userId = JwtUtil.parseToken(token);
-        record.setCreateBy(Long.valueOf(userId));
-        sysOperateRecordService.add(record);
         return map;
     }
 
@@ -321,6 +309,55 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public PromoteResponse promote(Long id) {
+        return null;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel sendSms(SendSmsRequest request) {
+        //随机生成6位验证码
+        String code = SmsUtils.code();
+        SysSms sysSms = new SysSms();
+        sysSms.setPhone(request.getPhone());
+        sysSms.setCode(code);
+        sysSms.setCreateBy(request.getCreateBy());
+        sysSmsMapper.insert(sysSms);
+        //发送短信验证码
+        SmsUtils.send(request.getPhone(), code);
+        return ResultUtil.success();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel retrievePaw(retrievePwdRequest request) {
+        SysUser user = accountIsExist(request.getAccount());
+        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("账号不存在");
+        String code = sysSmsMapper.selectByPhone(request.getPhone());
+        if (!code.equals(request.getCode())) return ResultUtil.failure("验证码错误");
+
+        user.setPassWord(DigestUtils.md5DigestAsHex(request.getPassWord().getBytes()));
+        user.setUpdateDate(new Date());
+        return ResultUtil.success(sysUserMapper.updateById(user));
+    }
+
+    @Override
+    public Map<String, Object> pawFreeLogin(PawFreeLoginRequest request) {
+        SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("phone", request.getPhone()).eq("del_flag", DelFlagEnum.CODE.getCode()));
+        if (ObjectUtil.isEmpty(user)) throw new GlobalException("账号不存在");
+
+        String code = sysSmsMapper.selectByPhone(request.getPhone());
+        if (!code.equals(request.getCode())) throw new GlobalException("验证码错误");
+
+        //创建token
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", user.getId());
+        String token = JwtUtil.createToken(map);
+        map.put("token", token);
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> googleLogin(GoogleLoginRequest request) {
         return null;
     }
 

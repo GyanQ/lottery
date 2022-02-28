@@ -58,4 +58,16 @@ public interface SysUserService {
 
     /* 推广二维码 */
     PromoteResponse promote(Long id);
+
+    /* 发送短信 */
+    ResultModel sendSms(SendSmsRequest request);
+
+    /* 找回密码 */
+    ResultModel retrievePaw(retrievePwdRequest request);
+
+    /* 免密码登录 */
+    Map<String, Object> pawFreeLogin(PawFreeLoginRequest request);
+
+    /* google登录 */
+    Map<String, Object> googleLogin(GoogleLoginRequest request);
 }

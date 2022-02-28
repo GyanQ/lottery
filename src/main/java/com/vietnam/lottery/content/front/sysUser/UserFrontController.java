@@ -1,8 +1,6 @@
 package com.vietnam.lottery.content.front.sysUser;
 
-import com.vietnam.lottery.business.sysUser.request.FaceBookLoginRequest;
-import com.vietnam.lottery.business.sysUser.request.LoginRequest;
-import com.vietnam.lottery.business.sysUser.request.UserRegisterRequest;
+import com.vietnam.lottery.business.sysUser.request.*;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -54,6 +52,46 @@ public class UserFrontController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         Map<String, Object> map = sysUserService.faceBookLogin(request);
+        httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
+        return ResultUtil.success("登录成功！");
+    }
+
+    @PostMapping("/sendSms")
+    @ApiOperation("发送短信")
+    public ResultModel sendSms(@RequestBody @Valid SendSmsRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
+        return ResultUtil.success(sysUserService.sendSms(request));
+    }
+
+    @PostMapping("/retrievePaw")
+    @ApiOperation("找回密码")
+    public ResultModel retrievePaw(@RequestBody @Valid retrievePwdRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
+        return ResultUtil.success(sysUserService.retrievePaw(request));
+    }
+
+    @PostMapping("/pawFreeLogin")
+    @ApiOperation("免密码登录")
+    public ResultModel pawFreeLogin(@RequestBody @Valid PawFreeLoginRequest request, BindingResult bindingResult, HttpServletResponse httpServletResponse) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
+        Map<String, Object> map = sysUserService.pawFreeLogin(request);
+        httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
+        return ResultUtil.success("登录成功！");
+    }
+
+    @PostMapping("/googleLogin")
+    @ApiOperation("faceBook登录")
+    public ResultModel googleLogin(@RequestBody @Valid GoogleLoginRequest request, BindingResult bindingResult, HttpServletResponse httpServletResponse) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
+        Map<String, Object> map = sysUserService.googleLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
         return ResultUtil.success("登录成功！");
     }
