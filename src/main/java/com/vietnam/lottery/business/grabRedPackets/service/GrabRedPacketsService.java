@@ -31,5 +31,7 @@ public interface GrabRedPacketsService {
 
     /* 列表 */
     Page<ListResponse> list(ListRequest request);
+
+    /* 下注 */
 }
 
