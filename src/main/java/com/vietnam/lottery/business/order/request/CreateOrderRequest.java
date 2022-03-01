@@ -14,7 +14,7 @@ public class CreateOrderRequest implements Serializable {
     private String type;
 
     @ApiModelProperty(value = "订单金额")
-    private Integer amount;
+    private Long amount;
 
     @ApiModelProperty(value = "订单编号")
     private String orderId;

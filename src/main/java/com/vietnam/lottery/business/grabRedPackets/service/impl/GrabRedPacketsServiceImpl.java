@@ -9,10 +9,12 @@ import com.vietnam.lottery.business.grabRedPackets.request.*;
 import com.vietnam.lottery.business.grabRedPackets.response.DetailResponse;
 import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
 import com.vietnam.lottery.business.grabRedPackets.service.GrabRedPacketsService;
+import com.vietnam.lottery.business.order.request.CreateOrderRequest;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
+import com.vietnam.lottery.common.config.PaymentUtils;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.utils.DateUtils;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -139,10 +141,17 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         if (ObjectUtil.isEmpty(redPackets)) return ResultUtil.failure("查询不到红包信息");
 
         //查询用户余额是否足够
-        // user.getAmount()
+        if (user.getAmount() < redPackets.getAmount()) return ResultUtil.failure("余额不足");
+
+        //生成订单号
         String date = DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATETIME_PATTERN);
-        //订单号
         String orderNo = request.getCreateBy().toString() + date;
+        CreateOrderRequest orderRequest = new CreateOrderRequest();
+        orderRequest.setOrderId(orderNo);
+        orderRequest.setAmount(redPackets.getAmount());
+        orderRequest.setType(request.getType());
+        //创建支付
+        PaymentUtils.createOrder(orderRequest);
 
         return null;
     }

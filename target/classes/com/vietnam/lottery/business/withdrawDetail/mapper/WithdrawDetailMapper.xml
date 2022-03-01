@@ -32,7 +32,7 @@
         order by a.create_date desc
     </select>
 
-    <select id="commissionWithdraw" resultType="java.math.BigDecimal">
+    <select id="commissionWithdraw" resultType="java.lang.Long">
         select sum(amount)
         from withdraw_details
         where state = '2'
