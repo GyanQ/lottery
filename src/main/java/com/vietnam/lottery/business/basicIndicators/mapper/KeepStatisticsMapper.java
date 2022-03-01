@@ -3,6 +3,7 @@ package com.vietnam.lottery.business.basicIndicators.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.vietnam.lottery.business.basicIndicators.entity.KeepStatistics;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -13,5 +14,8 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface KeepStatisticsMapper extends BaseMapper<KeepStatistics> {
+
+    /* 查询当前时间是否有留存记录 */
+    Integer isKeep(@Param("userId") Long userId);
 }
 

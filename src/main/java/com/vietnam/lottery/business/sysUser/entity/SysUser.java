@@ -27,7 +27,7 @@ public class SysUser extends Model<SysUser> {
     private String phone;
     //余额
     private BigDecimal amount;
-    //登录方式(1手机 2FaceBook 3Google 4账号)
+    //登录方式(1账号 2FaceBook 3Google)
     private String loginWay;
     //删除标志（0代表存在、2代表删除）
     private String delFlag;

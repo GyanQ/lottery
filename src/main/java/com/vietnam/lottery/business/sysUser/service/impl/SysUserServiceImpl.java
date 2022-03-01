@@ -4,6 +4,8 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper;
+import com.vietnam.lottery.business.basicIndicators.entity.KeepStatistics;
+import com.vietnam.lottery.business.basicIndicators.mapper.KeepStatisticsMapper;
 import com.vietnam.lottery.business.lotteryDetail.mapper.LotteryDetailMapper;
 import com.vietnam.lottery.business.sysLoginDetail.mapper.SysLoginDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
@@ -50,6 +52,8 @@ public class SysUserServiceImpl implements SysUserService {
     private LotteryDetailMapper lotteryDetailMapper;
     @Autowired
     private SysSmsMapper sysSmsMapper;
+    @Autowired
+    private KeepStatisticsMapper keepStatisticsMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -90,6 +94,8 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser user = new SysUser();
         user.setAccount(request.getAccount());
         user.setPassWord(passWord);
+        user.setLoginWay("1");
+        user.setPhone(request.getPhone());
 
         String code = sysSmsMapper.selectByPhone(request.getPhone());
         if (!code.equals(request.getCode())) {
@@ -99,6 +105,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> amountLogin(LoginRequest request) {
         //查询账号是否存在
         SysUser user = accountIsExist(request.getAccount());
@@ -109,8 +116,16 @@ public class SysUserServiceImpl implements SysUserService {
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
         if (!flag) throw new GlobalException("密码错误！");
 
-        //创建token
+        //add留存记录
+        Boolean keep = isKeep(user.getId());
+        if (keep) {
+            KeepStatistics statistics = new KeepStatistics();
+            statistics.setCreateBy(user.getId());
+            statistics.setRegisterDate(user.getCreateDate());
+            keepStatisticsMapper.insert(statistics);
+        }
         Map<String, Object> map = new HashMap<>();
+        //创建token
         map.put("userId", user.getId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
@@ -280,6 +295,15 @@ public class SysUserServiceImpl implements SysUserService {
             sysUserMapper.insert(user);
         }
 
+        //add留存记录
+        Boolean keep = isKeep(user.getId());
+        if (keep) {
+            KeepStatistics statistics = new KeepStatistics();
+            statistics.setCreateBy(user.getId());
+            statistics.setRegisterDate(user.getCreateDate());
+            keepStatisticsMapper.insert(statistics);
+        }
+
         //创建token
         Map<String, Object> map = new HashMap<>();
         map.put("userId", request.getUserId());
@@ -348,6 +372,15 @@ public class SysUserServiceImpl implements SysUserService {
         String code = sysSmsMapper.selectByPhone(request.getPhone());
         if (!code.equals(request.getCode())) throw new GlobalException("验证码错误");
 
+        //add留存记录
+        Boolean keep = isKeep(user.getId());
+        if (keep) {
+            KeepStatistics statistics = new KeepStatistics();
+            statistics.setCreateBy(user.getId());
+            statistics.setRegisterDate(user.getCreateDate());
+            keepStatisticsMapper.insert(statistics);
+        }
+
         //创建token
         Map<String, Object> map = new HashMap<>();
         map.put("userId", user.getId());
@@ -387,5 +420,14 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUser getById(Long userId) {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("id", userId).eq("del_flag", DelFlagEnum.CODE.getCode()));
         return user;
+    }
+
+    /* 查询当前时间是否有留存记录 */
+    private Boolean isKeep(Long userId) {
+        Integer count = keepStatisticsMapper.isKeep(userId);
+        if (0 < count) {
+            return false;
+        }
+        return true;
     }
 }

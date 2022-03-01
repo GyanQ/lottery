@@ -716,8 +716,8 @@
               <option name="name" value="KeepStatistics" />
               <option name="preName" value="" />
               <option name="saveModelName" value="lottery" />
-              <option name="savePackageName" value="com.vietnam.lottery.business.basicIndicators" />
-              <option name="savePath" value="./src/main/java/com/vietnam/lottery/business/basicIndicators" />
+              <option name="savePackageName" value="com.vietnam.lottery.business.keepStatistics" />
+              <option name="savePath" value="./src/main/java/com/vietnam/lottery/business/keepStatistics" />
               <option name="templateGroupName" value="MybatisPlus-Mixed" />
             </TableInfoDTO>
           </value>

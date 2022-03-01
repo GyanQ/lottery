@@ -86,7 +86,7 @@ public class UserFrontController {
     }
 
     @PostMapping("/googleLogin")
-    @ApiOperation("faceBook登录")
+    @ApiOperation("Google登录")
     public ResultModel googleLogin(@RequestBody @Valid GoogleLoginRequest request, BindingResult bindingResult, HttpServletResponse httpServletResponse) {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
