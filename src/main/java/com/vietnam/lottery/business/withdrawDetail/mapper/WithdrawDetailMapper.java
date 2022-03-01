@@ -8,8 +8,6 @@ import com.vietnam.lottery.business.withdrawDetail.response.WithdrawListResponse
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.math.BigDecimal;
-
 /**
  * 提现记录(WithdrawDetail)表数据库访问层
  *
@@ -23,6 +21,6 @@ public interface WithdrawDetailMapper extends BaseMapper<WithdrawDetail> {
     Page<WithdrawListResponse> list(@Param("page") Page page, @Param("request") WithdrawListRequest request);
 
     /* 用户分佣提现金额 */
-    BigDecimal commissionWithdraw(@Param("commissionDetailId") Long commissionDetailId, @Param("lotteryDetailId") Long lotteryDetailId);
+    Long commissionWithdraw(@Param("commissionDetailId") Long commissionDetailId, @Param("lotteryDetailId") Long lotteryDetailId);
 }
 

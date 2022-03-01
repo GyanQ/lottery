@@ -5,16 +5,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.grabRedPackets.entity.GrabRedPackets;
 import com.vietnam.lottery.business.grabRedPackets.mapper.GrabRedPacketsMapper;
-import com.vietnam.lottery.business.grabRedPackets.request.AddRequest;
-import com.vietnam.lottery.business.grabRedPackets.request.DeleteRequest;
-import com.vietnam.lottery.business.grabRedPackets.request.ListRequest;
-import com.vietnam.lottery.business.grabRedPackets.request.UpdateRequest;
+import com.vietnam.lottery.business.grabRedPackets.request.*;
 import com.vietnam.lottery.business.grabRedPackets.response.DetailResponse;
 import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
 import com.vietnam.lottery.business.grabRedPackets.service.GrabRedPacketsService;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
+import com.vietnam.lottery.business.sysUser.entity.SysUser;
+import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
 import com.vietnam.lottery.common.global.DelFlagEnum;
+import com.vietnam.lottery.common.utils.DateUtils;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,8 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     private GrabRedPacketsMapper grabRedPacketsMapper;
     @Autowired
     private SysOperateRecordService sysOperateRecordService;
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -126,6 +128,23 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         });
         responsePage.setRecords(list);
         return responsePage;
+    }
+
+    @Override
+    public ResultModel bet(BetRequest request) {
+        SysUser user = sysUserMapper.selectById(request.getCreateBy());
+        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("查询不到用户信息");
+
+        GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
+        if (ObjectUtil.isEmpty(redPackets)) return ResultUtil.failure("查询不到红包信息");
+
+        //查询用户余额是否足够
+        // user.getAmount()
+        String date = DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATETIME_PATTERN);
+        //订单号
+        String orderNo = request.getCreateBy().toString() + date;
+
+        return null;
     }
 }
 

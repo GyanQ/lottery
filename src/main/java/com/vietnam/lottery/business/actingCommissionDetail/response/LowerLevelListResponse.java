@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class LowerLevelListResponse implements Serializable {
@@ -21,7 +20,7 @@ public class LowerLevelListResponse implements Serializable {
     private Long amount;
 
     @ApiModelProperty(value = "分佣金额")
-    private BigDecimal commissionAmount;
+    private Long commissionAmount;
 
     @ApiModelProperty(value = "注册时间")
     private String createDate;

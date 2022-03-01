@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class GrabRedPacketsListResponse extends PageRequest implements Serializable {
@@ -16,10 +15,10 @@ public class GrabRedPacketsListResponse extends PageRequest implements Serializa
     private Long id;
 
     @ApiModelProperty(value = "投注金额")
-    private BigDecimal amount;
+    private Long amount;
 
     @ApiModelProperty(value = "中奖金额")
-    private BigDecimal winningAmount;
+    private Long winningAmount;
 
     @ApiModelProperty(value = "投注时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

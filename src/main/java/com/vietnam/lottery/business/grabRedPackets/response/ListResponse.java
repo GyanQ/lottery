@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class ListResponse implements Serializable {
@@ -14,7 +13,7 @@ public class ListResponse implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "抢红包下注金额")
-    private BigDecimal amount;
+    private Long amount;
 
     @ApiModelProperty(value = "区间开始值")
     private Integer begin;

@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class LotteryAmountResponse implements Serializable {
@@ -14,5 +13,5 @@ public class LotteryAmountResponse implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "开奖金额")
-    private BigDecimal amount;
+    private Long amount;
 }

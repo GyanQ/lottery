@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class IndicatorsResponse implements Serializable {
@@ -27,17 +26,17 @@ public class IndicatorsResponse implements Serializable {
     private Integer envelopesNumber;
 
     @ApiModelProperty(value = "抢红包总额")
-    private BigDecimal envelopesTotalAmount;
+    private Long envelopesTotalAmount;
 
     @ApiModelProperty(value = "拆红包数")
     private Integer envelopesRemoveNumber;
 
     @ApiModelProperty(value = "开奖总额")
-    private BigDecimal totalPrize;
+    private Long totalPrize;
 
     @ApiModelProperty(value = "充值总额")
-    private BigDecimal totalRecharge;
+    private Long totalRecharge;
 
     @ApiModelProperty(value = "提现总额")
-    private BigDecimal totalWithdrawal;
+    private Long totalWithdrawal;
 }

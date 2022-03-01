@@ -4,7 +4,6 @@ package com.vietnam.lottery.business.grabRedPackets.entity;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -18,7 +17,7 @@ public class GrabRedPackets extends Model<GrabRedPackets> {
     //id
     private Long id;
     //金额
-    private BigDecimal amount;
+    private Long amount;
     //区间开始值
     private Integer intervalBeginValue;
     //区间结束值
@@ -43,11 +42,11 @@ public class GrabRedPackets extends Model<GrabRedPackets> {
         this.id = id;
     }
 
-    public BigDecimal getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

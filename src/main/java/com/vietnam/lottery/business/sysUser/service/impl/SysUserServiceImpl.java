@@ -30,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -320,13 +319,13 @@ public class SysUserServiceImpl implements SysUserService {
         //分佣余额
         CommissionAmountResponse commissionAmountResp = actingCommissionDetailMapper.commissionAmount(user.getId());
         //分佣提现余额
-        BigDecimal commissionWithdraw = withdrawDetailMapper.commissionWithdraw(commissionAmountResp.getId(), null);
-        BigDecimal commissionTotal = commissionAmountResp.getAmount().subtract(commissionWithdraw);
+        Long commissionWithdraw = withdrawDetailMapper.commissionWithdraw(commissionAmountResp.getId(), null);
+        Long commissionTotal = commissionAmountResp.getAmount() - (commissionWithdraw);
         resp.setCommissionBalanceAmount(commissionTotal);
         //红包余额
         LotteryAmountResponse lotteryAmountResp = lotteryDetailMapper.lotteryAmount(user.getId());
-        BigDecimal lotteryWithdraw = withdrawDetailMapper.commissionWithdraw(null, lotteryAmountResp.getId());
-        BigDecimal lotteryTotal = lotteryAmountResp.getAmount().subtract(lotteryWithdraw);
+        Long lotteryWithdraw = withdrawDetailMapper.commissionWithdraw(null, lotteryAmountResp.getId());
+        Long lotteryTotal = lotteryAmountResp.getAmount() - (lotteryWithdraw);
         resp.setRedEnvelopeAmount(lotteryTotal);
         return resp;
     }

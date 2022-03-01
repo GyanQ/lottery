@@ -4,7 +4,6 @@ package com.vietnam.lottery.business.actingCommissionDetail.entity;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -18,7 +17,7 @@ public class ActingCommissionDetail extends Model<ActingCommissionDetail> {
     //id
     private Long id;
     //分佣金额
-    private BigDecimal amount;
+    private Long amount;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
@@ -39,11 +38,11 @@ public class ActingCommissionDetail extends Model<ActingCommissionDetail> {
         this.id = id;
     }
 
-    public BigDecimal getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

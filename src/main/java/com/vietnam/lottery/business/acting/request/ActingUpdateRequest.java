@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class ActingUpdateRequest implements Serializable {
@@ -19,7 +18,7 @@ public class ActingUpdateRequest implements Serializable {
     private String level;
 
     @ApiModelProperty(value = "分佣比例")
-    private BigDecimal commissionRatio;
+    private Long commissionRatio;
 
     @ApiModelProperty(hidden = true)
     private Long updateBy;

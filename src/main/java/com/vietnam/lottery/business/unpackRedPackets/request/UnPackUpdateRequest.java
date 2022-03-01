@@ -4,9 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class UnPackUpdateRequest implements Serializable {
@@ -26,7 +24,7 @@ public class UnPackUpdateRequest implements Serializable {
     private Integer end;
 
     @ApiModelProperty(value = "中奖概率")
-    private BigDecimal probability;
+    private Long probability;
 
     @ApiModelProperty(hidden = true)
     private Long updateBy;

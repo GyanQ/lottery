@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class WithdrawListResponse extends PageRequest implements Serializable {
@@ -18,7 +17,7 @@ public class WithdrawListResponse extends PageRequest implements Serializable {
     private Long userId;
 
     @ApiModelProperty(value = "提现金额")
-    private BigDecimal amount;
+    private Long amount;
 
     @ApiModelProperty(value = "提现状态(1提现中 2已提现)")
     private String state;

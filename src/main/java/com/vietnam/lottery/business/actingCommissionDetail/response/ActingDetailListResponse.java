@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class ActingDetailListResponse implements Serializable {
@@ -17,8 +16,8 @@ public class ActingDetailListResponse implements Serializable {
     private Long actingId;
 
     @ApiModelProperty(value = "累计充值金额")
-    private BigDecimal amount;
+    private Long amount;
 
     @ApiModelProperty(value = "累计分佣金额")
-    private BigDecimal commissionAmount;
+    private Long commissionAmount;
 }

@@ -4,7 +4,6 @@ package com.vietnam.lottery.business.sysUser.entity;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -26,7 +25,7 @@ public class SysUser extends Model<SysUser> {
     //手机号码
     private String phone;
     //余额
-    private BigDecimal amount;
+    private Long amount;
     //登录方式(1账号 2FaceBook 3Google)
     private String loginWay;
     //删除标志（0代表存在、2代表删除）
@@ -80,11 +79,11 @@ public class SysUser extends Model<SysUser> {
         this.phone = phone;
     }
 
-    public BigDecimal getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

@@ -6,7 +6,6 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class ActingAddRequest implements Serializable {
@@ -18,7 +17,7 @@ public class ActingAddRequest implements Serializable {
 
     @ApiModelProperty(value = "分佣比例")
     @NotNull(message = "分佣比例不能为空")
-    private BigDecimal commissionRatio;
+    private Long commissionRatio;
 
     @ApiModelProperty(hidden = true)
     private Long createBy;

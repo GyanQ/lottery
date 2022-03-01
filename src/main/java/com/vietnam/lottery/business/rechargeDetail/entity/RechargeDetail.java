@@ -4,7 +4,6 @@ package com.vietnam.lottery.business.rechargeDetail.entity;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -18,7 +17,7 @@ public class RechargeDetail extends Model<RechargeDetail> {
     //id
     private Long id;
     //充值金额
-    private BigDecimal amount;
+    private Long amount;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
@@ -39,11 +38,11 @@ public class RechargeDetail extends Model<RechargeDetail> {
         this.id = id;
     }
 
-    public BigDecimal getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

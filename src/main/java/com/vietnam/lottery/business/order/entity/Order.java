@@ -1,28 +1,27 @@
-package com.vietnam.lottery.business.lotteryDetail.entity;
+package com.vietnam.lottery.business.order.entity;
 
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 开奖记录(LotteryDetail)表实体类
+ * 订单(Order)表实体类
  *
  * @author Gyan
- * @since 2022-02-17 12:17:13
+ * @since 2022-03-01 14:49:22
  */
 @SuppressWarnings("serial")
-public class LotteryDetail extends Model<LotteryDetail> {
+public class Order extends Model<Order> {
     //id
     private Long id;
-    //抢红包id
+    //抢红包配置id
     private Long grabRedPacketsId;
-    //拆红包id
-    private Long unpackRedPacketsId;
-    //抽奖金额
-    private Long amount;
-    //删除标志(0正常 1停用)
+    //支付类型(1zalo 2momo)
+    private String payType;
+    //支付状态(1待支付 2已支付 3取消支付 4待确认 5已退款)
+    private String payStatus;
+    //删除标志（0代表存在、1代表删除）
     private String delFlag;
     //创建人
     private Long createBy;
@@ -30,7 +29,7 @@ public class LotteryDetail extends Model<LotteryDetail> {
     private Date createDate;
     //修改人
     private Long updateBy;
-    //修改时间
+    //更新时间
     private Date updateDate;
 
 
@@ -50,20 +49,20 @@ public class LotteryDetail extends Model<LotteryDetail> {
         this.grabRedPacketsId = grabRedPacketsId;
     }
 
-    public Long getUnpackRedPacketsId() {
-        return unpackRedPacketsId;
+    public String getPayType() {
+        return payType;
     }
 
-    public void setUnpackRedPacketsId(Long unpackRedPacketsId) {
-        this.unpackRedPacketsId = unpackRedPacketsId;
+    public void setPayType(String payType) {
+        this.payType = payType;
     }
 
-    public Long getAmount() {
-        return amount;
+    public String getPayStatus() {
+        return payStatus;
     }
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
+    public void setPayStatus(String payStatus) {
+        this.payStatus = payStatus;
     }
 
     public String getDelFlag() {
@@ -115,5 +114,5 @@ public class LotteryDetail extends Model<LotteryDetail> {
     protected Serializable pkVal() {
         return this.id;
     }
-}
+    }
 

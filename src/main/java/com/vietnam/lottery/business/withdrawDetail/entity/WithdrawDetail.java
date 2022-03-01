@@ -4,7 +4,6 @@ package com.vietnam.lottery.business.withdrawDetail.entity;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -22,7 +21,7 @@ public class WithdrawDetail extends Model<WithdrawDetail> {
     //lottery_detail_id
     private Long lotteryDetailId;
     //金额
-    private BigDecimal amount;
+    private Long amount;
     //审核状态(1未审核 2审核未通过 3审核通过)
     private String audit;
     //提现状态(1提现中 2已提现)
@@ -71,11 +70,11 @@ public class WithdrawDetail extends Model<WithdrawDetail> {
         this.audit = audit;
     }
 
-    public BigDecimal getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

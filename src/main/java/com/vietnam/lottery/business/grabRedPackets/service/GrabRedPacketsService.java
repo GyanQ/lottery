@@ -1,10 +1,7 @@
 package com.vietnam.lottery.business.grabRedPackets.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.grabRedPackets.request.AddRequest;
-import com.vietnam.lottery.business.grabRedPackets.request.DeleteRequest;
-import com.vietnam.lottery.business.grabRedPackets.request.ListRequest;
-import com.vietnam.lottery.business.grabRedPackets.request.UpdateRequest;
+import com.vietnam.lottery.business.grabRedPackets.request.*;
 import com.vietnam.lottery.business.grabRedPackets.response.DetailResponse;
 import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -33,5 +30,6 @@ public interface GrabRedPacketsService {
     Page<ListResponse> list(ListRequest request);
 
     /* 下注 */
+    ResultModel bet(BetRequest request);
 }
 

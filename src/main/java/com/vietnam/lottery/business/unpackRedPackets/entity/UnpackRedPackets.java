@@ -2,8 +2,8 @@ package com.vietnam.lottery.business.unpackRedPackets.entity;
 
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -23,7 +23,7 @@ public class UnpackRedPackets extends Model<UnpackRedPackets> {
     //区间结束值
     private Integer intervalEndValue;
     //中奖概率
-    private BigDecimal probability;
+    private Long probability;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
@@ -68,11 +68,11 @@ public class UnpackRedPackets extends Model<UnpackRedPackets> {
         this.intervalEndValue = intervalEndValue;
     }
 
-    public BigDecimal getProbability() {
+    public Long getProbability() {
         return probability;
     }
 
-    public void setProbability(BigDecimal probability) {
+    public void setProbability(Long probability) {
         this.probability = probability;
     }
 
@@ -125,5 +125,5 @@ public class UnpackRedPackets extends Model<UnpackRedPackets> {
     protected Serializable pkVal() {
         return this.id;
     }
-    }
+}
 

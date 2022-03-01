@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class AddRequest implements Serializable {
@@ -13,7 +12,7 @@ public class AddRequest implements Serializable {
 
     @ApiModelProperty(value = "抢红包下注金额")
     @NotNull(message = "下注金额不能为空")
-    private BigDecimal amount;
+    private Long amount;
 
     @ApiModelProperty(value = "区间开始值")
     @NotNull(message = "区间开始值不能为空")
