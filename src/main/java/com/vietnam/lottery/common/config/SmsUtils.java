@@ -1,7 +1,6 @@
 package com.vietnam.lottery.common.config;
 
 import com.aliyuncs.CommonRequest;
-import com.aliyuncs.CommonResponse;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
@@ -28,8 +27,7 @@ public class SmsUtils {
         request.putQueryParameter("To", to);
         request.putQueryParameter("Message", "[ Lì xì may mắn ] mã xác nhận:" + code);
         try {
-            CommonResponse response = client.getCommonResponse(request);
-            System.out.println(response.getData()); //回显消息
+            client.getCommonResponse(request);
         } catch (ServerException e) {
             e.printStackTrace();
         } catch (ClientException e) {
