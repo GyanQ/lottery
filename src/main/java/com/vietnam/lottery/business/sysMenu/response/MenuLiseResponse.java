@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 public class MenuLiseResponse implements Serializable {
@@ -19,13 +18,4 @@ public class MenuLiseResponse implements Serializable {
 
     @ApiModelProperty(value = "顺序")
     private Integer sort;
-
-    @ApiModelProperty(value = "删除标志(0正常 1删除)")
-    private String delFlag;
-
-    @ApiModelProperty(value = "创建人")
-    private Long createBy;
-
-    @ApiModelProperty(value = "创建时间")
-    private Date createDate;
 }

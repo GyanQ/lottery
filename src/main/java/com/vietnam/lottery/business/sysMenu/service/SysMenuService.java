@@ -1,13 +1,13 @@
 package com.vietnam.lottery.business.sysMenu.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysMenu.request.MenuAddRequest;
 import com.vietnam.lottery.business.sysMenu.request.MenuDeleteRequest;
-import com.vietnam.lottery.business.sysMenu.request.MenuListRequest;
 import com.vietnam.lottery.business.sysMenu.request.MenuUpdateRequest;
 import com.vietnam.lottery.business.sysMenu.response.MenuDetailResponse;
 import com.vietnam.lottery.business.sysMenu.response.MenuLiseResponse;
 import com.vietnam.lottery.common.utils.ResultModel;
+
+import java.util.List;
 
 /**
  * 菜单权限(SysMenu)表服务接口
@@ -21,7 +21,7 @@ public interface SysMenuService {
     ResultModel add(MenuAddRequest request);
 
     /* 列表 */
-    Page<MenuLiseResponse> list(MenuListRequest request);
+    List<MenuLiseResponse> list();
 
     /* 修改 */
     ResultModel update(MenuUpdateRequest request);

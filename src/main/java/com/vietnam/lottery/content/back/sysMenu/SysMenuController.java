@@ -1,9 +1,7 @@
 package com.vietnam.lottery.content.back.sysMenu;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysMenu.request.MenuAddRequest;
 import com.vietnam.lottery.business.sysMenu.request.MenuDeleteRequest;
-import com.vietnam.lottery.business.sysMenu.request.MenuListRequest;
 import com.vietnam.lottery.business.sysMenu.request.MenuUpdateRequest;
 import com.vietnam.lottery.business.sysMenu.response.MenuDetailResponse;
 import com.vietnam.lottery.business.sysMenu.response.MenuLiseResponse;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @Api(tags = "菜单配置")
@@ -59,8 +58,8 @@ public class SysMenuController {
 
     @PostMapping("/list")
     @ApiOperation("列表")
-    public ResultModel<Page<MenuLiseResponse>> list(@RequestBody MenuListRequest request) {
-        return ResultUtil.success(sysMenuService.list(request));
+    public ResultModel<List<MenuLiseResponse>> list() {
+        return ResultUtil.success(sysMenuService.list());
     }
 
     @PostMapping("/delete")

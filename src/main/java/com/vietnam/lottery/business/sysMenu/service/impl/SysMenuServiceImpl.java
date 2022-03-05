@@ -2,12 +2,10 @@ package com.vietnam.lottery.business.sysMenu.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysMenu.entity.SysMenu;
 import com.vietnam.lottery.business.sysMenu.mapper.SysMenuMapper;
 import com.vietnam.lottery.business.sysMenu.request.MenuAddRequest;
 import com.vietnam.lottery.business.sysMenu.request.MenuDeleteRequest;
-import com.vietnam.lottery.business.sysMenu.request.MenuListRequest;
 import com.vietnam.lottery.business.sysMenu.request.MenuUpdateRequest;
 import com.vietnam.lottery.business.sysMenu.response.MenuDetailResponse;
 import com.vietnam.lottery.business.sysMenu.response.MenuLiseResponse;
@@ -47,26 +45,20 @@ public class SysMenuServiceImpl implements SysMenuService {
     }
 
     @Override
-    public Page<MenuLiseResponse> list(MenuListRequest request) {
-        Page<SysMenu> page = new Page<>(request.getCurrent(), request.getSize());
-        Page<SysMenu> iPage = sysMenuMapper.selectPage(page, new QueryWrapper<SysMenu>().orderByAsc("sort"));
-        Page<MenuLiseResponse> responsePage = new Page<>(iPage.getCurrent(), iPage.getSize(), iPage.getTotal());
-        if (CollectionUtils.isEmpty(iPage.getRecords())) {
-            return responsePage;
+    public List<MenuLiseResponse> list() {
+        List<SysMenu> list = sysMenuMapper.selectList(new QueryWrapper<SysMenu>().orderByAsc("sort"));
+        List<MenuLiseResponse> responseList = new ArrayList<>();
+        if (CollectionUtils.isEmpty(list)) {
+            return responseList;
         }
-        List<MenuLiseResponse> list = new ArrayList<>();
-        iPage.getRecords().forEach(o -> {
+        list.forEach(o -> {
             MenuLiseResponse response = new MenuLiseResponse();
             response.setId(o.getId());
             response.setName(o.getName());
             response.setSort(o.getSort());
-            response.setDelFlag(o.getDelFlag());
-            response.setCreateBy(o.getCreateBy());
-            response.setCreateDate(o.getCreateDate());
-            list.add(response);
+            responseList.add(response);
         });
-        responsePage.setRecords(list);
-        return responsePage;
+        return responseList;
     }
 
     @Override
