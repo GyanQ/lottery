@@ -20,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -44,39 +46,62 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
         QueryWrapper<SysRoleMenu> query = new QueryWrapper<>();
         query.eq("role_id", request.getRoleId()).eq("del_flag", DelFlagEnum.CODE.getCode());
         List<SysRoleMenu> roleMenuList = sysRoleMenuMapper.selectList(query);
+
+
+        //如果没有菜单权限直接新增
         if (CollectionUtils.isEmpty(roleMenuList)) {
-            return ResultUtil.success();
-        }
-        //菜单id
-        List<Long> menuIds = roleMenuList.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList());
-
-        //需要新增的菜单
-        List<Long> AddMenuIds = request.getMenuId().stream().filter(o -> !menuIds.contains(o)).collect(Collectors.toList());
-        if (!CollectionUtils.isEmpty(AddMenuIds)) {
-            AddMenuIds.forEach(o -> {
-                SysRoleMenu addMenu = new SysRoleMenu();
-                addMenu.setRoleId(request.getRoleId());
-                addMenu.setMenuId(o);
-                addMenu.setCreateBy(request.getUpdateBy());
-                sysRoleMenuMapper.insert(addMenu);
+            SysRoleMenu menu = new SysRoleMenu();
+            request.getMenuId().forEach(o -> {
+                menu.setMenuId(o);
+                menu.setRoleId(request.getRoleId());
+                menu.setCreateBy(request.getUpdateBy());
+                sysRoleMenuMapper.insert(menu);
             });
         }
-
-        //需要删除的菜单
-        List<Long> deleteMenuIds = menuIds.stream().filter(o -> request.getMenuId().contains(o)).collect(Collectors.toList());
-        if (!CollectionUtils.isEmpty(deleteMenuIds)) {
-            AddMenuIds.forEach(o -> {
+        //删除全部菜单权限
+        if (CollectionUtils.isEmpty(request.getMenuId()) && !CollectionUtils.isEmpty(roleMenuList)) {
+            roleMenuList.forEach(o -> {
                 SysRoleMenu deleteMenu = new SysRoleMenu();
+                deleteMenu.setId(o.getId());
                 deleteMenu.setDelFlag(DelFlagEnum.MESSAGE.getCode());
-                QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper();
-                queryWrapper.eq("role_id", request.getRoleId()).eq("menu_id", o);
-                sysRoleMenuMapper.update(deleteMenu, queryWrapper);
+                sysRoleMenuMapper.updateById(deleteMenu);
             });
+        }
+
+        if (!CollectionUtils.isEmpty(roleMenuList)) {
+            //单独提出角色所有权限的菜单id
+            List<Long> menuIds = roleMenuList.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList());
+
+            //删除菜单权限
+            List<Long> deleteMenuLists = menuIds.stream().filter(o -> !request.getMenuId().contains(o)).collect(Collectors.toList());
+            if (!CollectionUtils.isEmpty(deleteMenuLists)) {
+                deleteMenuLists.forEach(o -> {
+                    QueryWrapper<SysRoleMenu> deleteWr = new QueryWrapper<>();
+                    deleteWr.eq("role_id", request.getRoleId()).eq("menu_id", o).eq("del_flag", DelFlagEnum.CODE.getCode());
+                    SysRoleMenu menu = new SysRoleMenu();
+                    menu.setDelFlag(DelFlagEnum.MESSAGE.getCode());
+                    menu.setUpdateBy(request.getUpdateBy());
+                    menu.setUpdateDate(new Date());
+                    sysRoleMenuMapper.update(menu, deleteWr);
+                });
+
+            }
+            //新增菜单权限
+            Set<Long> addMenuIds = request.getMenuId().stream().filter(o -> !menuIds.contains(o)).collect(Collectors.toSet());
+            if (!CollectionUtils.isEmpty(addMenuIds)) {
+                addMenuIds.forEach(o -> {
+                    SysRoleMenu roleMenu = new SysRoleMenu();
+                    roleMenu.setRoleId(request.getRoleId());
+                    roleMenu.setMenuId(o);
+                    roleMenu.setCreateBy(request.getUpdateBy());
+                    sysRoleMenuMapper.insert(roleMenu);
+                });
+            }
         }
 
         //操作记录
         SysOperateRecord record = new SysOperateRecord();
-        record.setModule("角色管理");
+        record.setModule("菜单配置");
         record.setOperate("新增or修改");
         record.setContent("新增或者修改菜单配置");
         record.setCreateBy(request.getUpdateBy());
@@ -86,10 +111,11 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     @Override
     public List<MenuPermissionsResponse> getByRoleMenuPermissions(Long roleId) {
         List<MenuPermissionResponse> list = sysUserMapper.selectMenuPermission(roleId);
-        if (CollectionUtils.isEmpty(list)) {
-            return null;
-        }
+
         List<MenuPermissionsResponse> responsesList = new ArrayList<>();
+        if (CollectionUtils.isEmpty(list)) {
+            return responsesList;
+        }
         list.forEach(o -> {
             MenuPermissionsResponse response = new MenuPermissionsResponse();
             response.setId(o.getId());
