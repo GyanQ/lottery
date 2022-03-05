@@ -11,12 +11,9 @@ public class RoleListResponse implements Serializable {
     private static final long serialVersionUID = -7371509006472383033L;
 
     @ApiModelProperty(value = "id")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "角色名称")
     private String name;
-
-    @ApiModelProperty(value = "排序")
-    private Integer sort;
 }
 

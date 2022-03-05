@@ -12,8 +12,5 @@ public class RoleDetailResponse implements Serializable {
 
     @ApiModelProperty(value = "角色名称")
     private String name;
-
-    @ApiModelProperty(value = "排序")
-    private Integer sort;
 }
 

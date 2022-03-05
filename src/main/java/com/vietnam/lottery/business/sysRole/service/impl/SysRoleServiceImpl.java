@@ -40,7 +40,6 @@ public class SysRoleServiceImpl implements SysRoleService {
         SysRole role = new SysRole();
         role.setName(request.getName());
         role.setCreateBy(request.getCreateBy());
-        role.setSort(request.getSort());
 
         //操作记录
         SysOperateRecord record = new SysOperateRecord();
@@ -56,9 +55,9 @@ public class SysRoleServiceImpl implements SysRoleService {
     public Page<RoleListResponse> list(RoleListRequest request) {
         Page<SysRole> page = new Page<>(request.getCurrent(), request.getSize());
         QueryWrapper<SysRole> query = new QueryWrapper<>();
-        query.like("name", request.getName());
+        query.like(null != request.getName(), "name", request.getName());
         query.eq("del_flag", DelFlagEnum.CODE.getCode());
-        query.orderByAsc("sort");
+        query.orderByAsc("create_date");
         Page<SysRole> iPage = sysRoleMapper.selectPage(page, query);
         Page<RoleListResponse> responsePage = new Page<>(iPage.getCurrent(), iPage.getSize(), iPage.getTotal());
         if (CollectionUtils.isEmpty(iPage.getRecords())) return responsePage;
@@ -82,7 +81,6 @@ public class SysRoleServiceImpl implements SysRoleService {
             return ResultUtil.failure("无法查询到此数据!");
         }
         role.setName(request.getName());
-        role.setSort(request.getSort());
         role.setUpdateBy(request.getUpdateBy());
         role.setUpdateDate(new Date());
 
@@ -103,7 +101,6 @@ public class SysRoleServiceImpl implements SysRoleService {
 
         RoleDetailResponse response = new RoleDetailResponse();
         response.setName(role.getName());
-        response.setSort(role.getSort());
         return response;
     }
 

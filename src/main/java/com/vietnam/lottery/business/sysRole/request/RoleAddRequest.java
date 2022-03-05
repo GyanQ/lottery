@@ -15,10 +15,6 @@ public class RoleAddRequest implements Serializable {
     @NotBlank(message = "角色名称不能为空")
     private String name;
 
-    @ApiModelProperty(value = "排序")
-    @NotNull(message = "排序不能为空")
-    private Integer sort;
-
     @ApiModelProperty(hidden = true)
     private Long createBy;
 }

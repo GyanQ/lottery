@@ -14,11 +14,9 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class SysRole extends Model<SysRole> {
     //id
-    private Long id;
+    private String id;
     //角色名称
     private String name;
-    //排序
-    private Integer sort;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
@@ -31,11 +29,11 @@ public class SysRole extends Model<SysRole> {
     private Date updateDate;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,14 +43,6 @@ public class SysRole extends Model<SysRole> {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
     }
 
     public String getDelFlag() {

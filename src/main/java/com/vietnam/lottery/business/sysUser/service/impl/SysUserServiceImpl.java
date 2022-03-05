@@ -71,10 +71,11 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("userId", user.getId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
+        map.put("account", user.getAccount());
 
         //操作记录
         SysOperateRecord record = new SysOperateRecord();
-        record.setModule("管理后台登录");
+        record.setModule("首页登录");
         record.setOperate("登录");
         record.setContent("管理后台登录");
         String userId = JwtUtil.parseToken(token);
@@ -114,6 +115,9 @@ public class SysUserServiceImpl implements SysUserService {
         //校验密码
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
         if (!flag) throw new GlobalException("密码错误！");
+
+        //推广
+
 
         //add留存记录
         Boolean keep = isKeep(user.getId());
@@ -332,7 +336,11 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public PromoteResponse promote(Long id) {
-        return null;
+        PromoteResponse resp = new PromoteResponse();
+        resp.setUserId(id);
+        //todo: 这里是项目登录地址
+        resp.setUrl(null);
+        return resp;
     }
 
     @Override

@@ -39,7 +39,7 @@ public class HomeLoginController {
         }
         Map<String, Object> map = sysUserService.login(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
-        return ResultUtil.success("登录成功！");
+        return ResultUtil.success(map);
     }
 
     @PostMapping("/getPermission")

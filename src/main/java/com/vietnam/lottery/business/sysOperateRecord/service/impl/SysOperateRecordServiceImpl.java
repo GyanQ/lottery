@@ -12,6 +12,7 @@ import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 操作记录(SysOperateRecord)表服务实现类
@@ -25,6 +26,7 @@ public class SysOperateRecordServiceImpl extends ServiceImpl<SysOperateRecordMap
     private SysOperateRecordMapper sysOperateRecordMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultModel add(SysOperateRecord request) {
         SysOperateRecord record = new SysOperateRecord();
         record.setModule(request.getModule());
