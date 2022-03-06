@@ -6,14 +6,14 @@
         from recharge_detail a
         inner join sys_user b on a.create_by = b.id
         where 1 = 1
-        <if test="request.userId != null and request.userId != ''">
-            and b.id = #{request.userId}
+        <if test="request.keyWord != null and request.keyWord != ''">
+            and b.id = #{request.keyWord}
         </if>
-        <if test="request.account != null and request.account != ''">
-            and b.account = #{request.account}
+        <if test="request.keyWord != null and request.keyWord != ''">
+            and b.account = #{request.keyWord}
         </if>
-        <if test="request.phone != null and request.phone != ''">
-            and b.phone = #{request.phone}
+        <if test="request.keyWord != null and request.keyWord != ''">
+            and b.phone = #{request.keyWord}
         </if>
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(a.create_date, '%Y-%m-%d') &gt;= date_format(#{request.beginDate}, '%Y-%m-%d')

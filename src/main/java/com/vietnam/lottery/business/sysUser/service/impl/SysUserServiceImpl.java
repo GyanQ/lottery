@@ -416,22 +416,26 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel userRole(UserRoleRequest request) {
-        SysUserRoleRelation userRole = sysUserRoleRelationMapper.selectOne(new QueryWrapper<SysUserRoleRelation>().eq("user_id", request.getUserId()).eq("role_id", request.getRoleId()).eq("del_flag", DelFlagEnum.CODE.getCode()));
+        SysUserRoleRelation userRole = sysUserRoleRelationMapper.selectOne(new QueryWrapper<SysUserRoleRelation>().eq("user_id", request.getUserId()).eq("del_flag", DelFlagEnum.CODE.getCode()));
         if (ObjectUtil.isEmpty(userRole)) {
-            return ResultUtil.success();
+            SysUserRoleRelation userRoleRelation = new SysUserRoleRelation();
+            userRoleRelation.setRoleId(request.getRoleId());
+            userRoleRelation.setUserId(request.getUserId());
+            userRoleRelation.setCreateBy(request.getCreateBy());
+            sysUserRoleRelationMapper.insert(userRoleRelation);
+        } else {
+            userRole.setRoleId(request.getRoleId());
+            userRole.setUpdateBy(request.getCreateBy());
+            userRole.setUpdateDate(new Date());
+            sysUserRoleRelationMapper.updateById(userRole);
         }
-        userRole.setRoleId(request.getRoleId());
-        userRole.setUpdateBy(request.getCreateBy());
-        userRole.setUpdateDate(new Date());
-
         //操作记录
         SysOperateRecord record = new SysOperateRecord();
         record.setModule("账户管理");
         record.setOperate("角色配置");
         record.setContent("修改");
         record.setCreateBy(request.getCreateBy());
-        sysOperateRecordService.add(record);
-        return ResultUtil.success(sysUserRoleRelationMapper.updateById(userRole));
+        return ResultUtil.success(sysOperateRecordService.add(record));
     }
 
     /* 账号是否唯一 */

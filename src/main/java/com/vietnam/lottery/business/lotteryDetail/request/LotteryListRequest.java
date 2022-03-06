@@ -11,20 +11,14 @@ import java.io.Serializable;
 public class LotteryListRequest extends PageRequest implements Serializable {
     private static final long serialVersionUID = -4915813726129006929L;
 
-    @ApiModelProperty(value = "userId")
-    private String userId;
-
-    @ApiModelProperty(value = "手机")
-    private String phone;
-
-    @ApiModelProperty(value = "账号")
-    private String account;
+    @ApiModelProperty(value = "账号、手机号、userId")
+    private String keyWord;
 
     @ApiModelProperty(value = "开始时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private String beginDate;
 
     @ApiModelProperty(value = "结束时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private String endDate;
 }
