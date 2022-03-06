@@ -32,7 +32,8 @@
         a.account as account,
         c.name as roleName,
         a.name as name,
-        a.del_flag as delFlag
+        a.del_flag as delFlag,
+        c.id as id
         from sys_user a
         left join sys_user_role_relation b on a.id = b.user_id
         left join sys_role c on b.role_id = c.id

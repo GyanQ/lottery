@@ -17,6 +17,7 @@ import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
 import com.vietnam.lottery.business.sysUser.request.*;
 import com.vietnam.lottery.business.sysUser.response.*;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
+import com.vietnam.lottery.business.sysUserRoleRelation.entity.SysUserRoleRelation;
 import com.vietnam.lottery.business.sysUserRoleRelation.mapper.SysUserRoleRelationMapper;
 import com.vietnam.lottery.business.withdrawDetail.mapper.WithdrawDetailMapper;
 import com.vietnam.lottery.common.config.JwtUtil;
@@ -415,8 +416,22 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel userRole(UserRoleRequest request) {
+        SysUserRoleRelation userRole = sysUserRoleRelationMapper.selectOne(new QueryWrapper<SysUserRoleRelation>().eq("user_id", request.getUserId()).eq("role_id", request.getRoleId()).eq("del_flag", DelFlagEnum.CODE.getCode()));
+        if (ObjectUtil.isEmpty(userRole)) {
+            return ResultUtil.success();
+        }
+        userRole.setRoleId(request.getRoleId());
+        userRole.setUpdateBy(request.getCreateBy());
+        userRole.setUpdateDate(new Date());
 
-        return null;
+        //操作记录
+        SysOperateRecord record = new SysOperateRecord();
+        record.setModule("账户管理");
+        record.setOperate("角色配置");
+        record.setContent("修改");
+        record.setCreateBy(request.getCreateBy());
+        sysOperateRecordService.add(record);
+        return ResultUtil.success(sysUserRoleRelationMapper.updateById(userRole));
     }
 
     /* 账号是否唯一 */

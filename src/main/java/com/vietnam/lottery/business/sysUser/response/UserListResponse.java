@@ -16,6 +16,9 @@ UserListResponse implements Serializable {
     @ApiModelProperty(value = "账号")
     private String account;
 
+    @ApiModelProperty(value = "roleId")
+    private String roleId;
+
     @ApiModelProperty(value = "所属角色")
     private String roleName;
 
