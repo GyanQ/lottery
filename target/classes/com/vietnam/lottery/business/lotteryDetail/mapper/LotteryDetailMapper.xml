@@ -11,14 +11,14 @@
         inner join unpack_red_packets b on a.unpack_red_packets_id = b.id
         inner join sys_user c on a.create_by = c.id
         where 1 = 1
-        <if test="request.userId != null and request.userId != ''">
-            and c.id = #{request.userId}
+        <if test="request.keyWord != null and request.keyWord != ''">
+            and c.id = #{request.keyWord}
         </if>
-        <if test="request.account != null and request.account != ''">
-            and c.account = #{request.account}
+        <if test="request.keyWord != null and request.keyWord != ''">
+            and c.account = #{request.keyWord}
         </if>
-        <if test="request.phone != null and request.phone != ''">
-            and c.phone = #{request.phone}
+        <if test="request.keyWord != null and request.keyWord != ''">
+            and c.phone = #{request.keyWord}
         </if>
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(a.create_date, '%Y-%m-%d') &gt;= date_format(#{request.beginDate}, '%Y-%m-%d')
