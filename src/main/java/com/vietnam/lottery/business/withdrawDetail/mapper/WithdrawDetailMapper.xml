@@ -6,10 +6,10 @@
         a.id as id,
         b.id as userId,
         a.amount as amount,
-        a.state as state,
+        a.audit as audit,
         a.create_date as createDate
         from withdraw_detail a
-        inner join sys_user b on a.user_id = b.id
+        inner join sys_user b on a.create_by = b.id
         where 1 = 1
         <if test="request.keyWord != null and request.keyWord != ''">
             and b.id = #{request.keyWord}

@@ -24,4 +24,7 @@ public class WithdrawListResponse extends PageRequest implements Serializable {
 
     @ApiModelProperty(value = "提现时间")
     private String createDate;
+
+    @ApiModelProperty(value = "审核状态(1未审核 2审核未通过 3审核通过 4审核中)")
+    private String audit;
 }
