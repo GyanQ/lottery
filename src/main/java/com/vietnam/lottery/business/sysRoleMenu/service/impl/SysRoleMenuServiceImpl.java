@@ -1,5 +1,6 @@
 package com.vietnam.lottery.business.sysRoleMenu.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
@@ -44,7 +45,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     @Transactional(rollbackFor = Exception.class)
     public ResultModel menuConfig(menuConfigRequest request) {
         QueryWrapper<SysRoleMenu> query = new QueryWrapper<>();
-        query.eq("role_id", request.getRoleId()).eq("del_flag", DelFlagEnum.CODE.getCode());
+        query.eq("role_id", request.getRoleId());
         List<SysRoleMenu> roleMenuList = sysRoleMenuMapper.selectList(query);
 
 
@@ -61,10 +62,12 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
         //删除全部菜单权限
         if (CollectionUtils.isEmpty(request.getMenuId()) && !CollectionUtils.isEmpty(roleMenuList)) {
             roleMenuList.forEach(o -> {
-                SysRoleMenu deleteMenu = new SysRoleMenu();
-                deleteMenu.setId(o.getId());
-                deleteMenu.setDelFlag(DelFlagEnum.MESSAGE.getCode());
-                sysRoleMenuMapper.updateById(deleteMenu);
+                SysRoleMenu deleteMenu = sysRoleMenuMapper.selectById(o.getId());
+                if (!ObjectUtil.isEmpty(deleteMenu)) {
+                    deleteMenu.setId(o.getId());
+                    deleteMenu.setDelFlag(DelFlagEnum.MESSAGE.getCode());
+                    sysRoleMenuMapper.updateById(deleteMenu);
+                }
             });
         }
 
@@ -90,11 +93,21 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
             Set<Long> addMenuIds = request.getMenuId().stream().filter(o -> !menuIds.contains(o)).collect(Collectors.toSet());
             if (!CollectionUtils.isEmpty(addMenuIds)) {
                 addMenuIds.forEach(o -> {
-                    SysRoleMenu roleMenu = new SysRoleMenu();
-                    roleMenu.setRoleId(request.getRoleId());
-                    roleMenu.setMenuId(o);
-                    roleMenu.setCreateBy(request.getUpdateBy());
-                    sysRoleMenuMapper.insert(roleMenu);
+                    QueryWrapper<SysRoleMenu> addWr = new QueryWrapper<>();
+                    addWr.eq("role_id", request.getRoleId()).eq("menu_id", o);
+                    SysRoleMenu addMenu = sysRoleMenuMapper.selectOne(addWr);
+                    if (ObjectUtil.isEmpty(addMenu)) {
+                        SysRoleMenu roleMenu = new SysRoleMenu();
+                        roleMenu.setRoleId(request.getRoleId());
+                        roleMenu.setMenuId(o);
+                        roleMenu.setCreateBy(request.getUpdateBy());
+                        sysRoleMenuMapper.insert(roleMenu);
+                    } else {
+                        addMenu.setDelFlag(DelFlagEnum.CODE.getCode());
+                        addMenu.setUpdateBy(request.getUpdateBy());
+                        addMenu.setUpdateDate(new Date());
+                        sysRoleMenuMapper.updateById(addMenu);
+                    }
                 });
             }
         }

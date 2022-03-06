@@ -159,8 +159,12 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public UserGetPermissionResponse getPermission(Long id) {
         UserGetPermissionResponse response = sysUserMapper.selectRoleName(id);
-        List<MenuPermissionResponse> menuPermission = sysUserMapper.selectMenuPermission(response.getRoleId());
-        response.setList(menuPermission);
+        if (!ObjectUtil.isEmpty(response)){
+            List<MenuPermissionResponse> menuPermission = sysUserMapper.selectMenuPermission(response.getRoleId());
+            if (!CollectionUtils.isEmpty(menuPermission)){
+                response.setList(menuPermission);
+            }
+        }
         return response;
     }
 

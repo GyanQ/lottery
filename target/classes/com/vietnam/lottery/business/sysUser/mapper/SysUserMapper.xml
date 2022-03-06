@@ -3,10 +3,10 @@
 <mapper namespace="com.vietnam.lottery.business.sysUser.mapper.SysUserMapper">
 
     <select id="selectRoleName" resultType="com.vietnam.lottery.business.sysUser.response.UserGetPermissionResponse">
-        select b.name as role, b.id as roleId
+        select b.id as roleId
         from sys_user_role_relation a
                  inner join sys_role b on a.role_id = b.id
-        where a.user_id = #{id}
+        where a.user_id = #{id} and a.del_flag = 0
     </select>
     <select id="selectMenuPermission"
             resultType="com.vietnam.lottery.business.sysUser.response.MenuPermissionResponse">
@@ -15,8 +15,8 @@
                c.id   as id
         from sys_role a
                  inner join sys_role_menu b on a.id = b.role_id
-                 inner join sys_menu c on a.menu_id = c.id
-        where a.id = #{id}
+                 inner join sys_menu c on b.menu_id = c.id
+        where a.id = #{id} and b.del_flag = 0
     </select>
     <select id="isSuperAdmin" resultType="java.lang.Boolean">
         select count(0)

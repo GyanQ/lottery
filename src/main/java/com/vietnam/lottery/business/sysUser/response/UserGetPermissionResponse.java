@@ -15,9 +15,6 @@ public class UserGetPermissionResponse implements Serializable {
     @ApiModelProperty(hidden = true)
     private Long roleId;
 
-    @ApiModelProperty(value = "角色")
-    private String role;
-
     @ApiModelProperty(value = "菜单")
     List<MenuPermissionResponse> list = new ArrayList<>();
 }
