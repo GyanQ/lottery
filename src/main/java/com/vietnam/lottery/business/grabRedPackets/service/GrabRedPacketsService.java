@@ -6,6 +6,9 @@ import com.vietnam.lottery.business.grabRedPackets.response.DetailResponse;
 import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
 import com.vietnam.lottery.common.utils.ResultModel;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
 /**
  * 抢红包(GrabRedPackets)表服务接口
  *
@@ -31,5 +34,8 @@ public interface GrabRedPacketsService {
 
     /* 下注 */
     ResultModel bet(BetRequest request);
+
+    /* 支付回调 */
+    Map<String, Object> callBack(HttpServletRequest httpServletRequest);
 }
 

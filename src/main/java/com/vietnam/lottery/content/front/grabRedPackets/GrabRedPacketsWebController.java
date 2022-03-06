@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @Api(tags = "抢红包")
@@ -40,8 +41,13 @@ public class GrabRedPacketsWebController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setCreateBy(Long.valueOf(userId));
+        request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(grabRedPacketsService.bet(request));
+    }
+
+    @PostMapping("/callBack")
+    @ApiOperation("支付回调")
+    public Map<String, Object> callBack(HttpServletRequest httpServletRequest) {
+        return grabRedPacketsService.callBack(httpServletRequest);
     }
 }

@@ -19,5 +19,5 @@ public class UpdatePawRequest implements Serializable {
     private String newPassWord;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

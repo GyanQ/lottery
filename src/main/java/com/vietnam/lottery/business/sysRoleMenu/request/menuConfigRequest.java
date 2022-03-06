@@ -13,11 +13,11 @@ public class menuConfigRequest implements Serializable {
 
     @ApiModelProperty(value = "角色id")
     @NotNull(message = "角色id不能为空")
-    private Long roleId;
+    private String roleId;
 
     @ApiModelProperty(value = "菜单id")
-    private List<Long> menuId;
+    private List<String> menuId;
 
     @ApiModelProperty(hidden = true)
-    private Long updateBy;
+    private String updateBy;
 }

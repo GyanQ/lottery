@@ -13,5 +13,5 @@ public class LowerLevelListRequest extends PageRequest implements Serializable {
 
     @ApiModelProperty(value = "用户id")
     @NotNull(message = "用户id不能为空")
-    private Long userId;
+    private String userId;
 }

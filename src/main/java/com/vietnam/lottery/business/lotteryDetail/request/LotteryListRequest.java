@@ -12,7 +12,7 @@ public class LotteryListRequest extends PageRequest implements Serializable {
     private static final long serialVersionUID = -4915813726129006929L;
 
     @ApiModelProperty(value = "userId")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "手机")
     private String phone;

@@ -21,10 +21,10 @@ import java.util.List;
 @Mapper
 public interface SysUserMapper extends BaseMapper<SysUser> {
     /* 查询角色名称 */
-    UserGetPermissionResponse selectRoleName(@Param("id") Long id);
+    UserGetPermissionResponse selectRoleName(@Param("id") String id);
 
     /* 查询角色菜单权限 */
-    List<MenuPermissionResponse> selectMenuPermission(@Param("id") Long id);
+    List<MenuPermissionResponse>  selectMenuPermission(@Param("id") String id);
 
     /* 查询当前账号是否是超级管理员 */
     Boolean isSuperAdmin(@Param("name") String name);
@@ -39,6 +39,6 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     Page<GrabRedPacketsListResponse> redPacketsList(@Param("page") Page page, @Param("request") GrabRedPacketsListRequest request);
 
     /* 用户详情 */
-    UserDetailResponse detail(@Param("id") Long id);
+    UserDetailResponse detail(@Param("id") String id);
 }
 

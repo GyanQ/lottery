@@ -10,7 +10,7 @@ public class ListResponse implements Serializable {
     private static final long serialVersionUID = 6100185547611792135L;
 
     @ApiModelProperty(value = "id")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "抢红包下注金额")
     private Long amount;

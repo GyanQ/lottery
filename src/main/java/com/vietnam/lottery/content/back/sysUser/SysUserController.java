@@ -31,8 +31,7 @@ public class SysUserController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setCreateBy(Long.valueOf(userId));
+        request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysUserService.updatePaw(request));
     }
 
@@ -43,8 +42,7 @@ public class SysUserController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setCreateBy(Long.valueOf(userId));
+        request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysUserService.createAccount(request));
     }
 
@@ -55,8 +53,7 @@ public class SysUserController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setCreateBy(Long.valueOf(userId));
+        request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysUserService.resetPaw(request));
     }
 
@@ -68,7 +65,7 @@ public class SysUserController {
 
     @GetMapping("/detail/{id}")
     @ApiOperation("详情")
-    public ResultModel<UserDetailResponse> detail(@PathVariable("id") Long id) {
+    public ResultModel<UserDetailResponse> detail(@PathVariable("id") String id) {
         return ResultUtil.success(sysUserService.detail(id));
     }
 
@@ -79,8 +76,18 @@ public class SysUserController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setCreateBy(Long.valueOf(userId));
+        request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysUserService.update(request));
+    }
+
+    @PostMapping("/userRole")
+    @ApiOperation("用户角色配置")
+    public ResultModel userRole(@RequestBody @Valid UserRoleRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        request.setCreateBy(JwtUtil.parseToken(token));
+        return ResultUtil.success(sysUserService.userRole(request));
     }
 }

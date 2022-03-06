@@ -14,7 +14,7 @@ public class ActingDetailListRequest extends PageRequest implements Serializable
     private String phone;
 
     @ApiModelProperty(value = "用户id")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "排序 1用户充值升序  2用户充值降序 3分佣收益升序 4分佣收益降序")
     private String type;

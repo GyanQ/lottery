@@ -34,8 +34,7 @@ public class SysRoleController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setCreateBy(Long.valueOf(userId));
+        request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysRoleService.add(request));
     }
 
@@ -46,8 +45,7 @@ public class SysRoleController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setUpdateBy(Long.valueOf(userId));
+        request.setUpdateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysRoleService.update(request));
     }
 
@@ -70,8 +68,7 @@ public class SysRoleController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setCreateBy(Long.valueOf(userId));
+        request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysRoleService.delete(request));
     }
 }

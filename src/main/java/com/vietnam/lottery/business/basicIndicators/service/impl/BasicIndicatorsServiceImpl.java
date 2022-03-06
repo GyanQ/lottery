@@ -4,7 +4,7 @@ import com.vietnam.lottery.business.basicIndicators.request.IndicatorsRequest;
 import com.vietnam.lottery.business.basicIndicators.request.KeepRequest;
 import com.vietnam.lottery.business.basicIndicators.request.ProbabilityRequest;
 import com.vietnam.lottery.business.basicIndicators.response.IndicatorsResponse;
-import com.vietnam.lottery.business.basicIndicators.response.KeepResponse;
+import com.vietnam.lottery.business.basicIndicators.response.KeepListResponse;
 import com.vietnam.lottery.business.basicIndicators.response.ProbabilityResponse;
 import com.vietnam.lottery.business.basicIndicators.service.BasicIndicatorsService;
 import com.vietnam.lottery.business.unpackRedPackets.mapper.UnpackRedPacketsMapper;
@@ -33,7 +33,7 @@ public class BasicIndicatorsServiceImpl implements BasicIndicatorsService {
     }
 
     @Override
-    public KeepResponse keep(KeepRequest request) {
+    public KeepListResponse keepList(KeepRequest request) {
         //次留
         LocalDateTime secondStay = DateUtils.minus(LocalDateTime.now(), 1, ChronoUnit.DAYS);
         String second = DateUtils.localDateParseStr(secondStay, DateUtils.DATE_PATTERN);

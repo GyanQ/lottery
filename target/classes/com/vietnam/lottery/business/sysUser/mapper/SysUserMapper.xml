@@ -6,7 +6,8 @@
         select b.id as roleId
         from sys_user_role_relation a
                  inner join sys_role b on a.role_id = b.id
-        where a.user_id = #{id} and a.del_flag = 0
+        where a.user_id = #{id}
+          and a.del_flag = 0
     </select>
     <select id="selectMenuPermission"
             resultType="com.vietnam.lottery.business.sysUser.response.MenuPermissionResponse">
@@ -16,7 +17,8 @@
         from sys_role a
                  inner join sys_role_menu b on a.id = b.role_id
                  inner join sys_menu c on b.menu_id = c.id
-        where a.id = #{id} and b.del_flag = 0
+        where a.id = #{id}
+          and b.del_flag = 0
     </select>
     <select id="isSuperAdmin" resultType="java.lang.Boolean">
         select count(0)
@@ -32,8 +34,8 @@
         a.name as name,
         a.del_flag as delFlag
         from sys_user a
-        inner join sys_user_role_relation b on a.id = b.user_id
-        inner join sys_role c on b.role_id = c.id
+        left join sys_user_role_relation b on a.id = b.user_id
+        left join sys_role c on b.role_id = c.id
         where 1 = 1
         <if test="request.name != null and request.name != ''">
             and a.name like concat('%',#{request.name},'%')

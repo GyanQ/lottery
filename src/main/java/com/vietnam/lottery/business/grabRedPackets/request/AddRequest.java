@@ -23,5 +23,5 @@ public class AddRequest implements Serializable {
     private Integer end;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

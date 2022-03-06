@@ -30,14 +30,13 @@ public class SysRoleMenuController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setUpdateBy(Long.valueOf(userId));
+        request.setUpdateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysRoleMenuService.menuConfig(request));
     }
 
     @GetMapping("/getByRoleMenuPermissions/{roleId}")
     @ApiOperation("根据角色查询菜单权限")
-    public ResultModel<List<MenuPermissionsResponse>> getByRoleMenuPermissions(@PathVariable("roleId") Long roleId) {
+    public ResultModel<List<MenuPermissionsResponse>> getByRoleMenuPermissions(@PathVariable("roleId") String roleId) {
         return ResultUtil.success(sysRoleMenuService.getByRoleMenuPermissions(roleId));
     }
 }

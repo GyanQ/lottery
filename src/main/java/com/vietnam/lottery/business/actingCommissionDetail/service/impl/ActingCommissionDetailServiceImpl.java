@@ -45,11 +45,11 @@ public class ActingCommissionDetailServiceImpl implements ActingCommissionDetail
     }
 
     /* 递归查询下级代理用户 */
-    private List<LowerLevelListResponse> myLowerLevel(Long id) {
+    private List<LowerLevelListResponse> myLowerLevel(String id) {
         List<LowerLevelListResponse> listResponses = actingCommissionDetailMapper.lowerLevelList(id);
         if (CollectionUtils.isEmpty(listResponses)) return list;
         for (LowerLevelListResponse o : listResponses) {
-            if (id.longValue() == o.getLowerLevelId().longValue()) {
+            if (id.equals(o.getLowerLevelId())) {
                 //排除自己为其他人的下级
                 continue;
             }

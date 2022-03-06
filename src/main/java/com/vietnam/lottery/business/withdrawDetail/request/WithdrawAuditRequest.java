@@ -13,12 +13,12 @@ public class WithdrawAuditRequest extends PageRequest implements Serializable {
 
     @ApiModelProperty(value = "id")
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "审核状态(1未审核 2审核未通过 3审核通过)")
     @NotNull(message = "审核状态不能为空")
     private String audit;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

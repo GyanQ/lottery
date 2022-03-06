@@ -20,7 +20,7 @@ public class WithdrawListRequest extends PageRequest implements Serializable {
     private String endDate;
 
     @ApiModelProperty(value = "userId")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "账号")
     private String account;

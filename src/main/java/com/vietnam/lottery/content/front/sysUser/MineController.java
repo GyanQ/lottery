@@ -35,15 +35,15 @@ public class MineController {
     public ResultModel<AccountBalanceResponse> accountBalance(HttpServletRequest httpServletRequest) {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
-        return ResultUtil.success(sysUserService.accountBalance(Long.valueOf(userId)));
+        return ResultUtil.success(sysUserService.accountBalance(userId));
     }
 
     @PostMapping("/promote")
-    @ApiOperation("推广二维码")
+    @ApiOperation("推广")
     public ResultModel<PromoteResponse> promote(HttpServletRequest httpServletRequest) {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
-        return ResultUtil.success(sysUserService.promote(Long.valueOf(userId)));
+        return ResultUtil.success(sysUserService.promote(userId));
     }
 
     @PostMapping("/partner")
@@ -52,7 +52,7 @@ public class MineController {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
         LowerLevelListRequest listRequest = new LowerLevelListRequest();
-        listRequest.setUserId(Long.valueOf(userId));
+        listRequest.setUserId(userId);
         listRequest.setCurrent(request.getCurrent());
         listRequest.setSize(request.getSize());
         return ResultUtil.success(actingCommissionDetailService.lowerLevelList(listRequest));

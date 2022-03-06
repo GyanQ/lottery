@@ -15,22 +15,22 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class SysLoginDetail extends Model<SysLoginDetail> {
     //id
-    private Long id;
+    private String id;
     //临时用户(0否 1是)
     private Boolean temporaryUser;
     //ip地址
     private String ip;
     //创建人
-    private Long createBy;
+    private String createBy;
     //创建时间
     private Date createDate;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -50,11 +50,11 @@ public class SysLoginDetail extends Model<SysLoginDetail> {
         this.ip = ip;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 

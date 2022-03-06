@@ -15,7 +15,7 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class UnpackRedPackets extends Model<UnpackRedPackets> {
     //id
-    private Long id;
+    private String id;
     //奖项名称
     private String name;
     //区间开始值
@@ -27,20 +27,20 @@ public class UnpackRedPackets extends Model<UnpackRedPackets> {
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
-    private Long createBy;
+    private String createBy;
     //创建时间
     private Date createDate;
     //修改人
-    private Long updateBy;
+    private String updateBy;
     //修改时间
     private Date updateDate;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -84,11 +84,11 @@ public class UnpackRedPackets extends Model<UnpackRedPackets> {
         this.delFlag = delFlag;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
@@ -100,11 +100,11 @@ public class UnpackRedPackets extends Model<UnpackRedPackets> {
         this.createDate = createDate;
     }
 
-    public Long getUpdateBy() {
+    public String getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(Long updateBy) {
+    public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
     }
 

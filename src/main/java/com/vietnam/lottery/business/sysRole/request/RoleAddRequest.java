@@ -16,5 +16,5 @@ public class RoleAddRequest implements Serializable {
     private String name;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

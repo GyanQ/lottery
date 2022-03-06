@@ -2,6 +2,7 @@ package com.vietnam.lottery.business.sysOperateRecord.entity;
 
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class SysOperateRecord extends Model<SysOperateRecord> {
     //id
-    private Long id;
+    private String id;
     //模块
     private String module;
     //操作
@@ -22,16 +23,16 @@ public class SysOperateRecord extends Model<SysOperateRecord> {
     //内容
     private String content;
     //创建人
-    private Long createBy;
+    private String createBy;
     //创建时间
     private Date createDate;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -59,11 +60,11 @@ public class SysOperateRecord extends Model<SysOperateRecord> {
         this.content = content;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
@@ -84,5 +85,5 @@ public class SysOperateRecord extends Model<SysOperateRecord> {
     protected Serializable pkVal() {
         return this.id;
     }
-    }
+}
 

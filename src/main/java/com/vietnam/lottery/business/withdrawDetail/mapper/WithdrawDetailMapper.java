@@ -21,6 +21,6 @@ public interface WithdrawDetailMapper extends BaseMapper<WithdrawDetail> {
     Page<WithdrawListResponse> list(@Param("page") Page page, @Param("request") WithdrawListRequest request);
 
     /* 用户分佣提现金额 */
-    Long commissionWithdraw(@Param("commissionDetailId") Long commissionDetailId, @Param("lotteryDetailId") Long lotteryDetailId);
+    Long commissionWithdraw(@Param("commissionDetailId") String commissionDetailId, @Param("lotteryDetailId") String lotteryDetailId);
 }
 

@@ -34,8 +34,7 @@ public class ActingController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setCreateBy(Long.valueOf(userId));
+        request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(actingService.add(request));
     }
 
@@ -46,8 +45,7 @@ public class ActingController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setUpdateBy(Long.valueOf(userId));
+        request.setUpdateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(actingService.update(request));
     }
 
@@ -64,8 +62,7 @@ public class ActingController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setDeleteBy(Long.valueOf(userId));
+        request.setDeleteBy(JwtUtil.parseToken(token));
         return ResultUtil.success(actingService.delete(request));
     }
 

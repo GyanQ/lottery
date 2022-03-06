@@ -15,7 +15,7 @@ import java.util.Date;
 @SuppressWarnings("sysUser")
 public class SysUser extends Model<SysUser> {
     //id
-    private Long id;
+    private String id;
     //账号
     private String account;
     //昵称
@@ -31,19 +31,19 @@ public class SysUser extends Model<SysUser> {
     //删除标志（0代表存在、2代表删除）
     private String delFlag;
     //创建人
-    private Long createBy;
+    private String createBy;
     //创建时间
     private Date createDate;
     //修改人
-    private Long updateBy;
+    private String updateBy;
     //更新时间
     private Date updateDate;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -103,11 +103,11 @@ public class SysUser extends Model<SysUser> {
         this.delFlag = delFlag;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
@@ -119,11 +119,11 @@ public class SysUser extends Model<SysUser> {
         this.createDate = createDate;
     }
 
-    public Long getUpdateBy() {
+    public String getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(Long updateBy) {
+    public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
     }
 

@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class KeepResponse implements Serializable {
+public class KeepListResponse implements Serializable {
 
     private static final long serialVersionUID = -3087995089154940157L;
 

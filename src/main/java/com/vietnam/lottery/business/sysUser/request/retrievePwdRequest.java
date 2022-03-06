@@ -27,5 +27,5 @@ public class retrievePwdRequest implements Serializable {
     private String code;
 
     @ApiModelProperty(hidden = true)
-    private Long updateBy;
+    private String updateBy;
 }

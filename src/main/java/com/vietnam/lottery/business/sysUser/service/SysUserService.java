@@ -21,7 +21,7 @@ public interface SysUserService {
     ResultModel updatePaw(UpdatePawRequest request);
 
     /* 获取菜单权限 */
-    UserGetPermissionResponse getPermission(Long id);
+    UserGetPermissionResponse getPermission(String id);
 
     /* 创建账号 */
     ResultModel createAccount(CreateAccountRequest request);
@@ -33,7 +33,7 @@ public interface SysUserService {
     Page<UserListResponse> list(UserListRequest request);
 
     /* 账户管理详情 */
-    UserDetailResponse detail(Long id);
+    UserDetailResponse detail(String id);
 
     /* 账号修改 */
     ResultModel update(UserDeleteRequest request);
@@ -45,7 +45,7 @@ public interface SysUserService {
     Page<GrabRedPacketsListResponse> grabRedPackets(GrabRedPacketsListRequest request);
 
     /* 用户详情 */
-    UserDetailResponse userDetail(Long id);
+    UserDetailResponse userDetail(String id);
 
     /* 拉黑 */
     ResultModel pullBlack(PullBlackRequest request);
@@ -54,10 +54,10 @@ public interface SysUserService {
     Map<String, Object> faceBookLogin(FaceBookLoginRequest request);
 
     /* 账户余额 */
-    AccountBalanceResponse accountBalance(Long userId);
+    AccountBalanceResponse accountBalance(String userId);
 
     /* 推广二维码 */
-    PromoteResponse promote(Long id);
+    PromoteResponse promote(String id);
 
     /* 发送短信 */
     ResultModel sendSms(SendSmsRequest request);
@@ -70,4 +70,7 @@ public interface SysUserService {
 
     /* google登录 */
     Map<String, Object> googleLogin(GoogleLoginRequest request);
+
+    /* 用户角色配置 */
+    ResultModel userRole(UserRoleRequest request);
 }

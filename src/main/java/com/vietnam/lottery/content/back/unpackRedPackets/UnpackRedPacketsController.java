@@ -34,8 +34,7 @@ public class UnpackRedPacketsController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setCreateBy(Long.valueOf(userId));
+        request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(unpackRedPacketsService.add(request));
     }
 
@@ -46,8 +45,7 @@ public class UnpackRedPacketsController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setUpdateBy(Long.valueOf(userId));
+        request.setUpdateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(unpackRedPacketsService.update(request));
     }
 
@@ -58,8 +56,7 @@ public class UnpackRedPacketsController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setDeleteBy(Long.valueOf(userId));
+        request.setDeleteBy(JwtUtil.parseToken(token));
         return ResultUtil.success(unpackRedPacketsService.delete(request));
     }
 

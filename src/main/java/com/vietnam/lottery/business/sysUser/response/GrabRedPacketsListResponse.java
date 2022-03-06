@@ -12,7 +12,7 @@ public class GrabRedPacketsListResponse extends PageRequest implements Serializa
     private static final long serialVersionUID = -9191474827254230835L;
 
     @ApiModelProperty(value = "红包id")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "投注金额")
     private Long amount;

@@ -28,5 +28,5 @@ public class UnPackAddRequest implements Serializable {
     private Long probability;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

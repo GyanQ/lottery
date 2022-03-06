@@ -21,6 +21,6 @@ public interface LotteryDetailMapper extends BaseMapper<LotteryDetail> {
     Page<LotteryListResponse> list(@Param("page") Page page, @Param("request") LotteryListRequest request);
 
     /* 拆红包余额*/
-    LotteryAmountResponse lotteryAmount(@Param("userId") Long userId);
+    LotteryAmountResponse lotteryAmount(@Param("userId") String userId);
 }
 

@@ -12,8 +12,8 @@ public class DeleteRequest implements Serializable {
 
     @ApiModelProperty(value = "id")
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(hidden = true)
-    private Long deleteBy;
+    private String deleteBy;
 }

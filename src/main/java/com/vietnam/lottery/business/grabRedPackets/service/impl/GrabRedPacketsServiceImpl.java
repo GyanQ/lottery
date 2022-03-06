@@ -24,9 +24,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 抢红包(GrabRedPackets)表服务实现类
@@ -154,6 +156,12 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         PaymentUtils.createOrder(orderRequest);
 
         return null;
+    }
+
+    @Override
+    public Map<String, Object> callBack(HttpServletRequest httpServletRequest) {
+        Map<String, Object> stringStringMap = PaymentUtils.convertRequestParamsToMap(httpServletRequest);
+        return stringStringMap;
     }
 }
 

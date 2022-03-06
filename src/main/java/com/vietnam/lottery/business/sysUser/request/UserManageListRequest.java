@@ -12,7 +12,7 @@ public class UserManageListRequest extends PageRequest implements Serializable {
     private static final long serialVersionUID = -9191474827254230835L;
 
     @ApiModelProperty(value = "userId")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "手机")
     private String phone;

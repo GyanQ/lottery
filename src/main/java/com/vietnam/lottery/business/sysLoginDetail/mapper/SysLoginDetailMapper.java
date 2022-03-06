@@ -14,6 +14,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface SysLoginDetailMapper extends BaseMapper<SysLoginDetail> {
     /* 获取用户最后一次登录时间 */
-    String selectDate(@Param("id") Long id);
+    String selectDate(@Param("id") String id);
 }
 

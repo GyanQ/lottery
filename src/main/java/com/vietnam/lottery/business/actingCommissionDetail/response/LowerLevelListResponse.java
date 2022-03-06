@@ -11,7 +11,7 @@ public class LowerLevelListResponse implements Serializable {
 
 
     @ApiModelProperty(value = "用户id")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "代理级别")
     private String actingLevel;
@@ -26,5 +26,5 @@ public class LowerLevelListResponse implements Serializable {
     private String createDate;
 
     @ApiModelProperty(hidden = true)
-    private Long lowerLevelId;
+    private String lowerLevelId;
 }

@@ -14,12 +14,12 @@ public class PullBlackRequest implements Serializable {
 
     @ApiModelProperty(value = "userId")
     @NotNull(message = "userId不能为空")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "删除标志(0正常 1停用)")
     @NotBlank(message = "删除标志不能为空")
     private String delFlag;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

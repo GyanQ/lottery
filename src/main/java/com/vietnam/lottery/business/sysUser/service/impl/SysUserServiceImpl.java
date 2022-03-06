@@ -17,6 +17,7 @@ import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
 import com.vietnam.lottery.business.sysUser.request.*;
 import com.vietnam.lottery.business.sysUser.response.*;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
+import com.vietnam.lottery.business.sysUserRoleRelation.mapper.SysUserRoleRelationMapper;
 import com.vietnam.lottery.business.withdrawDetail.mapper.WithdrawDetailMapper;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.config.SmsUtils;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +55,8 @@ public class SysUserServiceImpl implements SysUserService {
     private SysSmsMapper sysSmsMapper;
     @Autowired
     private KeepStatisticsMapper keepStatisticsMapper;
+    @Resource
+    private SysUserRoleRelationMapper sysUserRoleRelationMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -79,7 +83,7 @@ public class SysUserServiceImpl implements SysUserService {
         record.setOperate("登录");
         record.setContent("管理后台登录");
         String userId = JwtUtil.parseToken(token);
-        record.setCreateBy(Long.valueOf(userId));
+        record.setCreateBy(userId);
         sysOperateRecordService.add(record);
         return map;
     }
@@ -157,11 +161,11 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public UserGetPermissionResponse getPermission(Long id) {
+    public UserGetPermissionResponse getPermission(String id) {
         UserGetPermissionResponse response = sysUserMapper.selectRoleName(id);
-        if (!ObjectUtil.isEmpty(response)){
+        if (!ObjectUtil.isEmpty(response)) {
             List<MenuPermissionResponse> menuPermission = sysUserMapper.selectMenuPermission(response.getRoleId());
-            if (!CollectionUtils.isEmpty(menuPermission)){
+            if (!CollectionUtils.isEmpty(menuPermission)) {
                 response.setList(menuPermission);
             }
         }
@@ -181,6 +185,7 @@ public class SysUserServiceImpl implements SysUserService {
         user.setName(request.getName());
         user.setPassWord(DigestUtils.md5DigestAsHex(request.getPassWord().getBytes()));
         user.setCreateBy(request.getCreateBy());
+        user.setLoginWay("1");
 
         //操作记录
         SysOperateRecord record = new SysOperateRecord();
@@ -219,7 +224,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public UserDetailResponse detail(Long id) {
+    public UserDetailResponse detail(String id) {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("id", id).eq("del_flag", DelFlagEnum.CODE.getCode()));
         if (ObjectUtil.isEmpty(user)) throw new GlobalException("查询不到该用户信息");
         UserDetailResponse response = new UserDetailResponse();
@@ -267,7 +272,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public UserDetailResponse userDetail(Long id) {
+    public UserDetailResponse userDetail(String id) {
         return sysUserMapper.detail(id);
     }
 
@@ -320,7 +325,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public AccountBalanceResponse accountBalance(Long userId) {
+    public AccountBalanceResponse accountBalance(String userId) {
         AccountBalanceResponse resp = new AccountBalanceResponse();
         SysUser user = getById(userId);
         resp.setAmount(user.getAmount());
@@ -339,7 +344,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public PromoteResponse promote(Long id) {
+    public PromoteResponse promote(String id) {
         PromoteResponse resp = new PromoteResponse();
         resp.setUserId(id);
         //todo: 这里是项目登录地址
@@ -376,6 +381,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> pawFreeLogin(PawFreeLoginRequest request) {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("phone", request.getPhone()).eq("del_flag", DelFlagEnum.CODE.getCode()));
         if (ObjectUtil.isEmpty(user)) throw new GlobalException("账号不存在");
@@ -401,7 +407,15 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> googleLogin(GoogleLoginRequest request) {
+        return null;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel userRole(UserRoleRequest request) {
+
         return null;
     }
 
@@ -428,13 +442,13 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     /* 根据userId查询用户信息 */
-    private SysUser getById(Long userId) {
+    private SysUser getById(String userId) {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("id", userId).eq("del_flag", DelFlagEnum.CODE.getCode()));
         return user;
     }
 
     /* 查询当前时间是否有留存记录 */
-    private Boolean isKeep(Long userId) {
+    private Boolean isKeep(String userId) {
         Integer count = keepStatisticsMapper.isKeep(userId);
         if (0 < count) {
             return false;

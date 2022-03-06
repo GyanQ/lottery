@@ -15,5 +15,5 @@ public class SendSmsRequest implements Serializable {
     private String phone;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

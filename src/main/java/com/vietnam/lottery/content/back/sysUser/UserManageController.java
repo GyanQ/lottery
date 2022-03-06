@@ -44,7 +44,7 @@ public class UserManageController {
 
     @GetMapping("/detail/{id}")
     @ApiOperation("用户详情")
-    public ResultModel<UserDetailResponse> detail(@PathVariable("id") Long id) {
+    public ResultModel<UserDetailResponse> detail(@PathVariable("id") String id) {
         return ResultUtil.success(sysUserService.userDetail(id));
     }
 
@@ -55,8 +55,7 @@ public class UserManageController {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        request.setCreateBy(Long.valueOf(userId));
+        request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysUserService.pullBlack(request));
     }
 }

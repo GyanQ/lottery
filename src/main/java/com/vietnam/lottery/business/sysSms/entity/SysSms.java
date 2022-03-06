@@ -14,22 +14,22 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class SysSms extends Model<SysSms> {
     //id
-    private Long id;
+    private String id;
     //手机号
     private String phone;
     //验证码
     private String code;
     //创建人
-    private Long createBy;
+    private String createBy;
     //创建时间
     private Date createDate;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -49,11 +49,11 @@ public class SysSms extends Model<SysSms> {
         this.code = code;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 

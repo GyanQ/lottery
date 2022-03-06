@@ -12,7 +12,7 @@ public class MenuUpdateRequest implements Serializable {
 
     @ApiModelProperty(value = "id")
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "菜单名称")
     private String name;
@@ -24,5 +24,5 @@ public class MenuUpdateRequest implements Serializable {
     private String delFlag;
 
     @ApiModelProperty(hidden = true)
-    private Long updateBy;
+    private String updateBy;
 }

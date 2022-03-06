@@ -47,7 +47,7 @@ public class HomeLoginController {
     public ResultModel<UserGetPermissionResponse> getPermission(HttpServletRequest request) {
         String token = request.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
-        return ResultUtil.success(sysUserService.getPermission(Long.valueOf(userId)));
+        return ResultUtil.success(sysUserService.getPermission(userId));
     }
 
     @PostMapping("/quit")
@@ -60,7 +60,7 @@ public class HomeLoginController {
         record.setModule("管理后台");
         record.setOperate("退出");
         record.setContent("退出管理后台");
-        record.setCreateBy(Long.valueOf(userId));
+        record.setCreateBy(userId);
         sysOperateRecordService.add(record);
         return ResultUtil.success(sysOperateRecordService.add(record));
     }

@@ -24,9 +24,9 @@ public interface ActingCommissionDetailMapper extends BaseMapper<ActingCommissio
     Page<ActingDetailListResponse> list(@Param("page") Page page, @Param("request") ActingDetailListRequest request);
 
     /* 下级代理列表 */
-    List<LowerLevelListResponse> lowerLevelList(@Param("id") Long id);
+    List<LowerLevelListResponse> lowerLevelList(@Param("id") String id);
 
     /* 查询用户分佣余额 */
-    CommissionAmountResponse commissionAmount(@Param("userId") Long userId);
+    CommissionAmountResponse commissionAmount(@Param("userId") String userId);
 }
 

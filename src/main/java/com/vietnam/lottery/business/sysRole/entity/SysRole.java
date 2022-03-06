@@ -20,11 +20,11 @@ public class SysRole extends Model<SysRole> {
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
-    private Long createBy;
+    private String createBy;
     //创建时间
     private Date createDate;
     //修改人
-    private Long updateBy;
+    private String updateBy;
     //修改时间
     private Date updateDate;
 
@@ -53,11 +53,11 @@ public class SysRole extends Model<SysRole> {
         this.delFlag = delFlag;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
@@ -69,11 +69,11 @@ public class SysRole extends Model<SysRole> {
         this.createDate = createDate;
     }
 
-    public Long getUpdateBy() {
+    public String getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(Long updateBy) {
+    public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
     }
 

@@ -23,5 +23,5 @@ public class CreateAccountRequest implements Serializable {
     private String passWord;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

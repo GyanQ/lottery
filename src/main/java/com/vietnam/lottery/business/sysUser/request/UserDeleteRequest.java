@@ -12,7 +12,7 @@ public class UserDeleteRequest implements Serializable {
 
     @ApiModelProperty(value = "id")
     @NotBlank(message = "id不能为空")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "昵称")
     private String name;
@@ -21,5 +21,5 @@ public class UserDeleteRequest implements Serializable {
     private String delFlag;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

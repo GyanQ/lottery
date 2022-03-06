@@ -10,10 +10,10 @@ public class LotteryListResponse implements Serializable {
     private static final long serialVersionUID = -4915813726129006929L;
 
     @ApiModelProperty(value = "userId")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "红包id")
-    private Long redPacketsId;
+    private String redPacketsId;
 
     @ApiModelProperty(value = "奖项")
     private String awards;

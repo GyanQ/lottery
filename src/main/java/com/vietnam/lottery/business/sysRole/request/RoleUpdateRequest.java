@@ -13,12 +13,12 @@ public class RoleUpdateRequest implements Serializable {
 
     @ApiModelProperty(value = "id")
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "角色名称")
     @NotBlank(message = "角色名称不能为空")
     private String name;
 
     @ApiModelProperty(hidden = true)
-    private Long updateBy;
+    private String updateBy;
 }

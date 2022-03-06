@@ -10,7 +10,7 @@ public class UnPackListResponse implements Serializable {
     private static final long serialVersionUID = 8471851668659581052L;
 
     @ApiModelProperty(value = "id")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "奖项")
     private String name;

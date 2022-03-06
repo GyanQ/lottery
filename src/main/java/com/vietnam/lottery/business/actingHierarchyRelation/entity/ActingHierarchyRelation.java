@@ -15,55 +15,45 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class ActingHierarchyRelation extends Model<ActingHierarchyRelation> {
     //id
-    private Long id;
+    private String id;
     //actingId
-    private Long actingId;
+    private String actingId;
     //上级代理id
-    private Long superiorId;
-    //下级代理id
-    private Long lowerLevelId;
+    private String superiorId;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
-    private Long createBy;
+    private String createBy;
     //创建时间
     private Date createDate;
     //修改人
-    private Long updateBy;
+    private String updateBy;
     //修改时间
     private Date updateDate;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getActingId() {
+    public String getActingId() {
         return actingId;
     }
 
-    public void setActingId(Long actingId) {
+    public void setActingId(String actingId) {
         this.actingId = actingId;
     }
 
-    public Long getSuperiorId() {
+    public String getSuperiorId() {
         return superiorId;
     }
 
-    public void setSuperiorId(Long superiorId) {
+    public void setSuperiorId(String superiorId) {
         this.superiorId = superiorId;
-    }
-
-    public Long getLowerLevelId() {
-        return lowerLevelId;
-    }
-
-    public void setLowerLevelId(Long lowerLevelId) {
-        this.lowerLevelId = lowerLevelId;
     }
 
     public String getDelFlag() {
@@ -74,11 +64,11 @@ public class ActingHierarchyRelation extends Model<ActingHierarchyRelation> {
         this.delFlag = delFlag;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
@@ -90,11 +80,11 @@ public class ActingHierarchyRelation extends Model<ActingHierarchyRelation> {
         this.createDate = createDate;
     }
 
-    public Long getUpdateBy() {
+    public String getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(Long updateBy) {
+    public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
     }
 

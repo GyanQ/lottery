@@ -11,10 +11,10 @@ public class WithdrawListResponse extends PageRequest implements Serializable {
     private static final long serialVersionUID = -781612067551178849L;
 
     @ApiModelProperty(value = "id")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "userId")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "提现金额")
     private Long amount;

@@ -16,6 +16,6 @@ import org.apache.ibatis.annotations.Param;
 public interface KeepStatisticsMapper extends BaseMapper<KeepStatistics> {
 
     /* 查询当前时间是否有留存记录 */
-    Integer isKeep(@Param("userId") Long userId);
+    Integer isKeep(@Param("userId") String userId);
 }
 

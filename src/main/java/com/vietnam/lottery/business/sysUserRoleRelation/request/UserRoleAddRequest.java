@@ -12,12 +12,12 @@ public class UserRoleAddRequest implements Serializable {
 
     @ApiModelProperty(value = "用户id")
     @NotNull(message = "用户id不能为空")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "角色id")
     @NotNull(message = "角色id不能为空")
-    private Long roleId;
+    private String roleId;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

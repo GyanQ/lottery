@@ -21,5 +21,5 @@ public class MenuAddRequest implements Serializable {
     private Integer sort;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

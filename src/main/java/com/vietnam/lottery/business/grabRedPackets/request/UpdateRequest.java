@@ -12,7 +12,7 @@ public class UpdateRequest implements Serializable {
 
     @ApiModelProperty(value = "id")
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "抢红包下注金额")
     private Long amount;
@@ -24,5 +24,5 @@ public class UpdateRequest implements Serializable {
     private Integer end;
 
     @ApiModelProperty(hidden = true)
-    private Long updateBy;
+    private String updateBy;
 }

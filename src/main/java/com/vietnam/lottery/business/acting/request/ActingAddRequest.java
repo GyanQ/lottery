@@ -20,5 +20,5 @@ public class ActingAddRequest implements Serializable {
     private Long commissionRatio;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

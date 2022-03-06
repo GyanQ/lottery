@@ -11,7 +11,7 @@ public class UserManageListResponse implements Serializable {
     private static final long serialVersionUID = -9191474827254230835L;
 
     @ApiModelProperty(value = "用户id")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "用户余额")
     private Long amount;

@@ -14,44 +14,44 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class SysUserRoleRelation extends Model<SysUserRoleRelation> {
     //id
-    private Long id;
+    private String id;
     //用户id
-    private Long userId;
+    private String userId;
     //角色id
-    private Long roleId;
+    private String roleId;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
-    private Long createBy;
+    private String createBy;
     //创建时间
     private Date createDate;
     //修改人
-    private Long updateBy;
+    private String updateBy;
     //修改时间
     private Date updateDate;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public Long getRoleId() {
+    public String getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
 
@@ -63,11 +63,11 @@ public class SysUserRoleRelation extends Model<SysUserRoleRelation> {
         this.delFlag = delFlag;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
@@ -79,11 +79,11 @@ public class SysUserRoleRelation extends Model<SysUserRoleRelation> {
         this.createDate = createDate;
     }
 
-    public Long getUpdateBy() {
+    public String getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(Long updateBy) {
+    public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
     }
 

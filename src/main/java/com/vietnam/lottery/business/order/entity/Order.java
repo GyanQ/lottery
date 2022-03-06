@@ -14,9 +14,9 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class Order extends Model<Order> {
     //id
-    private Long id;
+    private String id;
     //抢红包配置id
-    private Long grabRedPacketsId;
+    private String grabRedPacketsId;
     //支付类型(1zalo 2momo)
     private String payType;
     //支付状态(1待支付 2已支付 3取消支付 4待确认 5已退款)
@@ -24,28 +24,28 @@ public class Order extends Model<Order> {
     //删除标志（0代表存在、1代表删除）
     private String delFlag;
     //创建人
-    private Long createBy;
+    private String createBy;
     //创建时间
     private Date createDate;
     //修改人
-    private Long updateBy;
+    private String updateBy;
     //更新时间
     private Date updateDate;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getGrabRedPacketsId() {
+    public String getGrabRedPacketsId() {
         return grabRedPacketsId;
     }
 
-    public void setGrabRedPacketsId(Long grabRedPacketsId) {
+    public void setGrabRedPacketsId(String grabRedPacketsId) {
         this.grabRedPacketsId = grabRedPacketsId;
     }
 
@@ -73,11 +73,11 @@ public class Order extends Model<Order> {
         this.delFlag = delFlag;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
@@ -89,11 +89,11 @@ public class Order extends Model<Order> {
         this.createDate = createDate;
     }
 
-    public Long getUpdateBy() {
+    public String getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(Long updateBy) {
+    public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
     }
 

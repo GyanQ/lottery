@@ -12,8 +12,8 @@ public class ResetPawRequest implements Serializable {
 
 
     @ApiModelProperty(value = "userId")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(hidden = true)
-    private Long createBy;
+    private String createBy;
 }

@@ -15,46 +15,46 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class LotteryDetail extends Model<LotteryDetail> {
     //id
-    private Long id;
+    private String id;
     //抢红包id
-    private Long grabRedPacketsId;
+    private String grabRedPacketsId;
     //拆红包id
-    private Long unpackRedPacketsId;
+    private String unpackRedPacketsId;
     //抽奖金额
     private Long amount;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
-    private Long createBy;
+    private String createBy;
     //创建时间
     private Date createDate;
     //修改人
-    private Long updateBy;
+    private String updateBy;
     //修改时间
     private Date updateDate;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getGrabRedPacketsId() {
+    public String getGrabRedPacketsId() {
         return grabRedPacketsId;
     }
 
-    public void setGrabRedPacketsId(Long grabRedPacketsId) {
+    public void setGrabRedPacketsId(String grabRedPacketsId) {
         this.grabRedPacketsId = grabRedPacketsId;
     }
 
-    public Long getUnpackRedPacketsId() {
+    public String getUnpackRedPacketsId() {
         return unpackRedPacketsId;
     }
 
-    public void setUnpackRedPacketsId(Long unpackRedPacketsId) {
+    public void setUnpackRedPacketsId(String unpackRedPacketsId) {
         this.unpackRedPacketsId = unpackRedPacketsId;
     }
 
@@ -74,11 +74,11 @@ public class LotteryDetail extends Model<LotteryDetail> {
         this.delFlag = delFlag;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
@@ -90,11 +90,11 @@ public class LotteryDetail extends Model<LotteryDetail> {
         this.createDate = createDate;
     }
 
-    public Long getUpdateBy() {
+    public String getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(Long updateBy) {
+    public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
     }
 

@@ -6,11 +6,12 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class UserListResponse implements Serializable {
+public class
+UserListResponse implements Serializable {
     private static final long serialVersionUID = -9191474827254230835L;
 
     @ApiModelProperty(value = "id")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "账号")
     private String account;

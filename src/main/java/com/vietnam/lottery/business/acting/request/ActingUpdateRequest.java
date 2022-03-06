@@ -12,7 +12,7 @@ public class ActingUpdateRequest implements Serializable {
 
     @ApiModelProperty(value = "id")
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "代理等级")
     private String level;
@@ -21,5 +21,5 @@ public class ActingUpdateRequest implements Serializable {
     private Long commissionRatio;
 
     @ApiModelProperty(hidden = true)
-    private Long updateBy;
+    private String updateBy;
 }

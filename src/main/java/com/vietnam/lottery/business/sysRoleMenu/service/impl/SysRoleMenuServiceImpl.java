@@ -2,7 +2,6 @@ package com.vietnam.lottery.business.sysRoleMenu.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysRoleMenu.entity.SysRoleMenu;
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
  * @since 2022-02-08 17:18:53
  */
 @Service("sysRoleMenuService")
-public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements SysRoleMenuService {
+public class SysRoleMenuServiceImpl implements SysRoleMenuService {
     @Autowired
     private SysRoleMenuMapper sysRoleMenuMapper;
     @Autowired
@@ -73,10 +72,10 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
         if (!CollectionUtils.isEmpty(roleMenuList)) {
             //单独提出角色所有权限的菜单id
-            List<Long> menuIds = roleMenuList.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList());
+            List<String> menuIds = roleMenuList.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList());
 
             //删除菜单权限
-            List<Long> deleteMenuLists = menuIds.stream().filter(o -> !request.getMenuId().contains(o)).collect(Collectors.toList());
+            List<String> deleteMenuLists = menuIds.stream().filter(o -> !request.getMenuId().contains(o)).collect(Collectors.toList());
             if (!CollectionUtils.isEmpty(deleteMenuLists)) {
                 deleteMenuLists.forEach(o -> {
                     QueryWrapper<SysRoleMenu> deleteWr = new QueryWrapper<>();
@@ -90,7 +89,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
             }
             //新增菜单权限
-            Set<Long> addMenuIds = request.getMenuId().stream().filter(o -> !menuIds.contains(o)).collect(Collectors.toSet());
+            Set<String> addMenuIds = request.getMenuId().stream().filter(o -> !menuIds.contains(o)).collect(Collectors.toSet());
             if (!CollectionUtils.isEmpty(addMenuIds)) {
                 addMenuIds.forEach(o -> {
                     QueryWrapper<SysRoleMenu> addWr = new QueryWrapper<>();
@@ -122,7 +121,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     }
 
     @Override
-    public List<MenuPermissionsResponse> getByRoleMenuPermissions(Long roleId) {
+    public List<MenuPermissionsResponse> getByRoleMenuPermissions(String roleId) {
         List<MenuPermissionResponse> list = sysUserMapper.selectMenuPermission(roleId);
 
         List<MenuPermissionsResponse> responsesList = new ArrayList<>();

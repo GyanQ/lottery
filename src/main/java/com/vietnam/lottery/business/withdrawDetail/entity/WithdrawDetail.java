@@ -15,11 +15,11 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class WithdrawDetail extends Model<WithdrawDetail> {
     //id
-    private Long id;
+    private String id;
     //commission_detail_id
-    private Long commissionDetailId;
+    private String commissionDetailId;
     //lottery_detail_id
-    private Long lotteryDetailId;
+    private String lotteryDetailId;
     //金额
     private Long amount;
     //审核状态(1未审核 2审核未通过 3审核通过)
@@ -29,36 +29,36 @@ public class WithdrawDetail extends Model<WithdrawDetail> {
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
-    private Long createBy;
+    private String createBy;
     //创建时间
     private Date createDate;
     //修改人
-    private Long updateBy;
+    private String updateBy;
     //修改时间
     private Date updateDate;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getCommissionDetailId() {
+    public String getCommissionDetailId() {
         return commissionDetailId;
     }
 
-    public void setCommissionDetailId(Long commissionDetailId) {
+    public void setCommissionDetailId(String commissionDetailId) {
         this.commissionDetailId = commissionDetailId;
     }
 
-    public Long getLotteryDetailId() {
+    public String getLotteryDetailId() {
         return lotteryDetailId;
     }
 
-    public void setLotteryDetailId(Long lotteryDetailId) {
+    public void setLotteryDetailId(String lotteryDetailId) {
         this.lotteryDetailId = lotteryDetailId;
     }
 
@@ -94,11 +94,11 @@ public class WithdrawDetail extends Model<WithdrawDetail> {
         this.delFlag = delFlag;
     }
 
-    public Long getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(Long createBy) {
+    public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
@@ -110,11 +110,11 @@ public class WithdrawDetail extends Model<WithdrawDetail> {
         this.createDate = createDate;
     }
 
-    public Long getUpdateBy() {
+    public String getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(Long updateBy) {
+    public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
     }
 

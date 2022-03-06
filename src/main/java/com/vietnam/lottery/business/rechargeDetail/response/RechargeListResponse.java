@@ -10,7 +10,7 @@ public class RechargeListResponse implements Serializable {
     private static final long serialVersionUID = 6887012534459921975L;
 
     @ApiModelProperty(value = "userId")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "充值金额")
     private Long amount;

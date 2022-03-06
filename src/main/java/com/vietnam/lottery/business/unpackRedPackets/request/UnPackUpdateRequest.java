@@ -12,7 +12,7 @@ public class UnPackUpdateRequest implements Serializable {
 
     @ApiModelProperty(value = "id")
     @NotBlank(message = "id不能为空")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "奖项")
     private String name;
@@ -27,5 +27,5 @@ public class UnPackUpdateRequest implements Serializable {
     private Long probability;
 
     @ApiModelProperty(hidden = true)
-    private Long updateBy;
+    private String updateBy;
 }

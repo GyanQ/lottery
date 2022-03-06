@@ -6,9 +6,11 @@ import cn.hutool.json.JSONUtil;
 import com.vietnam.lottery.business.order.request.CreateOrderRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class PaymentUtils {
 
@@ -44,5 +46,30 @@ public class PaymentUtils {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("MD5签名过程中出现错误");
         }
+    }
+
+    // 将request中的参数转换成Map
+    public static Map<String, Object> convertRequestParamsToMap(HttpServletRequest request) {
+        Map<String, Object> retMap = new HashMap<String, Object>();
+        Set<Map.Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
+
+        for (Map.Entry<String, String[]> entry : entrySet) {
+            String name = entry.getKey();
+            String[] values = entry.getValue();
+            int valLen = values.length;
+
+            if (valLen == 1) {
+                retMap.put(name, values[0]);
+            } else if (valLen > 1) {
+                StringBuilder sb = new StringBuilder();
+                for (String val : values) {
+                    sb.append(",").append(val);
+                }
+                retMap.put(name, sb.toString().substring(1));
+            } else {
+                retMap.put(name, "");
+            }
+        }
+        return retMap;
     }
 }

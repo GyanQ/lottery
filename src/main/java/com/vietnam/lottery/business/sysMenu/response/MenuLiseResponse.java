@@ -11,7 +11,7 @@ public class MenuLiseResponse implements Serializable {
     private static final long serialVersionUID = 4687781214153647626L;
 
     @ApiModelProperty(value = "id")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "菜单名称")
     private String name;
