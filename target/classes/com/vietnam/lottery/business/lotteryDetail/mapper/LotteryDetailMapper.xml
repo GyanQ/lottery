@@ -15,10 +15,10 @@
             and c.id = #{request.keyWord}
         </if>
         <if test="request.keyWord != null and request.keyWord != ''">
-            and c.account = #{request.keyWord}
+            or c.account = #{request.keyWord}
         </if>
         <if test="request.keyWord != null and request.keyWord != ''">
-            and c.phone = #{request.keyWord}
+            or c.phone = #{request.keyWord}
         </if>
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(a.create_date, '%Y-%m-%d') &gt;= date_format(#{request.beginDate}, '%Y-%m-%d')

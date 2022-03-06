@@ -2,7 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper">
     <select id="list" resultType="com.vietnam.lottery.business.rechargeDetail.response.RechargeListResponse">
-        select b.id as userId, a.amount as amount, a.create_date as createDate
+        select b.id as userId,
+        a.amount as amount,
+        a.create_date as createDate
         from recharge_detail a
         inner join sys_user b on a.create_by = b.id
         where 1 = 1
@@ -10,10 +12,10 @@
             and b.id = #{request.keyWord}
         </if>
         <if test="request.keyWord != null and request.keyWord != ''">
-            and b.account = #{request.keyWord}
+            or b.account = #{request.keyWord}
         </if>
         <if test="request.keyWord != null and request.keyWord != ''">
-            and b.phone = #{request.keyWord}
+            or b.phone = #{request.keyWord}
         </if>
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(a.create_date, '%Y-%m-%d') &gt;= date_format(#{request.beginDate}, '%Y-%m-%d')

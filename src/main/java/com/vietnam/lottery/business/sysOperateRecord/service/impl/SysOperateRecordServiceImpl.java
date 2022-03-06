@@ -1,5 +1,6 @@
 package com.vietnam.lottery.business.sysOperateRecord.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -40,7 +41,7 @@ public class SysOperateRecordServiceImpl extends ServiceImpl<SysOperateRecordMap
     public Page<SysOperateRecord> list(OperateRecordListRequest request) {
         Page<SysOperateRecord> page = new Page<>(request.getCurrent(), request.getSize());
         QueryWrapper<SysOperateRecord> query = new QueryWrapper<>();
-        if (null != request.getBeginDate() && null != request.getEndDate()) {
+        if (ObjectUtil.isEmpty(request.getBeginDate()) && ObjectUtil.isEmpty(request.getEndDate())) {
             query.ge("create_date", request.getBeginDate()).le("create_date", request.getEndDate());
         } else {
             //当前时间
