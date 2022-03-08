@@ -19,6 +19,7 @@ com\vietnam\lottery\business\grabRedPackets\service\GrabRedPacketsService.class
 com\vietnam\lottery\business\sysUser\response\UserListResponse.class
 com\vietnam\lottery\business\unpackRedPackets\mapper\UnpackRedPacketsMapper.class
 com\vietnam\lottery\common\utils\DateUtils.class
+com\vietnam\lottery\business\sysUser\request\UserRoleRequest.class
 com\vietnam\lottery\business\sysUser\request\ResetPawRequest.class
 com\vietnam\lottery\business\acting\request\ActingListRequest.class
 com\vietnam\lottery\business\unpackRedPackets\service\impl\UnpackRedPacketsServiceImpl.class
@@ -75,7 +76,6 @@ com\vietnam\lottery\business\basicIndicators\response\SevenStayResponse.class
 com\vietnam\lottery\business\rechargeDetail\entity\RechargeDetail.class
 com\vietnam\lottery\business\sysUser\response\UserDetailResponse.class
 com\vietnam\lottery\business\rechargeDetail\service\RechargeDetailService.class
-com\vietnam\lottery\business\sysMenu\request\MenuListRequest.class
 com\vietnam\lottery\business\sysUser\request\UserAddRequest.class
 com\vietnam\lottery\content\back\lotteryDetail\LotteryDetailController.class
 com\vietnam\lottery\business\actingCommissionDetail\mapper\ActingCommissionDetailMapper.class
@@ -134,6 +134,7 @@ com\vietnam\lottery\business\acting\service\impl\ActingServiceImpl.class
 com\vietnam\lottery\business\sysRole\request\RoleUpdateRequest.class
 com\vietnam\lottery\business\sysMenu\response\MenuLiseResponse.class
 com\vietnam\lottery\business\basicIndicators\response\ProbabilityResponse.class
+com\vietnam\lottery\business\basicIndicators\response\KeepListResponse.class
 com\vietnam\lottery\business\actingCommissionDetail\request\ActingDetailListRequest.class
 com\vietnam\lottery\business\actingCommissionDetail\response\LowerLevelListResponse.class
 com\vietnam\lottery\business\sysSms\service\SysSmsService.class
@@ -172,7 +173,6 @@ com\vietnam\lottery\business\sysSms\service\impl\SysSmsServiceImpl.class
 com\vietnam\lottery\business\sysMenu\entity\SysMenu.class
 com\vietnam\lottery\common\utils\RedisUtil.class
 com\vietnam\lottery\common\config\SmsUtils.class
-com\vietnam\lottery\business\basicIndicators\response\KeepResponse.class
 com\vietnam\lottery\business\sysSms\mapper\SysSmsMapper.class
 com\vietnam\lottery\business\sysUser\service\impl\SysUserServiceImpl.class
 com\vietnam\lottery\business\grabRedPackets\mapper\GrabRedPacketsMapper.class
