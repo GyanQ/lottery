@@ -34,7 +34,7 @@ public interface GrabRedPacketsService {
     Page<ListResponse> list(ListRequest request);
 
     /* 下注 */
-    JSONObject bet(BetRequest request);
+    ResultModel bet(BetRequest request);
 
     /* 支付回调 */
     Map<String, Object> callBack(HttpServletRequest httpServletRequest);

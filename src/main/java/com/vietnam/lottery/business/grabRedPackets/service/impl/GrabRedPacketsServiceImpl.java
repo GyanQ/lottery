@@ -2,6 +2,7 @@ package com.vietnam.lottery.business.grabRedPackets.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.grabRedPackets.entity.GrabRedPackets;
@@ -139,7 +140,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     }
 
     @Override
-    public JSONObject bet(BetRequest request) {
+    public ResultModel bet(BetRequest request) {
         SysUser user = sysUserMapper.selectById(request.getCreateBy());
         if (ObjectUtil.isEmpty(user)) throw new GlobalException("查询不到用户信息");
 
@@ -157,9 +158,14 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         orderRequest.setAmount(redPackets.getAmount());
         orderRequest.setType(request.getType());
         //创建支付
-        JSONObject json = PaymentUtils.createOrder(orderRequest);
-        log.info("创建支付返回结果:{}",json);
-        return json;
+        log.info("创建支付传参:{}", orderRequest);
+        String str = PaymentUtils.createOrder(orderRequest);
+        log.info("创建支付返回结果:{}", str);
+        JSONObject json = JSONUtil.parseObj(str);
+        if (1 == json.getInt("success")) {
+            return ResultUtil.success("创建支付订单成功");
+        }
+        return ResultUtil.failure("创建支付订单失败");
     }
 
     @Override
