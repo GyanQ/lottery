@@ -1,0 +1,54 @@
+2022-03-09 14:15:08.592  INFO 2592 --- [main] com.vietnam.lottery.LotteryApplication   : Starting LotteryApplication using Java 1.8.0_321 on Gyan with PID 2592 (D:\WordFace\lottery\target\classes started by admin in D:\WordFace\lottery)
+2022-03-09 14:15:08.610  INFO 2592 --- [main] com.vietnam.lottery.LotteryApplication   : No active profile set, falling back to default profiles: default
+2022-03-09 14:15:12.919  INFO 2592 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-03-09 14:15:12.931  INFO 2592 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-03-09 14:15:13.060  INFO 2592 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 76 ms. Found 0 Redis repository interfaces.
+2022-03-09 14:15:14.953  INFO 2592 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9797 (http)
+2022-03-09 14:15:14.972  INFO 2592 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-03-09 14:15:14.973  INFO 2592 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.54]
+2022-03-09 14:15:15.145  INFO 2592 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2022-03-09 14:15:15.146  INFO 2592 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6240 ms
+2022-03-09 14:15:17.660  INFO 2592 --- [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String com.vietnam.lottery.common.config.JwtUtil.header
+2022-03-09 14:15:17.660  INFO 2592 --- [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String com.vietnam.lottery.common.config.JwtUtil.tokenPrefix
+2022-03-09 14:15:17.661  INFO 2592 --- [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String com.vietnam.lottery.common.config.JwtUtil.secret
+2022-03-09 14:15:17.661  INFO 2592 --- [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.Long com.vietnam.lottery.common.config.JwtUtil.expireTime
+2022-03-09 14:15:18.944  INFO 2592 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2022-03-09 14:15:19.810  INFO 2592 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9797 (http) with context path '/api'
+2022-03-09 14:15:19.813  INFO 2592 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2022-03-09 14:15:19.850  INFO 2592 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 2 custom documentation plugin(s)
+2022-03-09 14:15:19.921  INFO 2592 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2022-03-09 14:15:20.296  INFO 2592 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2022-03-09 14:15:20.327  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingPOST_1
+2022-03-09 14:15:20.374  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: addUsingPOST_1
+2022-03-09 14:15:20.383  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: addUsingPOST_2
+2022-03-09 14:15:20.407  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: addUsingPOST_3
+2022-03-09 14:15:20.413  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingPOST_1
+2022-03-09 14:15:20.421  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: detailUsingGET_1
+2022-03-09 14:15:20.439  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingPOST_2
+2022-03-09 14:15:20.481  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingPOST_3
+2022-03-09 14:15:20.533  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingPOST_4
+2022-03-09 14:15:20.544  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: addUsingPOST_4
+2022-03-09 14:15:20.551  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingPOST_2
+2022-03-09 14:15:20.560  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: detailUsingGET_2
+2022-03-09 14:15:20.570  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingPOST_5
+2022-03-09 14:15:20.579  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPOST_1
+2022-03-09 14:15:20.607  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingPOST_6
+2022-03-09 14:15:20.619  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: addUsingPOST_5
+2022-03-09 14:15:20.623  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingPOST_3
+2022-03-09 14:15:20.632  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: detailUsingGET_3
+2022-03-09 14:15:20.654  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingPOST_7
+2022-03-09 14:15:20.661  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPOST_2
+2022-03-09 14:15:20.699  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: detailUsingGET_4
+2022-03-09 14:15:20.715  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingPOST_8
+2022-03-09 14:15:20.724  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPOST_3
+2022-03-09 14:15:20.739  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: addUsingPOST_6
+2022-03-09 14:15:20.747  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: addUsingPOST_7
+2022-03-09 14:15:20.752  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingPOST_4
+2022-03-09 14:15:20.758  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: detailUsingGET_5
+2022-03-09 14:15:20.773  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingPOST_9
+2022-03-09 14:15:20.781  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPOST_4
+2022-03-09 14:15:20.786  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: detailUsingGET_6
+2022-03-09 14:15:20.806  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingPOST_10
+2022-03-09 14:15:20.828  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPOST_5
+2022-03-09 14:15:20.860  INFO 2592 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingPOST_11
+2022-03-09 14:15:20.894  INFO 2592 --- [main] com.vietnam.lottery.LotteryApplication   : Started LotteryApplication in 14.378 seconds (JVM running for 18.215)

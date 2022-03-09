@@ -65,7 +65,7 @@ public class SysUserServiceImpl implements SysUserService {
         //查询账号是否存在
         SysUser user = accountIsExist(request.getAccount());
         if (ObjectUtil.isEmpty(user)) throw new GlobalException("登录失败,没有该账号信息");
-        user.setLoginWay("2");
+        user.setLoginWay("1");
         sysUserMapper.updateById(user);
         //校验密码
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());

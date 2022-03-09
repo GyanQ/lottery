@@ -35,7 +35,9 @@ jwt:
   secret: vietnamLottery202201241022
   expireTime: 10080
 
-#阿里云短信
-ali:
-
-
+##日志配置
+logging:
+  config:
+    classpath: logback-spring.xml
+  file:
+    name: logs/lottery
