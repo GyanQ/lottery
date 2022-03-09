@@ -1,4 +1,4 @@
-package com.vietnam.lottery.content.back.BasicIndicators;
+package com.vietnam.lottery.content.back.basicIndicators;
 
 import com.vietnam.lottery.business.basicIndicators.request.IndicatorsRequest;
 import com.vietnam.lottery.business.basicIndicators.request.ProbabilityRequest;

@@ -27,7 +27,7 @@ public class PaymentUtils {
         //金额
         map.put("amount", request.getAmount());
         //订单信息通知地址
-        map.put("notifyurl", null);
+        map.put("notifyurl", "http://47.242.74.180:8090/web/grab/callBack");
         //前端跳转地址
         map.put("returnurl", null);
         //生成签名
