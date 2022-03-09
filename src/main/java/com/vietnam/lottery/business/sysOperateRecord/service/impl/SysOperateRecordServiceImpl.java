@@ -41,12 +41,13 @@ public class SysOperateRecordServiceImpl extends ServiceImpl<SysOperateRecordMap
     public Page<SysOperateRecord> list(OperateRecordListRequest request) {
         Page<SysOperateRecord> page = new Page<>(request.getCurrent(), request.getSize());
         QueryWrapper<SysOperateRecord> query = new QueryWrapper<>();
-        if (ObjectUtil.isEmpty(request.getBeginDate()) && ObjectUtil.isEmpty(request.getEndDate())) {
+        if (!ObjectUtil.isEmpty(request.getBeginDate()) && !ObjectUtil.isEmpty(request.getEndDate())) {
             query.ge("create_date", request.getBeginDate()).le("create_date", request.getEndDate());
         } else {
             //当前时间
-            String date = DateUtils.getCurrentTimeStr(DateUtils.DATE_PATTERN);
-            query.ge("create_date", date).le("create_date", date);
+            String begin = DateUtils.getCurrentTimeStr("yyyy-MM-dd 00:00:00");
+            String end = DateUtils.getCurrentTimeStr("yyyy-MM-dd 59:59:59");
+            query.ge("create_date", begin).le("create_date", end);
         }
         query.orderByDesc("create_date");
         sysOperateRecordMapper.selectPage(page, query);

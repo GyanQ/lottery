@@ -12,10 +12,10 @@ public class OperateRecordListRequest extends PageRequest implements Serializabl
     private static final long serialVersionUID = 8054291259651716613L;
 
     @ApiModelProperty(value = "开始时间")
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd 00:00:00", timezone = "GMT+8")
     private String beginDate;
 
     @ApiModelProperty(value = "结束时间")
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd 59:59:59", timezone = "GMT+8")
     private String endDate;
 }
