@@ -19,6 +19,7 @@ import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.utils.DateUtils;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,7 @@ import java.util.Map;
  * @since 2022-02-16 18:00:22
  */
 @Service("grabRedPacketsService")
+@Slf4j
 public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     @Autowired
     private GrabRedPacketsMapper grabRedPacketsMapper;
@@ -155,13 +157,14 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         //创建支付
         PaymentUtils.createOrder(orderRequest);
 
-        return null;
+        return ResultUtil.success();
     }
 
     @Override
     public Map<String, Object> callBack(HttpServletRequest httpServletRequest) {
-        Map<String, Object> stringStringMap = PaymentUtils.convertRequestParamsToMap(httpServletRequest);
-        return stringStringMap;
+        Map<String, Object> map = PaymentUtils.convertRequestParamsToMap(httpServletRequest);
+        log.info("支付回调:{}", map);
+        return map;
     }
 }
 
