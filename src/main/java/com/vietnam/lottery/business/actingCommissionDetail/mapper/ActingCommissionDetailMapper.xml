@@ -14,11 +14,14 @@
         left join sys_user d on c.create_by = d.id
         left join recharge_detail e on d.id = e.create_by
         where 1 = 1
-        <if test="request.phone != null and request.phone != ''">
-            and c.phone = #{request.phone}
+        <if test="request.keyWord != null and request.keyWord != ''">
+            and c.phone = #{request.keyWord}
         </if>
-        <if test="request.userId != null and request.userId != ''">
-            and b.user_id = #{request.userId}
+        <if test="request.keyWord != null and request.keyWord != ''">
+            or b.user_id = #{request.keyWord}
+        </if>
+        <if test="request.keyWord != null and request.keyWord != ''">
+            or d.account = #{request.keyWord}
         </if>
         group by b.id
         <if test="request.type !=null and request.type == '1'">
