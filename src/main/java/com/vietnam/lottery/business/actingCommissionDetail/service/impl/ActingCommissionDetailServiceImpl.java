@@ -1,5 +1,6 @@
 package com.vietnam.lottery.business.actingCommissionDetail.service.impl;
 
+import cn.hutool.core.util.PageUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper;
 import com.vietnam.lottery.business.actingCommissionDetail.request.ActingDetailListRequest;
@@ -41,29 +42,38 @@ public class ActingCommissionDetailServiceImpl implements ActingCommissionDetail
     @Override
     public List<LowerLevelListResponse> lowerLevelList(LowerLevelListRequest request) {
         list = myLowerLevel(request.getUserId());
-        return subList(request.getCurrent().intValue(), request.getSize().intValue(), list);
+        return subList(request.getCurrent().intValue(), request.getSize().intValue(),list);
     }
 
     /* 递归查询下级代理用户 */
     private List<LowerLevelListResponse> myLowerLevel(String id) {
         List<LowerLevelListResponse> listResponses = actingCommissionDetailMapper.lowerLevelList(id);
         if (CollectionUtils.isEmpty(listResponses)) return list;
+        list.addAll(listResponses);
         for (LowerLevelListResponse o : listResponses) {
-            if (id.equals(o.getLowerLevelId())) {
-                //排除自己为其他人的下级
-                continue;
-            }
-            list.addAll(myLowerLevel(o.getUserId()));
+            myLowerLevel(o.getUserId());
         }
         return list;
     }
 
     //subList手动分页，page为第几页，rows为每页个数
-    public static <E> List<E> subList(Integer pageNumber, Integer pageSize, List<E> list) {
-        if (CollectionUtils.isEmpty(list)) return Lists.newArrayList();
-        int page = (pageNumber - 1) * pageSize;
-        List<E> nowCollect = list.stream().skip(page).limit(pageSize).collect(toList());
-        return Optional.ofNullable(nowCollect).orElse(Lists.newArrayList());
+    public static List<LowerLevelListResponse> subList(Integer page, Integer pageSize, List<LowerLevelListResponse> list) {
+        if (list == null || list.size() == 0) {
+            throw new RuntimeException("分页数据不能为空!");
+        }
+
+        int totalCount = list.size();
+        page = page - 1;
+        int fromIndex = page * pageSize;
+        //分页不能大于总数
+        if(fromIndex>=totalCount) {
+            throw new RuntimeException("页数或分页大小不正确!");
+        }
+        int toIndex = ((page + 1) * pageSize);
+        if (toIndex > totalCount) {
+            toIndex = totalCount;
+        }
+        return list.subList(fromIndex, toIndex);
     }
 }
 

@@ -4,14 +4,14 @@
 
     <select id="list"
             resultType="com.vietnam.lottery.business.actingCommissionDetail.response.ActingDetailListResponse">
-        select ifnull(sum(a.commission_amount), 0) as commissionAmount,
+        select ifnull(sum(a.amount), 0) as commissionAmount,
         ifnull(sum(e.amount), 0) as amount,
         d.id as userId,
         c.id as actingId
         from acting_commission_detail a
         left join acting_hierarchy_relation b on a.create_by = b.create_by
         left join acting c on c.id = b.acting_id
-        left join sys_user d on c.create_by = d.id
+        left join sys_user d on a.create_by = d.id
         left join recharge_detail e on d.id = e.create_by
         where 1 = 1
         <if test="request.keyWord != null and request.keyWord != ''">
@@ -40,13 +40,11 @@
 
     <select id="lowerLevelList"
             resultType="com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelListResponse">
-        select b.id               as userId,
+        select c.id               as userId,
                b.level            as actingLevel,
-               c.amount           as commissionAmount,
                c.create_date      as createDate,
                d.sumTotal         as amount,
-               e.commissionAmount as commissionAmount,
-               a.lowerLevel_id    as lowerLevelId
+               e.commissionAmount as commissionAmount
         from acting_hierarchy_relation a
                  left join acting b on a.acting_id = b.id
                  left join (select (sum(amount)) as commissionAmount, create_by

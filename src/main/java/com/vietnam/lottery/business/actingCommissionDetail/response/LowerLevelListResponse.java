@@ -24,7 +24,4 @@ public class LowerLevelListResponse implements Serializable {
 
     @ApiModelProperty(value = "注册时间")
     private String createDate;
-
-    @ApiModelProperty(hidden = true)
-    private String lowerLevelId;
 }
