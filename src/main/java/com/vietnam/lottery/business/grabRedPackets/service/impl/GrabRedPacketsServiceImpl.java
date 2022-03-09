@@ -1,6 +1,7 @@
 package com.vietnam.lottery.business.grabRedPackets.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.grabRedPackets.entity.GrabRedPackets;
@@ -16,6 +17,7 @@ import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
 import com.vietnam.lottery.common.config.PaymentUtils;
 import com.vietnam.lottery.common.global.DelFlagEnum;
+import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.DateUtils;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
@@ -137,15 +139,15 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     }
 
     @Override
-    public ResultModel bet(BetRequest request) {
+    public JSONObject bet(BetRequest request) {
         SysUser user = sysUserMapper.selectById(request.getCreateBy());
-        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("查询不到用户信息");
+        if (ObjectUtil.isEmpty(user)) throw new GlobalException("查询不到用户信息");
 
         GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(redPackets)) return ResultUtil.failure("查询不到红包信息");
+        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("查询不到红包信息");
 
         //查询用户余额是否足够
-        if (user.getAmount() < redPackets.getAmount()) return ResultUtil.failure("余额不足");
+        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("余额不足");
 
         //生成订单号
         String date = DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATETIME_PATTERN);
@@ -155,9 +157,9 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         orderRequest.setAmount(redPackets.getAmount());
         orderRequest.setType(request.getType());
         //创建支付
-        PaymentUtils.createOrder(orderRequest);
-
-        return ResultUtil.success();
+        JSONObject json = PaymentUtils.createOrder(orderRequest);
+        log.info("创建支付返回结果:{}",json);
+        return json;
     }
 
     @Override

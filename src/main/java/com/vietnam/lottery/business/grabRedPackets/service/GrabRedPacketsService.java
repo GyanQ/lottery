@@ -1,5 +1,6 @@
 package com.vietnam.lottery.business.grabRedPackets.service;
 
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.grabRedPackets.request.*;
 import com.vietnam.lottery.business.grabRedPackets.response.DetailResponse;
@@ -33,7 +34,7 @@ public interface GrabRedPacketsService {
     Page<ListResponse> list(ListRequest request);
 
     /* 下注 */
-    ResultModel bet(BetRequest request);
+    JSONObject bet(BetRequest request);
 
     /* 支付回调 */
     Map<String, Object> callBack(HttpServletRequest httpServletRequest);
