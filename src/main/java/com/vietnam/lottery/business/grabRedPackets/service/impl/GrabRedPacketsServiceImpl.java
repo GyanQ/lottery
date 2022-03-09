@@ -53,6 +53,9 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel add(AddRequest request) {
+        if (5000 > request.getAmount()) {
+            return ResultUtil.failure("金额不能小于5000");
+        }
         GrabRedPackets grabRedPackets = new GrabRedPackets();
         grabRedPackets.setAmount(request.getAmount());
         grabRedPackets.setIntervalBeginValue(request.getBegin());
@@ -75,6 +78,9 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(grabRedPackets)) return ResultUtil.failure("查询不到该条配置,修改失败！");
 
+        if (5000 > request.getAmount()) {
+            return ResultUtil.failure("金额不能小于5000");
+        }
         grabRedPackets.setAmount(request.getAmount());
         grabRedPackets.setIntervalBeginValue(request.getBegin());
         grabRedPackets.setIntervalEndValue(request.getEnd());
