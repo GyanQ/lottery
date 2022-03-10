@@ -1,6 +1,7 @@
 package com.vietnam.lottery.business.grabRedPackets.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -29,10 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 抢红包(GrabRedPackets)表服务实现类
@@ -146,7 +144,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     }
 
     @Override
-    public ResultModel bet(BetRequest request) {
+    public String bet(BetRequest request) {
         SysUser user = sysUserMapper.selectById(request.getCreateBy());
         if (ObjectUtil.isEmpty(user)) throw new GlobalException("查询不到用户信息");
 
@@ -168,10 +166,15 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         String str = PaymentUtils.createOrder(orderRequest);
         log.info("创建支付返回结果:{}", str);
         JSONObject json = JSONUtil.parseObj(str);
-        if (1 == json.getInt("success")) {
-            return ResultUtil.success("创建支付订单成功");
+        if (0 == json.getInt("success")) {
+            throw new GlobalException("创建支付订单失败");
         }
-        return ResultUtil.failure("创建支付订单失败");
+        String body = selectOrderInfo(json.getStr("ticket"));
+        JSONObject jsonBody = JSONUtil.parseObj(body);
+        if (0 == jsonBody.getInt("success")) {
+            throw new GlobalException("获取订单支付二维码失败");
+        }
+        return body;
     }
 
     @Override
@@ -179,6 +182,15 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         Map<String, Object> map = PaymentUtils.convertRequestParamsToMap(httpServletRequest);
         log.info("支付回调:{}", map);
         return map;
+    }
+
+    @Override
+    public String selectOrderInfo(String ticket) {
+        Map<String, Object> map = new HashMap<>();
+        String url = "https://api.zf77777.org/api/getimage?";
+        String str = "ticket=" + ticket;
+        String body = HttpRequest.get(url).header("Content-Type", "application/json").body(str).execute().body();
+        return body;
     }
 }
 

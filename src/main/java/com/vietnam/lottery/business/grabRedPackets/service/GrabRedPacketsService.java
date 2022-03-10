@@ -34,9 +34,12 @@ public interface GrabRedPacketsService {
     Page<ListResponse> list(ListRequest request);
 
     /* 下注 */
-    ResultModel bet(BetRequest request);
+    String bet(BetRequest request);
 
     /* 支付回调 */
     Map<String, Object> callBack(HttpServletRequest httpServletRequest);
+
+    /* 获取订单支付二维码*/
+    String selectOrderInfo(String ticket);
 }
 
