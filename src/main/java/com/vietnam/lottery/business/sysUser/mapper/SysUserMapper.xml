@@ -56,14 +56,11 @@
         left join recharge_detail b on a.id = b.create_by
         left join lottery_detail c on a.id = c.create_by
         where 1 = 1
-        <if test="request.userId != null and request.userId != ''">
-            and a.id = #{request.userId}
+        <if test="request.keyWord != null and request.keyWord != ''">
+            and a.id = #{request.userId} or a.account = #{request.account} or a.phone = #{request.phone}
         </if>
-        <if test="request.account != null and request.account != ''">
-            and a.account = #{request.account}
-        </if>
-        <if test="request.phone != null and request.phone != ''">
-            and a.phone = #{request.phone}
+        <if test="request.delFlag != null and request.delFlag != ''">
+            and a.del_flag = #{request.delFlag}
         </if>
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(a.create_date, '%Y-%m-%d') &gt;= date_format(#{request.beginDate}, '%Y-%m-%d')
