@@ -48,13 +48,15 @@
     <select id="manageList" resultType="com.vietnam.lottery.business.sysUser.response.UserManageListResponse">
         select a.id as userId,
         a.amount as amount,
-        sum(b.amount) as rechargeTotal,
-        sum(c.amount) as incomeTotal,
+        b.rechargeTotal as rechargeTotal,
+        c.incomeTotal as incomeTotal,
         a.login_way as loginWay,
         a.del_flag as delFlag
         from sys_user a
-        left join recharge_detail b on a.id = b.create_by
-        left join lottery_detail c on a.id = c.create_by
+        left join (select ifnull(sum(amount), 0) as rechargeTotal, create_by from recharge_detail group by create_by) b
+        on a.id = b.create_by
+        left join (select ifnull(sum(amount), 0) as incomeTotal, create_by from recharge_detail group by create_by) c
+        on a.id = c.create_by
         where 1 = 1
         <if test="request.keyWord != null and request.keyWord != ''">
             and a.id = #{request.userId} or a.account = #{request.account} or a.phone = #{request.phone}
