@@ -17,12 +17,6 @@
         <if test="request.keyWord != null and request.keyWord != ''">
             and d.phone = #{request.keyWord} or d.id = #{request.keyWord} or d.account = #{request.keyWord}
         </if>
-<!--        <if test="request.keyWord != null and request.keyWord != ''">-->
-<!--            or-->
-<!--        </if>-->
-<!--        <if test="request.keyWord != null and request.keyWord != ''">-->
-
-<!--        </if>-->
         group by b.id
         <if test="request.type !=null and request.type == '1'">
             order by amount
