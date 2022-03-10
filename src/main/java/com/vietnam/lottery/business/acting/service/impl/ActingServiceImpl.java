@@ -104,7 +104,7 @@ public class ActingServiceImpl implements ActingService {
         if (ObjectUtil.isEmpty(acting)) return ResultUtil.failure("代理角色不存在,删除失败");
 
         acting.setId(request.getId());
-        acting.setDelFlag(DelFlagEnum.CODE.getCode());
+        acting.setDelFlag(DelFlagEnum.MESSAGE.getCode());
 
         //操作记录
         SysOperateRecord record = new SysOperateRecord();
