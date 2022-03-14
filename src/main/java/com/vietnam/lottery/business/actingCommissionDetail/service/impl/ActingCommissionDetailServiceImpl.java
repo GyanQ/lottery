@@ -37,7 +37,7 @@ public class ActingCommissionDetailServiceImpl implements ActingCommissionDetail
     @Override
     public List<LowerLevelListResponse> lowerLevelList(LowerLevelListRequest request) {
         list = myLowerLevel(request.getUserId());
-        return subList(request.getCurrent().intValue(), request.getSize().intValue(), list);
+        return list;
     }
 
     /* 递归查询下级代理用户 */
@@ -49,26 +49,6 @@ public class ActingCommissionDetailServiceImpl implements ActingCommissionDetail
             myLowerLevel(o.getUserId());
         }
         return list;
-    }
-
-    //subList手动分页，page为第几页，rows为每页个数
-    public static List<LowerLevelListResponse> subList(Integer page, Integer pageSize, List<LowerLevelListResponse> list) {
-        if (list == null || list.size() == 0) {
-            throw new RuntimeException("分页数据不能为空!");
-        }
-
-        int totalCount = list.size();
-        page = page - 1;
-        int fromIndex = page * pageSize;
-        //分页不能大于总数
-        if (fromIndex >= totalCount) {
-            throw new RuntimeException("页数或分页大小不正确!");
-        }
-        int toIndex = ((page + 1) * pageSize);
-        if (toIndex > totalCount) {
-            toIndex = totalCount;
-        }
-        return list.subList(fromIndex, toIndex);
     }
 }
 

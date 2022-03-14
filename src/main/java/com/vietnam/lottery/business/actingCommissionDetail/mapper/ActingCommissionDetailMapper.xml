@@ -4,30 +4,28 @@
 
     <select id="list"
             resultType="com.vietnam.lottery.business.actingCommissionDetail.response.ActingDetailListResponse">
-        select ifnull(sum(a.amount), 0) as commissionAmount,
-        ifnull(sum(e.amount), 0) as amount,
-        d.id as userId,
-        c.id as actingId
-        from acting_commission_detail a
-        left join acting_hierarchy_relation b on a.create_by = b.create_by
-        left join acting c on c.id = b.acting_id
-        left join sys_user d on a.create_by = d.id
-        left join recharge_detail e on d.id = e.create_by
+        select a.id as userId,
+        ifnull(b.rechargeTatal, 0) as amount,
+        ifnull(c.commissionTotal, 0) as commissionAmount
+        from sys_user a
+        left join (select sum(amount) as rechargeTatal, create_by from recharge_detail group by create_by) b
+        on a.id = b.create_by
+        left join (select sum(amount) as commissionTotal, create_by from acting_commission_detail group by create_by) c
+        on a.id = c.create_by
         where 1 = 1
         <if test="request.keyWord != null and request.keyWord != ''">
             and d.phone = #{request.keyWord} or d.id = #{request.keyWord} or d.account = #{request.keyWord}
         </if>
-        group by b.id
-        <if test="request.type !=null and request.type == '1'">
+        <if test="request.type == '1'.toString()">
             order by amount
         </if>
-        <if test="request.type !=null and request.type == '1'">
+        <if test="request.type == '2'.toString()">
             order by amount desc
         </if>
-        <if test="request.type !=null and request.type == '1'">
+        <if test="request.type == '3'.toString()">
             order by commissionAmount
         </if>
-        <if test="request.type !=null and request.type == '1'">
+        <if test="request.type == '4'.toString()">
             order by commissionAmount desc
         </if>
     </select>

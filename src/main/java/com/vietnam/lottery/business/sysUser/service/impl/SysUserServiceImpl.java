@@ -156,7 +156,7 @@ public class SysUserServiceImpl implements SysUserService {
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
         if (!flag) return ResultUtil.failure("原密码输入错误！");
 
-        user.setPassWord(DigestUtils.md5DigestAsHex(request.getPassWord().getBytes()));
+        user.setPassWord(DigestUtils.md5DigestAsHex(request.getNewPassWord().getBytes()));
         sysUserMapper.updateById(user);
 
         //操作记录

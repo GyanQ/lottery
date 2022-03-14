@@ -44,8 +44,6 @@ public class MineController {
         String userId = JwtUtil.parseToken(token);
         LowerLevelListRequest listRequest = new LowerLevelListRequest();
         listRequest.setUserId(userId);
-        listRequest.setCurrent(request.getCurrent());
-        listRequest.setSize(request.getSize());
         return ResultUtil.success(actingCommissionDetailService.lowerLevelList(listRequest));
     }
 }
