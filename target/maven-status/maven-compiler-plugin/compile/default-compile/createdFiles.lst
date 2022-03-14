@@ -13,7 +13,6 @@ com\vietnam\lottery\business\withdrawDetail\request\WithdrawAuditRequest.class
 com\vietnam\lottery\business\unpackRedPackets\request\UnPackListRequest.class
 com\vietnam\lottery\business\unpackRedPackets\response\UnPackListResponse.class
 com\vietnam\lottery\common\interceptor\AuthHandlerInterceptor.class
-com\vietnam\lottery\business\basicIndicators\response\MonthStayResponse.class
 com\vietnam\lottery\business\grabRedPackets\entity\GrabRedPackets.class
 com\vietnam\lottery\business\grabRedPackets\service\GrabRedPacketsService.class
 com\vietnam\lottery\business\sysUser\response\UserListResponse.class
@@ -31,13 +30,11 @@ com\vietnam\lottery\business\sysUser\request\LoginRequest.class
 com\vietnam\lottery\business\sysUserRoleRelation\mapper\SysUserRoleRelationMapper.class
 com\vietnam\lottery\business\sysUser\request\retrievePwdRequest.class
 com\vietnam\lottery\business\acting\request\ActingUpdateRequest.class
-com\vietnam\lottery\business\basicIndicators\response\SecondStayResponse.class
 com\vietnam\lottery\business\actingCommissionDetail\request\LowerLevelListRequest.class
 com\vietnam\lottery\business\sysRoleMenu\service\impl\SysRoleMenuServiceImpl.class
 com\vietnam\lottery\business\sysUser\response\AccountBalanceResponse.class
 com\vietnam\lottery\business\sysUserRoleRelation\request\UserRoleAddRequest.class
 com\vietnam\lottery\business\sysUser\response\UserGetPermissionResponse.class
-com\vietnam\lottery\business\basicIndicators\response\FifteenStayResponse.class
 com\vietnam\lottery\business\grabRedPackets\request\UpdateRequest.class
 com\vietnam\lottery\business\sysUser\request\UserManageListRequest.class
 com\vietnam\lottery\content\back\acting\ActingController.class
@@ -71,7 +68,6 @@ com\vietnam\lottery\business\sysMenu\request\MenuAddRequest.class
 com\vietnam\lottery\business\unpackRedPackets\request\UnPackUpdateRequest.class
 com\vietnam\lottery\business\acting\mapper\ActingMapper.class
 com\vietnam\lottery\business\basicIndicators\response\IndicatorsResponse.class
-com\vietnam\lottery\business\basicIndicators\response\SevenStayResponse.class
 com\vietnam\lottery\business\rechargeDetail\entity\RechargeDetail.class
 com\vietnam\lottery\business\sysUser\response\UserDetailResponse.class
 com\vietnam\lottery\business\rechargeDetail\service\RechargeDetailService.class
@@ -102,7 +98,6 @@ com\vietnam\lottery\content\back\sysRole\SysRoleController.class
 com\vietnam\lottery\business\sysRole\response\RoleListResponse.class
 com\vietnam\lottery\business\sysMenu\request\MenuUpdateRequest.class
 com\vietnam\lottery\common\config\MybatisPlusConfig.class
-com\vietnam\lottery\business\basicIndicators\mapper\KeepStatisticsMapper.class
 com\vietnam\lottery\business\sysMenu\service\impl\SysMenuServiceImpl.class
 com\vietnam\lottery\business\sysRoleMenu\service\SysRoleMenuService.class
 com\vietnam\lottery\business\withdrawDetail\mapper\WithdrawDetailMapper.class
@@ -121,10 +116,8 @@ com\vietnam\lottery\business\sysRole\request\RoleListRequest.class
 com\vietnam\lottery\business\order\service\OrderService.class
 com\vietnam\lottery\business\sysRole\response\RoleDetailResponse.class
 com\vietnam\lottery\content\front\sysUser\UserFrontController.class
-com\vietnam\lottery\business\basicIndicators\response\TreeStayResponse.class
 com\vietnam\lottery\business\lotteryDetail\request\LotteryListRequest.class
 com\vietnam\lottery\business\sysUser\response\MenuPermissionResponse.class
-com\vietnam\lottery\business\basicIndicators\entity\KeepStatistics.class
 com\vietnam\lottery\business\actingHierarchyRelation\entity\ActingHierarchyRelation.class
 com\vietnam\lottery\business\sysRole\service\impl\SysRoleServiceImpl.class
 com\vietnam\lottery\common\utils\ResultUtil.class

@@ -8,8 +8,6 @@ import com.vietnam.lottery.business.acting.mapper.ActingMapper;
 import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper;
 import com.vietnam.lottery.business.actingHierarchyRelation.entity.ActingHierarchyRelation;
 import com.vietnam.lottery.business.actingHierarchyRelation.mapper.ActingHierarchyRelationMapper;
-import com.vietnam.lottery.business.basicIndicators.entity.KeepStatistics;
-import com.vietnam.lottery.business.basicIndicators.mapper.KeepStatisticsMapper;
 import com.vietnam.lottery.business.lotteryDetail.mapper.LotteryDetailMapper;
 import com.vietnam.lottery.business.sysLoginDetail.mapper.SysLoginDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
@@ -58,8 +56,6 @@ public class SysUserServiceImpl implements SysUserService {
     private LotteryDetailMapper lotteryDetailMapper;
     @Autowired
     private SysSmsMapper sysSmsMapper;
-    @Autowired
-    private KeepStatisticsMapper keepStatisticsMapper;
     @Resource
     private SysUserRoleRelationMapper sysUserRoleRelationMapper;
     @Resource
@@ -129,17 +125,6 @@ public class SysUserServiceImpl implements SysUserService {
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
         if (!flag) throw new GlobalException("密码错误！");
 
-        //推广
-
-
-        //add留存记录
-        Boolean keep = isKeep(user.getId());
-        if (keep) {
-            KeepStatistics statistics = new KeepStatistics();
-            statistics.setCreateBy(user.getId());
-            statistics.setRegisterDate(user.getCreateDate());
-            keepStatisticsMapper.insert(statistics);
-        }
         Map<String, Object> map = new HashMap<>();
         //创建token
         map.put("userId", user.getId());
@@ -316,15 +301,6 @@ public class SysUserServiceImpl implements SysUserService {
             sysUserMapper.insert(user);
         }
 
-        //add留存记录
-        Boolean keep = isKeep(user.getId());
-        if (keep) {
-            KeepStatistics statistics = new KeepStatistics();
-            statistics.setCreateBy(user.getId());
-            statistics.setRegisterDate(user.getCreateDate());
-            keepStatisticsMapper.insert(statistics);
-        }
-
         //创建token
         Map<String, Object> map = new HashMap<>();
         map.put("userId", request.getUserId());
@@ -388,15 +364,6 @@ public class SysUserServiceImpl implements SysUserService {
 
         String code = sysSmsMapper.selectByPhone(request.getPhone());
         if (!code.equals(request.getCode())) throw new GlobalException("验证码错误");
-
-        //add留存记录
-        Boolean keep = isKeep(user.getId());
-        if (keep) {
-            KeepStatistics statistics = new KeepStatistics();
-            statistics.setCreateBy(user.getId());
-            statistics.setRegisterDate(user.getCreateDate());
-            keepStatisticsMapper.insert(statistics);
-        }
 
         //创建token
         Map<String, Object> map = new HashMap<>();
@@ -463,15 +430,6 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUser getById(String userId) {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("id", userId).eq("del_flag", DelFlagEnum.CODE.getCode()));
         return user;
-    }
-
-    /* 查询当前时间是否有留存记录 */
-    private Boolean isKeep(String userId) {
-        Integer count = keepStatisticsMapper.isKeep(userId);
-        if (0 < count) {
-            return false;
-        }
-        return true;
     }
 
     /*推广*/

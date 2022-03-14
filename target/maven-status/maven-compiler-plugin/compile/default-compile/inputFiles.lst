@@ -2,7 +2,6 @@ D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUser\request\U
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\unpackRedPackets\entity\UnpackRedPackets.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUser\request\UserRoleRequest.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\grabRedPackets\response\ListResponse.java
-D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\basicIndicators\mapper\KeepStatisticsMapper.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\withdrawDetail\request\WithdrawListRequest.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\common\interceptor\AuthHandlerInterceptor.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysRole\service\impl\SysRoleServiceImpl.java
@@ -26,7 +25,6 @@ D:\WordFace\lottery\src\main\java\com\vietnam\lottery\common\utils\DateUtils.jav
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysMenu\response\MenuDetailResponse.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUserRoleRelation\request\UserRoleAddRequest.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysSms\entity\SysSms.java
-D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\basicIndicators\response\FifteenStayResponse.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\rechargeDetail\service\impl\RechargeDetailServiceImpl.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\common\utils\ResultEnum.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUser\request\UserManageListRequest.java
@@ -62,13 +60,11 @@ D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\basicIndicators\r
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysMenu\service\impl\SysMenuServiceImpl.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\actingCommissionDetail\mapper\ActingCommissionDetailMapper.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\rechargeDetail\entity\RechargeDetail.java
-D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\basicIndicators\entity\KeepStatistics.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUser\mapper\SysUserMapper.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\rechargeDetail\response\RechargeListResponse.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUser\entity\SysUser.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysMenu\entity\SysMenu.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUser\request\FaceBookLoginRequest.java
-D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\basicIndicators\response\MonthStayResponse.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysRoleMenu\entity\SysRoleMenu.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\actingCommissionDetail\request\ActingDetailListRequest.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUser\request\SendSmsRequest.java
@@ -116,11 +112,9 @@ D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\withdrawDetail\re
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysMenu\mapper\SysMenuMapper.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysMenu\request\MenuAddRequest.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\actingHierarchyRelation\mapper\ActingHierarchyRelationMapper.java
-D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\basicIndicators\response\SecondStayResponse.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\unpackRedPackets\service\UnpackRedPacketsService.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\withdrawDetail\service\impl\WithdrawDetailServiceImpl.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\content\back\graRedPackets\GrabRedPacketsController.java
-D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\basicIndicators\response\SevenStayResponse.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\order\request\CreateOrderRequest.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysLoginDetail\service\SysLoginDetailService.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\LotteryApplication.java
@@ -146,7 +140,6 @@ D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysRole\request\R
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\grabRedPackets\mapper\GrabRedPacketsMapper.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysRole\request\RoleListRequest.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUser\response\LotteryAmountResponse.java
-D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\basicIndicators\response\TreeStayResponse.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysLoginDetail\entity\SysLoginDetail.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUser\response\MenuPermissionResponse.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\content\back\withdrawDetail\WithdrawDetailController.java
