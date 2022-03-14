@@ -12,10 +12,57 @@ public class KeepRequest implements Serializable {
     private static final long serialVersionUID = 1554835631571741239L;
 
     @ApiModelProperty(value = "开始时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
     private String beginDate;
 
-    @ApiModelProperty(value = "结束时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private String endDate;
+    @ApiModelProperty(hidden = true)
+    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
+    private String second;
+
+    @ApiModelProperty(hidden = true)
+    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
+    private String tree;
+
+    @ApiModelProperty(hidden = true)
+    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
+    private String server;
+
+    @ApiModelProperty(hidden = true)
+    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
+    private String fifteen;
+
+    @ApiModelProperty(hidden = true)
+    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
+    private String moth;
+
+
+    @ApiModelProperty(hidden = true)
+    private String secondBegin;
+
+    @ApiModelProperty(hidden = true)
+    private String secondEnd;
+
+    @ApiModelProperty(hidden = true)
+    private String treeBegin;
+
+    @ApiModelProperty(hidden = true)
+    private String treeEnd;
+
+    @ApiModelProperty(hidden = true)
+    private String serverBegin;
+
+    @ApiModelProperty(hidden = true)
+    private String serverEnd;
+
+    @ApiModelProperty(hidden = true)
+    private String fifteenBegin;
+
+    @ApiModelProperty(hidden = true)
+    private String fifteenEnd;
+
+    @ApiModelProperty(hidden = true)
+    private String mothBegin;
+
+    @ApiModelProperty(hidden = true)
+    private String mothEnd;
 }

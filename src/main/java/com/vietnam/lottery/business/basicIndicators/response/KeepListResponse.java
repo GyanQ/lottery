@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 public class KeepListResponse implements Serializable {
@@ -11,17 +12,32 @@ public class KeepListResponse implements Serializable {
     private static final long serialVersionUID = -3087995089154940157L;
 
     @ApiModelProperty(value = "次留")
-    private SecondStayResponse stayResponse = null;
+    private Integer secondStay;
+
+    @ApiModelProperty(value = "次留百分率")
+    private BigDecimal secondPer;
 
     @ApiModelProperty(value = "3留")
-    private TreeStayResponse treeStay = null;
+    private Integer three;
+
+    @ApiModelProperty(value = "3留百分率")
+    private BigDecimal threePer;
 
     @ApiModelProperty(value = "7留")
-    private SevenStayResponse sevenStay = null;
+    private Integer sevenStay;
+
+    @ApiModelProperty(value = "7留百分率")
+    private BigDecimal sevenStayPer;
 
     @ApiModelProperty(value = "15留")
-    private FifteenStayResponse fifteenStay = null;
+    private Integer fifteenStay;
+
+    @ApiModelProperty(value = "15留百分率")
+    private BigDecimal fifteenStayPer;
 
     @ApiModelProperty(value = "月留")
-    private MonthStayResponse monthStay = null;
+    private Integer monthStay;
+
+    @ApiModelProperty(value = "月留")
+    private BigDecimal monthStayPer;
 }

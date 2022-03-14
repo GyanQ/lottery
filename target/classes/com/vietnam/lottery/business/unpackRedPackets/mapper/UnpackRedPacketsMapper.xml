@@ -120,5 +120,59 @@
         </if>
         )as totalWithdrawal
     </select>
+
+    <select id="keep" resultType="com.vietnam.lottery.business.basicIndicators.response.KeepListResponse">
+        select count(distinct b.create_by)                                                               as secondStay,
+               count(distinct c.create_by)                                                               as three,
+               count(distinct d.create_by)                                                               as sevenStay,
+               count(distinct e.create_by)                                                               as fifteenStay,
+               count(distinct f.create_by)                                                               as monthStay,
+               count(distinct b.create_by) / (select count(0)
+                                              from sys_user
+                                              where create_date between
+                                                        #{request.secondBegin} and #{request.secondEnd}) as secondPer,
+               count(distinct c.create_by) / (select count(0)
+                                              from sys_user
+                                              where create_date between
+                                                        #{request.treeBegin} and #{request.treeEnd})     as threePer,
+               count(distinct d.create_by) / (select count(0)
+                                              from sys_user
+                                              where create_date between
+                                                        #{request.serverBegin} and #{request.serverEnd}) as sevenStayPer,
+               count(distinct e.create_by) / (select count(0)
+                                              from sys_user
+                                              where create_date between
+                                                        #{request.fifteenBegin} and #{request.fifteenEnd}) as fifteenStayPer,
+               count(distinct f.create_by) / (select count(0)
+                                              from sys_user
+                                              where create_date between
+                                                        #{request.mothBegin} and #{request.mothEnd}) as monthStayPer
+        from sys_login_detail a
+                 left join
+             (select create_by
+              from sys_login_detail
+              where datediff(#{request.beginDate}, #{request.second}) = 1
+              group by create_by) b
+             on a.create_by = b.create_by
+                 left join
+             (select create_by
+              from sys_login_detail
+              where datediff(#{request.beginDate}, #{request.tree}) = 3
+              group by create_by) c on a.create_by = b.create_by
+                 left join
+             (select create_by
+              from sys_login_detail
+              where datediff(#{request.beginDate}, #{request.server}) = 7
+              group by create_by) d on a.create_by = b.create_by
+                 left join
+             (select create_by
+              from sys_login_detail
+              where datediff(#{request.beginDate}, #{request.fifteen}) = 15
+              group by create_by) e on a.create_by = b.create_by
+                 left join (select create_by
+                            from sys_login_detail
+                            where datediff(#{request.beginDate}, #{request.moth}) = 30
+                            group by create_by) f on a.create_by = b.create_by
+    </select>
 </mapper>
 

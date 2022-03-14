@@ -1,8 +1,10 @@
 package com.vietnam.lottery.content.back.basicIndicators;
 
 import com.vietnam.lottery.business.basicIndicators.request.IndicatorsRequest;
+import com.vietnam.lottery.business.basicIndicators.request.KeepRequest;
 import com.vietnam.lottery.business.basicIndicators.request.ProbabilityRequest;
 import com.vietnam.lottery.business.basicIndicators.response.IndicatorsResponse;
+import com.vietnam.lottery.business.basicIndicators.response.KeepListResponse;
 import com.vietnam.lottery.business.basicIndicators.response.ProbabilityResponse;
 import com.vietnam.lottery.business.basicIndicators.service.BasicIndicatorsService;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -35,5 +37,11 @@ public class ProbabilityController {
     @ApiOperation("数据统计")
     public ResultModel<IndicatorsResponse> statistics(@RequestBody IndicatorsRequest request) {
         return ResultUtil.success(basicIndicatorsService.statistics(request));
+    }
+
+    @PostMapping("/keep")
+    @ApiOperation("留存")
+    public ResultModel<KeepListResponse> keep(@RequestBody KeepRequest request) {
+        return ResultUtil.success(basicIndicatorsService.keepList(request));
     }
 }

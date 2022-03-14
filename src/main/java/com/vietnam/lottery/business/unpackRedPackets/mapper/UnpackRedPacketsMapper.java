@@ -2,8 +2,10 @@ package com.vietnam.lottery.business.unpackRedPackets.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.vietnam.lottery.business.basicIndicators.request.IndicatorsRequest;
+import com.vietnam.lottery.business.basicIndicators.request.KeepRequest;
 import com.vietnam.lottery.business.basicIndicators.request.ProbabilityRequest;
 import com.vietnam.lottery.business.basicIndicators.response.IndicatorsResponse;
+import com.vietnam.lottery.business.basicIndicators.response.KeepListResponse;
 import com.vietnam.lottery.business.basicIndicators.response.ProbabilityResponse;
 import com.vietnam.lottery.business.unpackRedPackets.entity.UnpackRedPackets;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,5 +27,8 @@ public interface UnpackRedPacketsMapper extends BaseMapper<UnpackRedPackets> {
 
     /* 数据统计 */
     IndicatorsResponse statistics(@Param("request") IndicatorsRequest request);
+
+    /* 留存 */
+    KeepListResponse keep(@Param("request") KeepRequest request);
 }
 
