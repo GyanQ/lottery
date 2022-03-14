@@ -2,6 +2,7 @@ package com.vietnam.lottery.business.sysOperateRecord.entity;
 
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,6 +26,7 @@ public class SysOperateRecord extends Model<SysOperateRecord> {
     //创建人
     private String createBy;
     //创建时间
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createDate;
 
 
