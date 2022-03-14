@@ -56,9 +56,6 @@ public interface SysUserService {
     /* 账户余额 */
     AccountBalanceResponse accountBalance(String userId);
 
-    /* 推广二维码 */
-    PromoteResponse promote(String id);
-
     /* 发送短信 */
     ResultModel sendSms(SendSmsRequest request);
 

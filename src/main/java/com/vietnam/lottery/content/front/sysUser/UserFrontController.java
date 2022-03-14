@@ -33,7 +33,7 @@ public class UserFrontController {
         }
         Map<String, Object> map = sysUserService.amountLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
-        return ResultUtil.success("登录成功！");
+        return ResultUtil.success(map);
     }
 
     @PostMapping("/register")
@@ -53,7 +53,7 @@ public class UserFrontController {
         }
         Map<String, Object> map = sysUserService.faceBookLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
-        return ResultUtil.success("登录成功！");
+        return ResultUtil.success(map);
     }
 
     @PostMapping("/sendSms")
@@ -82,7 +82,7 @@ public class UserFrontController {
         }
         Map<String, Object> map = sysUserService.pawFreeLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
-        return ResultUtil.success("登录成功！");
+        return ResultUtil.success(map);
     }
 
     @PostMapping("/googleLogin")
@@ -93,6 +93,6 @@ public class UserFrontController {
         }
         Map<String, Object> map = sysUserService.googleLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
-        return ResultUtil.success("登录成功！");
+        return ResultUtil.success(map);
     }
 }

@@ -3,7 +3,11 @@ package com.vietnam.lottery.business.sysUser.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.acting.entity.Acting;
+import com.vietnam.lottery.business.acting.mapper.ActingMapper;
 import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper;
+import com.vietnam.lottery.business.actingHierarchyRelation.entity.ActingHierarchyRelation;
+import com.vietnam.lottery.business.actingHierarchyRelation.mapper.ActingHierarchyRelationMapper;
 import com.vietnam.lottery.business.basicIndicators.entity.KeepStatistics;
 import com.vietnam.lottery.business.basicIndicators.mapper.KeepStatisticsMapper;
 import com.vietnam.lottery.business.lotteryDetail.mapper.LotteryDetailMapper;
@@ -58,6 +62,10 @@ public class SysUserServiceImpl implements SysUserService {
     private KeepStatisticsMapper keepStatisticsMapper;
     @Resource
     private SysUserRoleRelationMapper sysUserRoleRelationMapper;
+    @Resource
+    private ActingHierarchyRelationMapper actingHierarchyRelationMapper;
+    @Resource
+    private ActingMapper actingMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -345,15 +353,6 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public PromoteResponse promote(String id) {
-        PromoteResponse resp = new PromoteResponse();
-        resp.setUserId(id);
-        //todo: 这里是项目登录地址
-        resp.setUrl(null);
-        return resp;
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel sendSms(SendSmsRequest request) {
         //随机生成6位验证码
@@ -473,5 +472,41 @@ public class SysUserServiceImpl implements SysUserService {
             return false;
         }
         return true;
+    }
+
+    /*推广*/
+    private void addActing(String userId, String byActingUserId) {
+        List<ActingHierarchyRelation> list = actingHierarchyRelationMapper.selectList(new QueryWrapper<ActingHierarchyRelation>().eq("del_flag", DelFlagEnum.CODE.getCode()).eq("create_by", userId));
+        ActingHierarchyRelation relation = new ActingHierarchyRelation();
+        relation.setActingId(selectActingId(null, "一级代理").getId());
+        relation.setCreateBy(byActingUserId);
+        relation.setSuperiorId(userId);
+        actingHierarchyRelationMapper.insert(relation);
+        if (!CollectionUtils.isEmpty(list)) {
+            for (ActingHierarchyRelation o : list) {
+                //Acting level = selectLevel(userId, "二级代理", o.getSuperiorId());
+                Acting acting = selectActingId(o.getActingId(), null);
+                switch (acting.getLevel()) {
+                    case "二级代理":
+                        String id = selectActingId(null, "三级代理").getId();
+                        relation.setActingId(id);
+                        relation.setCreateBy(byActingUserId);
+                        relation.setSuperiorId(o.getSuperiorId());
+                        actingHierarchyRelationMapper.insert(relation);
+                        break;
+                }
+            }
+        }
+    }
+
+    /* 查询代理等级id */
+    private Acting selectActingId(String id, String level) {
+        return actingMapper.selectOne(new QueryWrapper<Acting>().eq("del_flag", DelFlagEnum.CODE.getCode()).eq(null != level, "level", level).eq(null != id, "id", id));
+    }
+
+    /* 根据id查询代理等级 */
+    private ActingHierarchyRelation selectLevel(String userId, String level, String superiorId) {
+        String id = selectActingId(level, null).getId();
+        return actingHierarchyRelationMapper.selectOne(new QueryWrapper<ActingHierarchyRelation>().eq("del_flag", DelFlagEnum.CODE.getCode()).eq("create_by", userId).eq("acting_id", id).eq("superior_id", superiorId));
     }
 }
