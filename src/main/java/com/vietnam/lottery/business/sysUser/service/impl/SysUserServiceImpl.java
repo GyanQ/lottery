@@ -1,5 +1,6 @@
 package com.vietnam.lottery.business.sysUser.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -101,6 +102,8 @@ public class SysUserServiceImpl implements SysUserService {
 
         String passWord = DigestUtils.md5DigestAsHex(request.getPassWord().getBytes());
         SysUser user = new SysUser();
+        String uuid = IdUtil.simpleUUID();
+        user.setId(uuid);
         user.setAccount(request.getAccount());
         user.setPassWord(passWord);
         user.setLoginWay("1");
@@ -110,6 +113,7 @@ public class SysUserServiceImpl implements SysUserService {
         if (!code.equals(request.getCode())) {
             return ResultUtil.failure("验证码错误");
         }
+        addActing(request.getUserId(), uuid);
         return ResultUtil.success(sysUserMapper.insert(user));
     }
 
@@ -306,6 +310,8 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("userId", request.getUserId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
+
+        addActing(request.getUserId(), user.getId());
         return map;
     }
 
@@ -432,39 +438,47 @@ public class SysUserServiceImpl implements SysUserService {
         return user;
     }
 
-    /*推广*/
-    private void addActing(String userId, String byActingUserId) {
-        List<ActingHierarchyRelation> list = actingHierarchyRelationMapper.selectList(new QueryWrapper<ActingHierarchyRelation>().eq("del_flag", DelFlagEnum.CODE.getCode()).eq("create_by", userId));
+    /**
+     * 推广 (每个人最多挂三级)
+     * superiorId: 父级userId
+     * userid: 下级
+     */
+    private void addActing(String superiorId, String userId) {
         ActingHierarchyRelation relation = new ActingHierarchyRelation();
         relation.setActingId(selectActingId(null, "一级代理").getId());
-        relation.setCreateBy(byActingUserId);
-        relation.setSuperiorId(userId);
+        relation.setCreateBy(userId);
+        relation.setSuperiorId(superiorId);
         actingHierarchyRelationMapper.insert(relation);
-        if (!CollectionUtils.isEmpty(list)) {
-            for (ActingHierarchyRelation o : list) {
-                //Acting level = selectLevel(userId, "二级代理", o.getSuperiorId());
-                Acting acting = selectActingId(o.getActingId(), null);
-                switch (acting.getLevel()) {
-                    case "二级代理":
-                        String id = selectActingId(null, "三级代理").getId();
-                        relation.setActingId(id);
-                        relation.setCreateBy(byActingUserId);
-                        relation.setSuperiorId(o.getSuperiorId());
-                        actingHierarchyRelationMapper.insert(relation);
-                        break;
-                }
+
+        //查询父级的上级代理
+        List<ActingHierarchyRelation> list = actingHierarchyRelationMapper.selectList(new QueryWrapper<ActingHierarchyRelation>().eq("del_flag", DelFlagEnum.CODE.getCode()).eq("create_by", superiorId));
+        if (CollectionUtils.isEmpty(list)) return;
+
+        //挂二三级代理
+        for (ActingHierarchyRelation o : list) {
+            ActingHierarchyRelation byActingUserId = new ActingHierarchyRelation();
+            Acting acting = selectActingId(o.getActingId(), null);
+            if (null == acting) continue;
+            switch (acting.getLevel()) {
+                case "一级代理":
+                    byActingUserId.setActingId(selectActingId(null, "二级代理").getId());
+                    break;
+                case "二级代理":
+                    byActingUserId.setActingId(selectActingId(null, "三级代理").getId());
+                    break;
+                default:
+                    continue;
             }
+            byActingUserId.setCreateBy(userId);
+            byActingUserId.setSuperiorId(o.getSuperiorId());
+            actingHierarchyRelationMapper.insert(byActingUserId);
         }
     }
 
-    /* 查询代理等级id */
+    /* 查询代理等级 */
     private Acting selectActingId(String id, String level) {
-        return actingMapper.selectOne(new QueryWrapper<Acting>().eq("del_flag", DelFlagEnum.CODE.getCode()).eq(null != level, "level", level).eq(null != id, "id", id));
-    }
-
-    /* 根据id查询代理等级 */
-    private ActingHierarchyRelation selectLevel(String userId, String level, String superiorId) {
-        String id = selectActingId(level, null).getId();
-        return actingHierarchyRelationMapper.selectOne(new QueryWrapper<ActingHierarchyRelation>().eq("del_flag", DelFlagEnum.CODE.getCode()).eq("create_by", userId).eq("acting_id", id).eq("superior_id", superiorId));
+        QueryWrapper<Acting> query = new QueryWrapper();
+        query.eq("del_flag", DelFlagEnum.CODE.getCode()).eq(null != level, "level", level).eq(null != id, "id", id);
+        return actingMapper.selectOne(query);
     }
 }

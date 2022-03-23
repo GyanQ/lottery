@@ -25,4 +25,7 @@ public class UserRegisterRequest implements Serializable {
     @ApiModelProperty(value = "验证码")
     @NotBlank(message = "验证码不能为空")
     private String code;
+
+    @ApiModelProperty(value = "推广渠道必传推广人userId")
+    private String userId;
 }
