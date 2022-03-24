@@ -1,7 +1,9 @@
 package com.vietnam.lottery.content.front.sysUser;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.actingCommissionDetail.request.CommissionDetailsRequest;
 import com.vietnam.lottery.business.actingCommissionDetail.request.LowerLevelListRequest;
+import com.vietnam.lottery.business.actingCommissionDetail.response.CommissionDetailsResponse;
 import com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelListResponse;
 import com.vietnam.lottery.business.actingCommissionDetail.service.ActingCommissionDetailService;
 import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
@@ -59,5 +61,13 @@ public class MineController {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setKeyWord(JwtUtil.parseToken(token));
         return ResultUtil.success(withdrawDetailService.withDrawInfo(request));
+    }
+
+    @PostMapping("/commissionDetails")
+    @ApiOperation("分佣明细")
+    public ResultModel<Page<CommissionDetailsResponse>> commissionDetails(@RequestBody CommissionDetailsRequest request, HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        request.setUserId(JwtUtil.parseToken(token));
+        return ResultUtil.success(actingCommissionDetailService.commissionDetails(request));
     }
 }
