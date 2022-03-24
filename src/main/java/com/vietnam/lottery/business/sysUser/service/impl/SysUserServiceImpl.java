@@ -113,6 +113,7 @@ public class SysUserServiceImpl implements SysUserService {
         if (!code.equals(request.getCode())) {
             return ResultUtil.failure("验证码错误");
         }
+        //推广代理
         addActing(request.getUserId(), uuid);
         return ResultUtil.success(sysUserMapper.insert(user));
     }

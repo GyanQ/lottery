@@ -1,5 +1,6 @@
 package com.vietnam.lottery.business.withdrawDetail.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vietnam.lottery.common.utils.PageRequest;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class WithdrawListResponse extends PageRequest implements Serializable {
     private String state;
 
     @ApiModelProperty(value = "提现时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String createDate;
 
     @ApiModelProperty(value = "审核状态(1未审核 2审核未通过 3审核通过 4审核中)")

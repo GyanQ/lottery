@@ -19,5 +19,8 @@ public interface WithdrawDetailService {
 
     /* 提现审核 */
     ResultModel audit(WithdrawAuditRequest request);
+
+    /* 当前用户提现记录 */
+    Page<WithdrawListResponse> withDrawInfo(WithdrawListRequest request);
 }
 
