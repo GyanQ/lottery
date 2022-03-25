@@ -29,6 +29,7 @@ import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -295,15 +296,15 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> faceBookLogin(FaceBookLoginRequest request) {
-        SysUser user = new SysUser();
         //查询账号是否存在
-        user = accountIsExist(request.getUserId().toString());
+        SysUser user = accountIsExist(request.getUserId().toString());
         if (ObjectUtil.isEmpty(user)) {
-            user.setLoginWay("2");
-            user.setAccount(request.getUserId().toString());
-            user.setCreateBy(request.getUserId());
-            user.setName(request.getName());
-            sysUserMapper.insert(user);
+            SysUser userInfo = new SysUser();
+            userInfo.setLoginWay("2");
+            userInfo.setAccount(request.getUserId().toString());
+            userInfo.setCreateBy(request.getUserId());
+            userInfo.setName(request.getName());
+            sysUserMapper.insert(userInfo);
         }
 
         //创建token
@@ -312,7 +313,9 @@ public class SysUserServiceImpl implements SysUserService {
         String token = JwtUtil.createToken(map);
         map.put("token", token);
 
-        addActing(request.getUserId(), user.getId());
+        if (!StringUtils.isBlank(request.getId())) {
+            addActing(request.getUserId(), user.getId());
+        }
         return map;
     }
 
