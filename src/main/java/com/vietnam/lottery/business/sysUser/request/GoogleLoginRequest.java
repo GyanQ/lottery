@@ -18,4 +18,7 @@ public class GoogleLoginRequest implements Serializable {
     @ApiModelProperty(value = "昵称")
     @NotBlank(message = "昵称不能为空")
     private String name;
+
+    @ApiModelProperty(value = "推广渠道必传推广人userId")
+    private String id;
 }

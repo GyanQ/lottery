@@ -115,7 +115,9 @@ public class SysUserServiceImpl implements SysUserService {
             return ResultUtil.failure("验证码错误");
         }
         //推广代理
-        addActing(request.getUserId(), uuid);
+        if (!StringUtils.isBlank(request.getUserId())) {
+            addActing(request.getUserId(), uuid);
+        }
         return ResultUtil.success(sysUserMapper.insert(user));
     }
 
@@ -314,7 +316,7 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("token", token);
 
         if (!StringUtils.isBlank(request.getId())) {
-            addActing(request.getUserId(), user.getId());
+            addActing(request.getId(), user.getId());
         }
         return map;
     }
@@ -386,7 +388,27 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> googleLogin(GoogleLoginRequest request) {
-        return null;
+        //查询账号是否存在
+        SysUser user = accountIsExist(request.getUserId().toString());
+        if (ObjectUtil.isEmpty(user)) {
+            SysUser userInfo = new SysUser();
+            userInfo.setLoginWay("2");
+            userInfo.setAccount(request.getUserId().toString());
+            userInfo.setCreateBy(request.getUserId());
+            userInfo.setName(request.getName());
+            sysUserMapper.insert(userInfo);
+        }
+
+        //创建token
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", request.getUserId());
+        String token = JwtUtil.createToken(map);
+        map.put("token", token);
+
+        if (!StringUtils.isBlank(request.getId())) {
+            addActing(request.getId(), user.getId());
+        }
+        return map;
     }
 
     @Override
