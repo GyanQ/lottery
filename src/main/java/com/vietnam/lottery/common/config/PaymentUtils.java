@@ -1,7 +1,6 @@
 package com.vietnam.lottery.common.config;
 
 import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.vietnam.lottery.business.order.request.CreateOrderRequest;
@@ -29,7 +28,7 @@ public class PaymentUtils {
         //金额
         json.put("amount", request.getAmount());
         //订单信息通知地址
-        json.put("notifyurl", "http://47.242.74.180:8090/web/grab/callBack");
+        json.put("notifyurl", "http://47.242.74.180:8090/#/api/web/grab/callBack");
         //前端跳转地址
         json.put("returnurl", null);
         //生成签名
@@ -37,11 +36,7 @@ public class PaymentUtils {
         //签名
         json.put("sign", md5(str));
 
-        String body = HttpRequest.post("https://api.zf77777.org/api/create")
-                .header("Content-Type", "application/json")
-                .body(json.toString())
-                .execute()
-                .body();
+        String body = HttpRequest.post("https://api.zf77777.org/api/create").header("Content-Type", "application/json").body(json.toString()).execute().body();
         return body;
     }
 

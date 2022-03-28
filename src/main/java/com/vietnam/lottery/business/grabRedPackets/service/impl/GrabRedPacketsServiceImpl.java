@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
@@ -161,7 +162,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         orderRequest.setOrderId(orderNo);
         orderRequest.setAmount(redPackets.getAmount());
         orderRequest.setType(request.getType());
-        //创建支付
+        //创建订单
         log.info("创建支付传参:{}", orderRequest);
         String str = PaymentUtils.createOrder(orderRequest);
         log.info("创建支付返回结果:{}", str);
@@ -169,19 +170,13 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         if (0 == json.getInt("success")) {
             throw new GlobalException("创建支付订单失败");
         }
+        //获取订单支付二维码
         String body = selectOrderInfo(json.getStr("ticket"));
         JSONObject jsonBody = JSONUtil.parseObj(body);
         if (0 == jsonBody.getInt("success")) {
             throw new GlobalException("获取订单支付二维码失败");
         }
         return body;
-    }
-
-    @Override
-    public Map<String, Object> callBack(HttpServletRequest httpServletRequest) {
-        Map<String, Object> map = PaymentUtils.convertRequestParamsToMap(httpServletRequest);
-        log.info("支付回调:{}", map);
-        return map;
     }
 
     @Override

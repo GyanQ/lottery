@@ -36,9 +36,6 @@ public interface GrabRedPacketsService {
     /* 下注 */
     String bet(BetRequest request);
 
-    /* 支付回调 */
-    Map<String, Object> callBack(HttpServletRequest httpServletRequest);
-
     /* 获取订单支付二维码*/
     String selectOrderInfo(String ticket);
 }

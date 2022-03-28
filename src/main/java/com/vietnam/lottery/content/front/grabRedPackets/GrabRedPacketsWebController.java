@@ -10,6 +10,7 @@ import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 @RestController
 @Api(tags = "抢红包")
 @RequestMapping("/web/grab")
+@Slf4j
 public class GrabRedPacketsWebController {
     @Autowired
     private GrabRedPacketsService grabRedPacketsService;
@@ -47,7 +50,19 @@ public class GrabRedPacketsWebController {
 
     @PostMapping("/callBack")
     @ApiOperation("支付回调")
-    public Map<String, Object> callBack(HttpServletRequest httpServletRequest) {
-        return grabRedPacketsService.callBack(httpServletRequest);
+    public String callBack(HttpServletRequest httpServletRequest) {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(httpServletRequest.getInputStream()));
+            String line = null;
+            StringBuilder sb = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            String body = sb.toString();
+            log.info(body);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "success";
     }
 }
