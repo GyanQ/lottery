@@ -52,7 +52,7 @@ public class GrabRedPacketsWebController {
     @ApiOperation("支付回调")
     public String callBack(HttpServletRequest httpServletRequest) {
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(httpServletRequest.getInputStream()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(httpServletRequest.getInputStream(), "UTF-8"));
             String line = null;
             StringBuilder sb = new StringBuilder();
             while ((line = br.readLine()) != null) {

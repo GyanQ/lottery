@@ -28,7 +28,7 @@ public class PaymentUtils {
         //金额
         json.put("amount", request.getAmount());
         //订单信息通知地址
-        json.put("notifyurl", "http://47.242.74.180:9797/api/web/grab/callBack");
+        json.put("notifyurl", "http://47.242.74.180:8090/api/web/grab/callBack");
         //前端跳转地址
         json.put("returnurl", null);
         //生成签名
