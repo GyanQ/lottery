@@ -53,13 +53,14 @@ public class GrabRedPacketsWebController {
     public String callBack(HttpServletRequest httpServletRequest) {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(httpServletRequest.getInputStream(), "UTF-8"));
+            log.info("获取request=========={]", br);
             String line = null;
             StringBuilder sb = new StringBuilder();
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
             String body = sb.toString();
-            log.info("=========={}", body);
+            log.info("==========回调信息{}", body);
         } catch (Exception e) {
             e.printStackTrace();
         }
