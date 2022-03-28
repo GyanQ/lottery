@@ -59,7 +59,7 @@ public class GrabRedPacketsWebController {
                 sb.append(line);
             }
             String body = sb.toString();
-            log.info(body);
+            log.info("=========={}", body);
         } catch (Exception e) {
             e.printStackTrace();
         }
