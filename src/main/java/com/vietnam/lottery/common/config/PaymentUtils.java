@@ -16,27 +16,26 @@ public class PaymentUtils {
 
     public static String createOrder(CreateOrderRequest request) {
         JSONObject json = JSONUtil.createObj();
-        //token
-        String token = "abe3eb22-4263-4363-88d1-7975a83edd4f";
         //商户编号
-        json.put("userid", "wy070");
+        json.put("userid", "d3259916fa4344378a0fa60d9cd487ea");
         //商户订单号
         json.put("orderid", request.getOrderId());
         //商户订单类型
         String type = ("1".equals(request.getType())) ? "zalo" : "momo";
         json.put("type", type);
         //金额
-        json.put("amount", request.getAmount());
+        String amount = request.getAmount().toString() + ".0000";
+        json.put("amount", amount);
         //订单信息通知地址
         json.put("notifyurl", "http://47.242.74.180:8090/api/web/grab/callBack");
         //前端跳转地址
         json.put("returnurl", null);
         //生成签名
-        String str = (token + request.getOrderId() + request.getAmount().toString()).toLowerCase();
+        String str = ("myrxxlo5mg4j33s5wal5xse0hg3l4oli" + request.getOrderId() + amount).toLowerCase();
         //签名
-        json.put("sign", md5(str));
+        json.put("sign", md5(str).toLowerCase());
 
-        String body = HttpRequest.post("https://api.zf77777.org/api/create").header("Content-Type", "application/json").body(json.toString()).execute().body();
+        String body = HttpRequest.post("https://jsue13qsoi.77777.org/api/create").header("Content-Type", "application/json").body(json.toString()).execute().body();
         return body;
     }
 

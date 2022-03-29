@@ -166,6 +166,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         String str = PaymentUtils.createOrder(orderRequest);
         log.info("创建支付返回结果:{}", str);
         JSONObject json = JSONUtil.parseObj(str);
+        log.info("创建订单,{]", json);
         if (0 == json.getInt("success")) {
             throw new GlobalException("创建支付订单失败");
         }
