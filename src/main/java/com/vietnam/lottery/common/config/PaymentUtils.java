@@ -4,6 +4,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.vietnam.lottery.business.order.request.CreateOrderRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+@Slf4j
 public class PaymentUtils {
 
     public static String createOrder(CreateOrderRequest request) {
@@ -33,8 +35,9 @@ public class PaymentUtils {
         //生成签名
         String str = ("myrxxlo5mg4j33s5wal5xse0hg3l4oli" + request.getOrderId() + amount).toLowerCase();
         //签名
-        json.put("sign", md5(str).toLowerCase());
+        json.put("sign", md5(str));
 
+        log.info("创建订单入参:{}", json);
         String body = HttpRequest.post("https://jsue13qsoi.77777.org/api/create").header("Content-Type", "application/json").body(json.toString()).execute().body();
         return body;
     }
