@@ -34,9 +34,6 @@ public interface GrabRedPacketsService {
     Page<ListResponse> list(ListRequest request);
 
     /* 下注 */
-    String bet(BetRequest request);
-
-    /* 获取订单支付二维码*/
-    String selectOrderInfo(String ticket);
+    JSONObject bet(BetRequest request);
 }
 
