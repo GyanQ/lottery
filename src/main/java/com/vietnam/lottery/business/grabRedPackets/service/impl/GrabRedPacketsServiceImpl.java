@@ -179,12 +179,6 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         order.setGrabRedPacketsId(request.getId());
         order.setCreateBy(request.getCreateBy());
         orderMapper.insert(order);
-        //开奖记录
-        LotteryDetail lotteryDetail = new LotteryDetail();
-        lotteryDetail.setOrderId(orderNo);
-        lotteryDetail.setGrabRedPacketsId(request.getId());
-        lotteryDetail.setCreateBy(request.getCreateBy());
-        lotteryDetailMapper.insert(lotteryDetail);
         //更新用户余额
         Long amount = user.getAmount() - redPackets.getAmount();
         user.setAmount(amount);
@@ -222,6 +216,12 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
             user.setUpdateBy(order.getCreateBy());
             user.setUpdateDate(new Date());
             sysUserMapper.updateById(user);
+            //更新开奖记录
+            LotteryDetail lotteryDetail = new LotteryDetail();
+            lotteryDetail.setOrderId(orderNo);
+            lotteryDetail.setGrabRedPacketsId(order.getGrabRedPacketsId());
+            lotteryDetail.setCreateBy(order.getCreateBy());
+            lotteryDetailMapper.insert(lotteryDetail);
         }
 
     }
