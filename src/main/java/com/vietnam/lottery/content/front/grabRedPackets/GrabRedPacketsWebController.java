@@ -6,6 +6,7 @@ import com.vietnam.lottery.business.grabRedPackets.request.ListRequest;
 import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
 import com.vietnam.lottery.business.grabRedPackets.service.GrabRedPacketsService;
 import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -62,7 +63,7 @@ public class GrabRedPacketsWebController {
             log.info("==========回调信息{}", body);
             grabRedPacketsService.callBack(body);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new GlobalException(e.getMessage());
         }
         return "success";
     }
