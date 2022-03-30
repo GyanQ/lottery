@@ -16,6 +16,8 @@ import java.util.Date;
 public class RechargeDetail extends Model<RechargeDetail> {
     //id
     private String id;
+    //order_id
+    private String orderId;
     //充值金额
     private Long amount;
     //删除标志(0正常 1停用)
@@ -36,6 +38,14 @@ public class RechargeDetail extends Model<RechargeDetail> {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public Long getAmount() {

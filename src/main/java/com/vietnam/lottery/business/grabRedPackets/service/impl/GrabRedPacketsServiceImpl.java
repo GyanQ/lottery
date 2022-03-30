@@ -11,14 +11,19 @@ import com.vietnam.lottery.business.grabRedPackets.request.*;
 import com.vietnam.lottery.business.grabRedPackets.response.DetailResponse;
 import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
 import com.vietnam.lottery.business.grabRedPackets.service.GrabRedPacketsService;
-import com.vietnam.lottery.business.order.request.CreateOrderRequest;
+import com.vietnam.lottery.business.lotteryDetail.entity.LotteryDetail;
+import com.vietnam.lottery.business.lotteryDetail.mapper.LotteryDetailMapper;
+import com.vietnam.lottery.business.order.entity.Order;
+import com.vietnam.lottery.business.order.mapper.OrderMapper;
+import com.vietnam.lottery.business.rechargeDetail.entity.RechargeDetail;
+import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
-import com.vietnam.lottery.common.config.PaymentUtils;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
+import com.vietnam.lottery.common.global.StatusEnum;
 import com.vietnam.lottery.common.utils.DateUtils;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
@@ -28,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +53,12 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     private SysOperateRecordService sysOperateRecordService;
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Resource
+    private OrderMapper orderMapper;
+    @Resource
+    private LotteryDetailMapper lotteryDetailMapper;
+    @Resource
+    private RechargeDetailMapper rechargeDetailMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -144,12 +156,12 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     }
 
     @Override
-    public JSONObject bet(BetRequest request) {
+    public String bet(BetRequest request) {
         SysUser user = sysUserMapper.selectById(request.getCreateBy());
         if (ObjectUtil.isEmpty(user)) throw new GlobalException("查询不到用户信息");
 
         GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("查询不到红包信息");
+        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("查询不到抢红包信息");
 
         //查询用户余额是否足够
         if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("余额不足");
@@ -157,21 +169,61 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         //生成订单号
         String date = DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATETIME_PATTERN);
         String orderNo = request.getCreateBy().toString() + date;
-        CreateOrderRequest orderRequest = new CreateOrderRequest();
-        orderRequest.setOrderId(orderNo);
-        orderRequest.setAmount(redPackets.getAmount());
-        orderRequest.setType(request.getType());
-        //创建订单
-        log.info("创建支付传参:{}", orderRequest);
-        String str = PaymentUtils.createOrder(orderRequest);
-        log.info("创建支付返回结果:{}", str);
-        JSONObject json = JSONUtil.parseObj(str);
-        log.info("创建订单,{]", json);
-        if (0 == json.getInt("success")) {
-            throw new GlobalException("创建支付订单失败");
+
+        //查询用户余额是否足够
+        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("余额不足");
+
+        //生成订单
+        Order order = new Order();
+        order.setId(orderNo);
+        order.setGrabRedPacketsId(request.getId());
+        order.setCreateBy(request.getCreateBy());
+        orderMapper.insert(order);
+        //开奖记录
+        LotteryDetail lotteryDetail = new LotteryDetail();
+        lotteryDetail.setOrderId(orderNo);
+        lotteryDetail.setGrabRedPacketsId(request.getId());
+        lotteryDetail.setCreateBy(request.getCreateBy());
+        lotteryDetailMapper.insert(lotteryDetail);
+        //更新用户余额
+        Long amount = user.getAmount() - redPackets.getAmount();
+        user.setAmount(amount);
+        user.setUpdateBy(order.getCreateBy());
+        user.setUpdateDate(new Date());
+        sysUserMapper.updateById(user);
+        return orderNo;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void callBack(String body) {
+        log.info("回调信息:{}", body);
+        JSONObject json = JSONUtil.parseObj(body);
+        JSONObject data = json.getJSONObject("data");
+        Integer isPay = data.getInt("ispay");
+        String orderNo = data.getStr("orderid");
+        Order order = orderMapper.selectById(orderNo);
+        //支付成功
+        if (1 == isPay && null != order) {
+            GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(order.getGrabRedPacketsId());
+            //增加充值记录
+            RechargeDetail rechargeDetail = new RechargeDetail();
+            rechargeDetail.setOrderId(order.getId());
+            rechargeDetail.setAmount(grabRedPackets.getAmount());
+            rechargeDetail.setCreateBy(order.getCreateBy());
+            rechargeDetailMapper.insert(rechargeDetail);
+            //更新订单支付状态
+            order.setPayStatus(StatusEnum.FINISH_PAY.getCode());
+            orderMapper.updateById(order);
+            //更新用户余额
+            SysUser user = sysUserMapper.selectById(order.getCreateBy());
+            Long amount = user.getAmount() - grabRedPackets.getAmount();
+            user.setAmount(amount);
+            user.setUpdateBy(order.getCreateBy());
+            user.setUpdateDate(new Date());
+            sysUserMapper.updateById(user);
         }
-        //获取订单支付二维码
-        return json;
+
     }
 }
 

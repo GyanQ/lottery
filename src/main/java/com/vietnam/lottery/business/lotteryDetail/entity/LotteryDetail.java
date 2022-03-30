@@ -16,6 +16,8 @@ import java.util.Date;
 public class LotteryDetail extends Model<LotteryDetail> {
     //id
     private String id;
+    //order_id
+    private String orderId;
     //抢红包id
     private String grabRedPacketsId;
     //拆红包id
@@ -40,6 +42,14 @@ public class LotteryDetail extends Model<LotteryDetail> {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getGrabRedPacketsId() {

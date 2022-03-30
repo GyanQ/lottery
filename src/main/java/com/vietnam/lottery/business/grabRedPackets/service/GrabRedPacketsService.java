@@ -34,6 +34,9 @@ public interface GrabRedPacketsService {
     Page<ListResponse> list(ListRequest request);
 
     /* 下注 */
-    JSONObject bet(BetRequest request);
+    String bet(BetRequest request);
+
+    //回调
+    void callBack(String body);
 }
 

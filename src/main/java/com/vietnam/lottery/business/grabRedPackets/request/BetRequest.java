@@ -12,9 +12,6 @@ public class BetRequest implements Serializable {
     @ApiModelProperty(value = "抢红包id")
     private String id;
 
-    @ApiModelProperty(value = "支付类型(1zalo 2momo)")
-    private String type;
-
     @ApiModelProperty(hidden = true)
     private String createBy;
 }

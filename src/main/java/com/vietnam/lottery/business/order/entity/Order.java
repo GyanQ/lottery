@@ -2,6 +2,7 @@ package com.vietnam.lottery.business.order.entity;
 
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,7 +20,7 @@ public class Order extends Model<Order> {
     private String grabRedPacketsId;
     //支付类型(1zalo 2momo)
     private String payType;
-    //支付状态(1待支付 2已支付 3取消支付 4待确认 5已退款)
+    //支付状态(1待支付 2已支付 3取消支付)
     private String payStatus;
     //删除标志（0代表存在、1代表删除）
     private String delFlag;
@@ -114,5 +115,5 @@ public class Order extends Model<Order> {
     protected Serializable pkVal() {
         return this.id;
     }
-    }
+}
 

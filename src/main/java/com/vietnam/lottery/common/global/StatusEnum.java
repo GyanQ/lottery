@@ -2,8 +2,9 @@ package com.vietnam.lottery.common.global;
 
 public enum StatusEnum {
 
-    CODE("0", "正常"),
-    MESSAGE("1", "删除");
+    WAIT_PAY("1", "待支付"),
+    FINISH_PAY("2", "已支付"),
+    CANCEL_PAY("3", "取消支付");
 
     private final String code;
     private final String message;

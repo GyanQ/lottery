@@ -60,6 +60,7 @@ public class GrabRedPacketsWebController {
             }
             String body = sb.toString();
             log.info("==========回调信息{}", body);
+            grabRedPacketsService.callBack(body);
         } catch (Exception e) {
             e.printStackTrace();
         }
