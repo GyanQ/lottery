@@ -39,6 +39,7 @@ com\vietnam\lottery\business\grabRedPackets\request\UpdateRequest.class
 com\vietnam\lottery\business\sysUser\request\UserManageListRequest.class
 com\vietnam\lottery\content\back\acting\ActingController.class
 com\vietnam\lottery\business\grabRedPackets\request\ListRequest.class
+com\vietnam\lottery\content\front\lottery\LotteryDetailWebController.class
 com\vietnam\lottery\business\grabRedPackets\request\DeleteRequest.class
 com\vietnam\lottery\business\sysUser\request\CreateAccountRequest.class
 com\vietnam\lottery\business\sysUser\request\UserListRequest.class
@@ -111,6 +112,7 @@ com\vietnam\lottery\common\global\StatusEnum.class
 com\vietnam\lottery\common\utils\PageRequest.class
 com\vietnam\lottery\business\sysUser\request\SendSmsRequest.class
 com\vietnam\lottery\business\order\request\CreateOrderRequest.class
+com\vietnam\lottery\business\lotteryDetail\request\PayRequest.class
 com\vietnam\lottery\business\sysRoleMenu\request\menuConfigRequest.class
 com\vietnam\lottery\business\grabRedPackets\request\AddRequest.class
 com\vietnam\lottery\business\sysRoleMenu\request\RoleMenuListRequest.class
