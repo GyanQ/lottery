@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +43,14 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel add(UnPackAddRequest request) {
+        List<UnpackRedPackets> unpackList = unpackList();
+        if (!CollectionUtils.isEmpty(unpackList)) {
+            BigDecimal probability = unpackList.stream().map(UnpackRedPackets::getProbability).reduce(BigDecimal.ZERO, BigDecimal::add);
+            BigDecimal total = new BigDecimal(100);
+            if (total != probability) {
+                return ResultUtil.failure("The probabilities do not add up to 100");
+            }
+        }
         UnpackRedPackets unpackRedPackets = new UnpackRedPackets();
         unpackRedPackets.setName(request.getName());
         unpackRedPackets.setIntervalBeginValue(request.getBegin());
@@ -64,6 +73,15 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     public ResultModel update(UnPackUpdateRequest request) {
         UnpackRedPackets unpackRedPackets = unpackRedPacketsMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(unpackRedPackets)) return ResultUtil.failure("该条信息不存在,修改失败");
+
+        List<UnpackRedPackets> unpackList = unpackList();
+        if (!CollectionUtils.isEmpty(unpackList)) {
+            BigDecimal probability = unpackList.stream().map(UnpackRedPackets::getProbability).reduce(BigDecimal.ZERO, BigDecimal::add);
+            BigDecimal total = new BigDecimal(100);
+            if (total != probability) {
+                return ResultUtil.failure("The probabilities do not add up to 100");
+            }
+        }
 
         unpackRedPackets.setName(request.getName());
         unpackRedPackets.setIntervalBeginValue(request.getBegin());
@@ -131,6 +149,15 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         });
         responsePage.setRecords(list);
         return responsePage;
+    }
+
+    /**
+     * 查询全部拆红包
+     */
+    private List<UnpackRedPackets> unpackList() {
+        QueryWrapper<UnpackRedPackets> query = new QueryWrapper<>();
+        query.eq("del_flag", DelFlagEnum.CODE.getCode());
+        return unpackRedPacketsMapper.selectList(query);
     }
 }
 

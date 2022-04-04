@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 public class UnPackAddRequest implements Serializable {
@@ -25,7 +26,7 @@ public class UnPackAddRequest implements Serializable {
 
     @ApiModelProperty(value = "中奖概率")
     @NotNull(message = "中奖概率不能为空")
-    private Long probability;
+    private BigDecimal probability;
 
     @ApiModelProperty(hidden = true)
     private String createBy;

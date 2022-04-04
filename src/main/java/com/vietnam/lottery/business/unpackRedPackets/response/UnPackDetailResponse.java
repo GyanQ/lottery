@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 public class UnPackDetailResponse implements Serializable {
@@ -19,5 +20,5 @@ public class UnPackDetailResponse implements Serializable {
     private Integer end;
 
     @ApiModelProperty(value = "中奖概率")
-    private Long probability;
+    private BigDecimal probability;
 }
