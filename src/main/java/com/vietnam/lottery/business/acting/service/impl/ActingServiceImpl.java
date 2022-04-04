@@ -62,7 +62,7 @@ public class ActingServiceImpl implements ActingService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel update(ActingUpdateRequest request) {
         Acting acting = actingMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(acting)) return ResultUtil.failure("不存在代理角色,修改失败!");
+        if (ObjectUtil.isEmpty(acting)) return ResultUtil.failure("fail to edit");
 
         acting.setCommissionRatio(request.getCommissionRatio());
         acting.setLevel(request.getLevel());
@@ -101,7 +101,7 @@ public class ActingServiceImpl implements ActingService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel delete(ActingDeleteRequest request) {
         Acting acting = actingMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(acting)) return ResultUtil.failure("代理角色不存在,删除失败");
+        if (ObjectUtil.isEmpty(acting)) return ResultUtil.failure("fail to delete");
 
         acting.setId(request.getId());
         acting.setDelFlag(DelFlagEnum.MESSAGE.getCode());
@@ -121,7 +121,7 @@ public class ActingServiceImpl implements ActingService {
         QueryWrapper<Acting> query = new QueryWrapper<>();
         query.eq("id", id).eq("del_flag", DelFlagEnum.CODE.getCode());
         Acting acting = actingMapper.selectOne(query);
-        if (ObjectUtil.isEmpty(acting)) throw new GlobalException("代理角色不存在");
+        if (ObjectUtil.isEmpty(acting)) throw new GlobalException("Agent role does not exist");
 
         ActingDetailResponse resp = new ActingDetailResponse();
         resp.setLevel(acting.getLevel());

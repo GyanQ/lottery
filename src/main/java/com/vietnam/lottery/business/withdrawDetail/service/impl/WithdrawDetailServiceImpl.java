@@ -46,7 +46,7 @@ public class WithdrawDetailServiceImpl implements WithdrawDetailService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel audit(WithdrawAuditRequest request) {
         WithdrawDetail withdrawDetail = withdrawDetailMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(withdrawDetail)) return ResultUtil.failure("该条信息不存在,修改失败");
+        if (ObjectUtil.isEmpty(withdrawDetail)) return ResultUtil.failure("fail to edit");
 
         //操作记录
         SysOperateRecord record = new SysOperateRecord();

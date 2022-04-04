@@ -53,7 +53,7 @@ public class SysBankCardServiceImpl implements SysBankCardService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel update(BankCardUpdateRequest request) {
         SysBankCard bankCard = sysBackCardMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(bankCard)) return ResultUtil.failure("查询不到信息卡信息,修改失败");
+        if (ObjectUtil.isEmpty(bankCard)) return ResultUtil.failure("fail to edit");
 
         bankCard.setCardNum(request.getCardNum());
         bankCard.setBackName(request.getBackName());
@@ -92,7 +92,7 @@ public class SysBankCardServiceImpl implements SysBankCardService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel delete(BankCardDeleteRequest request) {
         SysBankCard bankCard = sysBackCardMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(bankCard)) return ResultUtil.failure("查询不到信息,删除失败");
+        if (ObjectUtil.isEmpty(bankCard)) return ResultUtil.failure("fail to delete");
 
         bankCard.setDelFlag(DelFlagEnum.MESSAGE.getCode());
         sysBackCardMapper.updateById(bankCard);

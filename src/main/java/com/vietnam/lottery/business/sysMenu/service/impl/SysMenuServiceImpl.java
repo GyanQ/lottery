@@ -66,7 +66,7 @@ public class SysMenuServiceImpl implements SysMenuService {
     public ResultModel update(MenuUpdateRequest request) {
         SysMenu sysMenu = sysMenuMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(sysMenu)) {
-            return ResultUtil.failure("该条数据不存在,无法修改!");
+            return ResultUtil.failure("fail to edit");
         }
         sysMenu.setName(request.getName());
         sysMenu.setSort(request.getSort());
@@ -80,7 +80,7 @@ public class SysMenuServiceImpl implements SysMenuService {
     public MenuDetailResponse detail(Long id) {
         SysMenu sysMenu = sysMenuMapper.selectOne(new QueryWrapper<SysMenu>().eq("id", id));
         if (ObjectUtil.isEmpty(sysMenu)) {
-            throw new GlobalException("无法查询此数据！");
+            throw new GlobalException("Can't find data");
         }
         MenuDetailResponse response = new MenuDetailResponse();
         response.setId(sysMenu.getId());

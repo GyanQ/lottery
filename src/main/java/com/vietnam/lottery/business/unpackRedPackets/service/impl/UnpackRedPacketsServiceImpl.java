@@ -72,7 +72,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel update(UnPackUpdateRequest request) {
         UnpackRedPackets unpackRedPackets = unpackRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(unpackRedPackets)) return ResultUtil.failure("该条信息不存在,修改失败");
+        if (ObjectUtil.isEmpty(unpackRedPackets)) return ResultUtil.failure("fail to edit");
 
         List<UnpackRedPackets> unpackList = unpackList();
         if (!CollectionUtils.isEmpty(unpackList)) {
@@ -104,7 +104,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel delete(UnPackDeleteRequest request) {
         UnpackRedPackets unpackRedPackets = unpackRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(unpackRedPackets)) return ResultUtil.failure("该条信息不存在,删除失败");
+        if (ObjectUtil.isEmpty(unpackRedPackets)) return ResultUtil.failure("fail to delete");
         unpackRedPackets.setDelFlag(DelFlagEnum.MESSAGE.getCode());
 
         //操作记录

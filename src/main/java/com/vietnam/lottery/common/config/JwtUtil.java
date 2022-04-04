@@ -72,7 +72,7 @@ public class JwtUtil {
         try {
             JWT.require(Algorithm.HMAC256(secret)).build().verify(token);
         } catch (Exception e) {
-            throw new ApiException("token无效,请重新获取！");
+            throw new ApiException("The token is invalid, please get it again");
         }
         return true;
     }

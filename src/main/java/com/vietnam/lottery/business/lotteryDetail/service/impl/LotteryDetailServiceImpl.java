@@ -57,10 +57,10 @@ public class LotteryDetailServiceImpl implements LotteryDetailService {
     @Override
     public ResultModel pay(PayRequest request) {
         Order order = orderMapper.selectById(request.getOrderNo());
-        if (ObjectUtil.isEmpty(order)) return ResultUtil.failure("查询不到订单信息");
+        if (ObjectUtil.isEmpty(order)) return ResultUtil.failure("Can't find order information");
 
         GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(order.getGrabRedPacketsId());
-        if (ObjectUtil.isEmpty(grabRedPackets)) return ResultUtil.failure("查询不到抢红包金额");
+        if (ObjectUtil.isEmpty(grabRedPackets)) return ResultUtil.failure("Can't find the amount of the red envelope");
 
         QueryWrapper<RechargeDetail> query = new QueryWrapper<>();
         query.eq("create_by", request.getCreateBy());
@@ -84,7 +84,7 @@ public class LotteryDetailServiceImpl implements LotteryDetailService {
         JSONObject data = json.getJSONObject("data");
         log.info("获取data,{}", data);
         if (!"success".equals(json.get("msg"))) {
-            throw new GlobalException("创建支付订单失败");
+            throw new GlobalException("Failed to create payment order");
         }
         //更新订单支付类型
         order.setPayType(request.getType());

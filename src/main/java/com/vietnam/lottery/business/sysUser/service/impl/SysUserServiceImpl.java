@@ -70,12 +70,12 @@ public class SysUserServiceImpl implements SysUserService {
     public Map<String, Object> login(LoginRequest request) {
         //查询账号是否存在
         SysUser user = accountIsExist(request.getAccount());
-        if (ObjectUtil.isEmpty(user)) throw new GlobalException("登录失败,没有该账号信息");
+        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Unable to query user information");
         user.setLoginWay("1");
         sysUserMapper.updateById(user);
         //校验密码
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
-        if (!flag) throw new GlobalException("密码错误！");
+        if (!flag) throw new GlobalException("wrong password");
 
         //创建token
         Map<String, Object> map = new HashMap<>();
@@ -99,7 +99,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel register(UserRegisterRequest request) {
         Boolean flag = isExist(request.getAccount());
-        if (!flag) return ResultUtil.failure("账号已存在");
+        if (!flag) return ResultUtil.failure("account already exists");
 
         String passWord = DigestUtils.md5DigestAsHex(request.getPassWord().getBytes());
         SysUser user = new SysUser();
@@ -112,7 +112,7 @@ public class SysUserServiceImpl implements SysUserService {
 
         String code = sysSmsMapper.selectByPhone(request.getPhone());
         if (!code.equals(request.getCode())) {
-            return ResultUtil.failure("验证码错误");
+            return ResultUtil.failure("Verification code error");
         }
         //推广代理
         if (!StringUtils.isBlank(request.getUserId())) {
@@ -126,12 +126,12 @@ public class SysUserServiceImpl implements SysUserService {
     public Map<String, Object> amountLogin(LoginRequest request) {
         //查询账号是否存在
         SysUser user = accountIsExist(request.getAccount());
-        if (ObjectUtil.isEmpty(user)) throw new GlobalException("登录失败,没有该账号信息");
+        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Can't find account information");
         user.setLoginWay("2");
         sysUserMapper.updateById(user);
         //校验密码
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
-        if (!flag) throw new GlobalException("密码错误！");
+        if (!flag) throw new GlobalException("wrong password");
 
         Map<String, Object> map = new HashMap<>();
         //创建token
@@ -145,9 +145,9 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel updatePaw(UpdatePawRequest request) {
         SysUser user = sysUserMapper.selectById(request.getCreateBy());
-        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("查询不到用户信息");
+        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("Unable to query user information");
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
-        if (!flag) return ResultUtil.failure("原密码输入错误！");
+        if (!flag) return ResultUtil.failure("The original password was entered incorrectly");
 
         user.setPassWord(DigestUtils.md5DigestAsHex(request.getNewPassWord().getBytes()));
         sysUserMapper.updateById(user);
@@ -178,10 +178,10 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel createAccount(CreateAccountRequest request) {
         SysUser sysUser = accountIsExist(request.getAccount());
-        if (!ObjectUtil.isEmpty(sysUser)) return ResultUtil.failure("账号已存在");
+        if (!ObjectUtil.isEmpty(sysUser)) return ResultUtil.failure("account already exists");
 
         Boolean flag = sysUserMapper.isSuperAdmin("超级管理员");
-        if (!flag) return ResultUtil.failure("该账号没有创建账号权限");
+        if (!flag) return ResultUtil.failure("This account does not have permission to create an account");
         SysUser user = new SysUser();
         user.setAccount(request.getAccount());
         user.setName(request.getName());
@@ -203,7 +203,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel resetPaw(ResetPawRequest request) {
         SysUser user = sysUserMapper.selectById(request.getUserId());
-        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("查询不到该账号,重置失败");
+        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("reset failed");
 
         user.setPassWord(DigestUtils.md5DigestAsHex("123456".getBytes()));
         user.setUpdateBy(request.getCreateBy());
@@ -228,7 +228,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public UserDetailResponse detail(String id) {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("id", id).eq("del_flag", DelFlagEnum.CODE.getCode()));
-        if (ObjectUtil.isEmpty(user)) throw new GlobalException("查询不到该用户信息");
+        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Unable to query user information");
         UserDetailResponse response = new UserDetailResponse();
         response.setName(user.getName());
         return response;
@@ -238,7 +238,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel update(UserDeleteRequest request) {
         SysUser user = sysUserMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("账号不存在");
+        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("Account does not exist");
         user.setName(request.getName());
         user.setDelFlag(request.getDelFlag());
         user.setUpdateBy(request.getCreateBy());
@@ -282,7 +282,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel pullBlack(PullBlackRequest request) {
         SysUser sysUser = sysUserMapper.selectById(request.getUserId());
-        if (ObjectUtil.isEmpty(sysUser)) return ResultUtil.failure("查询不到该用户");
+        if (ObjectUtil.isEmpty(sysUser)) return ResultUtil.failure("Unable to query user information");
 
         sysUser.setDelFlag(request.getDelFlag());
         //操作记录
@@ -359,9 +359,9 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel retrievePaw(retrievePwdRequest request) {
         SysUser user = accountIsExist(request.getAccount());
-        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("账号不存在");
+        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("Account does not exist");
         String code = sysSmsMapper.selectByPhone(request.getPhone());
-        if (!code.equals(request.getCode())) return ResultUtil.failure("验证码错误");
+        if (!code.equals(request.getCode())) return ResultUtil.failure("Verification code error");
 
         user.setPassWord(DigestUtils.md5DigestAsHex(request.getPassWord().getBytes()));
         user.setUpdateDate(new Date());
@@ -372,10 +372,10 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> pawFreeLogin(PawFreeLoginRequest request) {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("phone", request.getPhone()).eq("del_flag", DelFlagEnum.CODE.getCode()));
-        if (ObjectUtil.isEmpty(user)) throw new GlobalException("账号不存在");
+        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Account does not exist");
 
         String code = sysSmsMapper.selectByPhone(request.getPhone());
-        if (!code.equals(request.getCode())) throw new GlobalException("验证码错误");
+        if (!code.equals(request.getCode())) throw new GlobalException("Verification code error");
 
         //创建token
         Map<String, Object> map = new HashMap<>();

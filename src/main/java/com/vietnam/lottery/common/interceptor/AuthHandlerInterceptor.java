@@ -25,10 +25,10 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
             return true;
         }
         //token不存在
-        if (ObjectUtil.isEmpty(token)) throw new GlobalException("token不存在");
+        if (ObjectUtil.isEmpty(token)) throw new GlobalException("token does not exist");
         //验证token
         Boolean flag = JwtUtil.validateToken(token);
-        if (!flag) throw new GlobalException("token验证失败");
+        if (!flag) throw new GlobalException("token verification failed");
 
         response.setContentType("application/json;charset=UTF-8");
         return true;

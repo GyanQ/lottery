@@ -78,7 +78,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     public ResultModel update(RoleUpdateRequest request) {
         SysRole role = sysRoleMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(role)) {
-            return ResultUtil.failure("无法查询到此数据!");
+            return ResultUtil.failure("Can't find data");
         }
         role.setName(request.getName());
         role.setUpdateBy(request.getUpdateBy());
@@ -97,7 +97,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public RoleDetailResponse detail(Long id) {
         SysRole role = sysRoleMapper.selectOne(new QueryWrapper<SysRole>().eq("id", id));
-        if (ObjectUtil.isEmpty(role)) throw new GlobalException("该信息不存在");
+        if (ObjectUtil.isEmpty(role)) throw new GlobalException("Can't find data");
 
         RoleDetailResponse response = new RoleDetailResponse();
         response.setName(role.getName());
@@ -108,7 +108,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel delete(MenuDeleteRequest request) {
         SysRole sysRole = sysRoleMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(sysRole)) return ResultUtil.failure("查询不到该角色信息,删除失败");
+        if (ObjectUtil.isEmpty(sysRole)) return ResultUtil.failure("failed to delete");
         sysRole.setDelFlag(DelFlagEnum.MESSAGE.getCode());
 
         //操作记录

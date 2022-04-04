@@ -64,7 +64,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel add(AddRequest request) {
         if (50000 > request.getAmount()) {
-            return ResultUtil.failure("金额不能小于50000");
+            return ResultUtil.failure("The amount cannot be less than 50000");
         }
         GrabRedPackets grabRedPackets = new GrabRedPackets();
         grabRedPackets.setAmount(request.getAmount());
@@ -86,10 +86,10 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel update(UpdateRequest request) {
         GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(grabRedPackets)) return ResultUtil.failure("查询不到该条配置,修改失败！");
+        if (ObjectUtil.isEmpty(grabRedPackets)) return ResultUtil.failure("fail to edit");
 
         if (50000 > request.getAmount()) {
-            return ResultUtil.failure("金额不能小于50000");
+            return ResultUtil.failure("The amount cannot be less than 50000");
         }
         grabRedPackets.setAmount(request.getAmount());
         grabRedPackets.setIntervalBeginValue(request.getBegin());
@@ -111,7 +111,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel delete(DeleteRequest request) {
         GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(grabRedPackets)) return ResultUtil.failure("查询不到该条配置,删除失败！");
+        if (ObjectUtil.isEmpty(grabRedPackets)) return ResultUtil.failure("fail to delete");
 
         grabRedPackets.setDelFlag(DelFlagEnum.MESSAGE.getCode());
         //操作记录
@@ -158,20 +158,20 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     @Override
     public String bet(BetRequest request) {
         SysUser user = sysUserMapper.selectById(request.getCreateBy());
-        if (ObjectUtil.isEmpty(user)) throw new GlobalException("查询不到用户信息");
+        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Unable to query user information");
 
         GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("查询不到抢红包信息");
+        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("Can't find the red envelope information");
 
         //查询用户余额是否足够
-        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("余额不足");
+        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("Insufficient balance");
 
         //生成订单号
         String date = DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATETIME_PATTERN);
         String orderNo = request.getCreateBy().toString() + date;
 
         //查询用户余额是否足够
-        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("余额不足");
+        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("Insufficient balance");
 
         //生成订单
         Order order = new Order();
