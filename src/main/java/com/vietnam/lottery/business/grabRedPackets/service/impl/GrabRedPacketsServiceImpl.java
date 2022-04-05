@@ -9,8 +9,8 @@ import com.vietnam.lottery.business.grabRedPackets.request.*;
 import com.vietnam.lottery.business.grabRedPackets.response.DetailResponse;
 import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
 import com.vietnam.lottery.business.grabRedPackets.service.GrabRedPacketsService;
-import com.vietnam.lottery.business.order.entity.Order;
-import com.vietnam.lottery.business.order.mapper.OrderMapper;
+import com.vietnam.lottery.business.rechargeDetail.entity.RechargeDetail;
+import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
@@ -47,7 +47,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     @Autowired
     private SysUserMapper sysUserMapper;
     @Resource
-    private OrderMapper orderMapper;
+    private RechargeDetailMapper orderMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -146,35 +146,35 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
 
     @Override
     public String bet(BetRequest request) {
-        SysUser user = sysUserMapper.selectById(request.getCreateBy());
-        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Unable to query user information");
-
-        GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("Can't find the red envelope information");
-
-        //查询用户余额是否足够
-        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("Insufficient balance");
-
-        //生成订单号
-        String date = DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATETIME_PATTERN);
-        String orderNo = request.getCreateBy().toString() + date;
-
-        //查询用户余额是否足够
-        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("Insufficient balance");
-
-        //生成订单
-        Order order = new Order();
-        order.setId(orderNo);
-        order.setGrabRedPacketsId(request.getId());
-        order.setCreateBy(request.getCreateBy());
-        orderMapper.insert(order);
-        //更新用户余额
-        Long amount = user.getAmount() - redPackets.getAmount();
-        user.setAmount(amount);
-        user.setUpdateBy(order.getCreateBy());
-        user.setUpdateDate(new Date());
-        sysUserMapper.updateById(user);
-        return orderNo;
+//        SysUser user = sysUserMapper.selectById(request.getCreateBy());
+//        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Unable to query user information");
+//
+//        GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
+//        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("Can't find the red envelope information");
+//
+//        //查询用户余额是否足够
+//        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("Insufficient balance");
+//
+//        //生成订单号
+//        String date = DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATETIME_PATTERN);
+//        String orderNo = request.getCreateBy().toString() + date;
+//
+//        //查询用户余额是否足够
+//        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("Insufficient balance");
+//
+//        //生成订单
+//        RechargeDetail order = new RechargeDetail();
+//        order.setId(orderNo);
+//        order.setGrabRedPacketsId(request.getId());
+//        order.setCreateBy(request.getCreateBy());
+//        orderMapper.insert(order);
+//        //更新用户余额
+//        Long amount = user.getAmount() - redPackets.getAmount();
+//        user.setAmount(amount);
+//        user.setUpdateBy(order.getCreateBy());
+//        user.setUpdateDate(new Date());
+//        sysUserMapper.updateById(user);
+        return null;
     }
 }
 

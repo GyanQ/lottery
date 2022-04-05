@@ -7,13 +7,12 @@ import com.vietnam.lottery.business.rechargeDetail.response.RechargeListResponse
 import com.vietnam.lottery.common.utils.ResultModel;
 
 /**
- * 充值记录(RechargeDetail)表服务接口
+ * 订单(Order)表服务接口
  *
  * @author Gyan
- * @since 2022-02-17 11:48:02
+ * @since 2022-03-01 14:49:23
  */
 public interface RechargeDetailService {
-
     /*  充值记录 */
     Page<RechargeListResponse> list(RechargeListRequest request);
 

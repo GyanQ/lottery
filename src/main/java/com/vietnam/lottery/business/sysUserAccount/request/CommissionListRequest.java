@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.actingCommissionDetail.request;
+package com.vietnam.lottery.business.sysUserAccount.request;
 
 import com.vietnam.lottery.common.utils.PageRequest;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,7 +7,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class ActingDetailListRequest extends PageRequest implements Serializable {
+public class CommissionListRequest extends PageRequest implements Serializable {
     private static final long serialVersionUID = 7095749024710331773L;
 
     @ApiModelProperty(value = "手机、用户id、账号")

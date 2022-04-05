@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper">
+
     <select id="list" resultType="com.vietnam.lottery.business.rechargeDetail.response.RechargeListResponse">
-        select
-        a.id as id,
-        b.id as userId,
+        select a.create_by as userId,
         a.amount as amount,
         a.create_date as createDate
         from recharge_detail a
-        inner join sys_user b on a.create_by = b.id
-        where 1 = 1
+        left join sys_user b on a.create_by = b.id
+        where a.del_flag = '0'
         <if test="request.keyWord != null and request.keyWord != ''">
             and b.id = #{request.keyWord}
         </if>
@@ -25,6 +24,7 @@
         <if test="request.endDate != null and request.endDate != ''">
             and date_format(a.create_date, '%Y-%m-%d') &lt;= date_format(#{request.endDate}, '%Y-%m-%d')
         </if>
+        order by a.create_date desc
     </select>
 </mapper>
 

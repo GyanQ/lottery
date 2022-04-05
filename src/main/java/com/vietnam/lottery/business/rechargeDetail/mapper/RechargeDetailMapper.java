@@ -9,14 +9,15 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * 充值记录(RechargeDetail)表数据库访问层
+ * 订单(Order)表数据库访问层
  *
  * @author Gyan
- * @since 2022-02-17 11:48:01
+ * @since 2022-03-01 14:49:22
  */
 @Mapper
 public interface RechargeDetailMapper extends BaseMapper<RechargeDetail> {
-    /* 充值记录列表 */
+
+    //充值列表
     Page<RechargeListResponse> list(@Param("page") Page page, @Param("request") RechargeListRequest request);
 }
 

@@ -1,12 +1,10 @@
 package com.vietnam.lottery.business.actingCommissionDetail.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.actingCommissionDetail.request.ActingDetailListRequest;
 import com.vietnam.lottery.business.actingCommissionDetail.request.CommissionDetailsRequest;
-import com.vietnam.lottery.business.actingCommissionDetail.request.LowerLevelListRequest;
-import com.vietnam.lottery.business.actingCommissionDetail.response.ActingDetailListResponse;
+import com.vietnam.lottery.business.sysUserAccount.request.SubordinateListListRequest;
 import com.vietnam.lottery.business.actingCommissionDetail.response.CommissionDetailsResponse;
-import com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelListResponse;
+import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
 
 import java.util.List;
 
@@ -17,12 +15,6 @@ import java.util.List;
  * @since 2022-02-16 11:41:30
  */
 public interface ActingCommissionDetailService {
-
-    /* 代理列表 */
-    Page<ActingDetailListResponse> list(ActingDetailListRequest request);
-
-    /* 下级代理列表 */
-    List<LowerLevelListResponse> lowerLevelList(LowerLevelListRequest request);
 
     /* 查询当前用户分佣明细 */
     Page<CommissionDetailsResponse> commissionDetails(CommissionDetailsRequest request);

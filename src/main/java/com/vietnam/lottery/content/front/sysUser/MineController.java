@@ -2,9 +2,9 @@ package com.vietnam.lottery.content.front.sysUser;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.actingCommissionDetail.request.CommissionDetailsRequest;
-import com.vietnam.lottery.business.actingCommissionDetail.request.LowerLevelListRequest;
+import com.vietnam.lottery.business.sysUserAccount.request.SubordinateListListRequest;
 import com.vietnam.lottery.business.actingCommissionDetail.response.CommissionDetailsResponse;
-import com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelListResponse;
+import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
 import com.vietnam.lottery.business.actingCommissionDetail.service.ActingCommissionDetailService;
 import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
@@ -39,15 +39,15 @@ public class MineController {
         return ResultUtil.success(sysUserService.accountBalance(userId));
     }
 
-    @PostMapping("/partner")
-    @ApiOperation("我的伙伴")
-    public ResultModel<List<LowerLevelListResponse>> partner(HttpServletRequest httpServletRequest) {
-        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        LowerLevelListRequest listRequest = new LowerLevelListRequest();
-        listRequest.setUserId(userId);
-        return ResultUtil.success(actingCommissionDetailService.lowerLevelList(listRequest));
-    }
+//    @PostMapping("/partner")
+//    @ApiOperation("我的伙伴")
+//    public ResultModel<List<SubordinateListListResponse>> partner(HttpServletRequest httpServletRequest) {
+//        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+//        String userId = JwtUtil.parseToken(token);
+//        SubordinateListListRequest listRequest = new SubordinateListListRequest();
+//        listRequest.setUserId(userId);
+//        return ResultUtil.success(actingCommissionDetailService.lowerLevelList(listRequest));
+//    }
 
     @PostMapping("/commissionDetails")
     @ApiOperation("分佣明细")

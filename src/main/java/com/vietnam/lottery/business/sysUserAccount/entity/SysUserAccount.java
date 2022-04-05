@@ -18,7 +18,7 @@ public class SysUserAccount extends Model<SysUserAccount> {
     private String id;
     //产品id
     private String productId;
-    //类型(0分佣 1拆红包)
+    //类型(0分佣 1拆红包 2抢红包)
     private String type;
     //开支(0支入 1支出)
     private String spending;

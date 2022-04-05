@@ -9,9 +9,6 @@ import java.io.Serializable;
 public class RechargeListResponse implements Serializable {
     private static final long serialVersionUID = 6887012534459921975L;
 
-    @ApiModelProperty(value = "id")
-    private String id;
-
     @ApiModelProperty(value = "userId")
     private String userId;
 

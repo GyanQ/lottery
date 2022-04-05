@@ -2,54 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper">
 
-    <select id="list"
-            resultType="com.vietnam.lottery.business.actingCommissionDetail.response.ActingDetailListResponse">
-        select a.id as userId,
-        ifnull(b.rechargeTatal, 0) as amount,
-        ifnull(c.commissionTotal, 0) as commissionAmount
-        from sys_user a
-        left join (select sum(amount) as rechargeTatal, create_by from recharge_detail group by create_by) b
-        on a.id = b.create_by
-        left join (select sum(amount) as commissionTotal, create_by from acting_commission_detail group by create_by) c
-        on a.id = c.create_by
-        where 1 = 1
-        <if test="request.keyWord != null and request.keyWord != ''">
-            and d.phone = #{request.keyWord} or d.id = #{request.keyWord} or d.account = #{request.keyWord}
-        </if>
-        <if test="request.type == '1'.toString()">
-            order by amount
-        </if>
-        <if test="request.type == '2'.toString()">
-            order by amount desc
-        </if>
-        <if test="request.type == '3'.toString()">
-            order by commissionAmount
-        </if>
-        <if test="request.type == '4'.toString()">
-            order by commissionAmount desc
-        </if>
-    </select>
-
-    <select id="lowerLevelList"
-            resultType="com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelListResponse">
-        select c.id               as userId,
-               b.level            as actingLevel,
-               c.create_date      as createDate,
-               d.sumTotal         as amount,
-               e.commissionAmount as commissionAmount
-        from acting_hierarchy_relation a
-                 left join acting b on a.acting_id = b.id
-                 left join (select (sum(amount)) as commissionAmount, create_by
-                            from acting_commission_detail
-                            group by create_by) e
-                           on e.create_by = a.create_by
-                 left join (select (sum(amount)) as sumTotal, create_by from grab_red_packets group by create_by) d
-                           on a.create_by = d.create_by
-                 left join sys_user c on a.create_by = c.id
-        where a.superior_id = #{id}
-        order by c.create_date desc
-    </select>
-
     <select id="commissionAmount" resultType="com.vietnam.lottery.business.sysUser.response.CommissionAmountResponse">
         select id                     as id,
                ifnull(sum(amount), 0) as amount

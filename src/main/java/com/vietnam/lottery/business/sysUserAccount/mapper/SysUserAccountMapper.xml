@@ -65,5 +65,56 @@
         </if>
         order by a.create_date desc
     </select>
+
+    <select id="commissionsList"
+            resultType="com.vietnam.lottery.business.sysUserAccount.response.CommissionListResponse">
+        select a.id as userId
+        from sys_user a
+        where 1 = 1
+        <if test="request.keyWord != null and request.keyWord != ''">
+            and a.phone = #{request.keyWord}
+        </if>
+        <if test="request.keyWord != null and request.keyWord != ''">
+            or a.id = #{request.keyWord}
+        </if>
+        <if test="request.keyWord != null and request.keyWord != ''">
+            or a.account = #{request.keyWord}
+        </if>
+    </select>
+
+    <select id="lowerLevelList"
+            resultType="com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse">
+        select e.id                           as userId,
+               b.level                        as actingLevel,
+               ifnull(c.commissionAmount, 0)  as commissionAmount,
+               ifnull(d.sumTotal, 0)          as rechargeAmount,
+               e.create_date                  as createDate,
+               ifnull(f.consumptionAmount, 0) as amount
+        from acting_hierarchy_relation a
+                 left join acting b on a.acting_id = b.id
+                 left join(select (sum(amount)) as commissionAmount, create_by
+                           from sys_user_account
+                           where type = '0'
+                             and spending = '0'
+                             and del_flag = '0'
+                           group by create_by) c
+                          on c.create_by = a.create_by
+                 left join (select (sum(amount)) as sumTotal, create_by
+                            from recharge_detail
+                            where pay_status = '1'
+                              and del_flag = '0'
+                            group by create_by) d
+                           on a.create_by = d.create_by
+                 left join sys_user e on a.create_by = e.id
+                 left join(select (sum(amount)) as consumptionAmount, create_by
+                           from sys_user_account
+                           where type = '2'
+                             and spending = '1'
+                             and del_flag = '0'
+                           group by create_by) f
+                          on f.create_by = a.create_by
+        where a.superior_id = #{id}
+        order by e.create_date desc
+    </select>
 </mapper>
 

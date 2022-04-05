@@ -3,7 +3,7 @@ package com.vietnam.lottery.common.config;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.vietnam.lottery.business.order.request.CreateOrderRequest;
+import com.vietnam.lottery.business.rechargeDetail.request.CreateOrderRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 

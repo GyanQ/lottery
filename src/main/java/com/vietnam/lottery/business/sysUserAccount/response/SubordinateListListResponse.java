@@ -1,12 +1,13 @@
-package com.vietnam.lottery.business.actingCommissionDetail.response;
+package com.vietnam.lottery.business.sysUserAccount.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
-public class LowerLevelListResponse implements Serializable {
+public class SubordinateListListResponse implements Serializable {
     private static final long serialVersionUID = 7095749024710331773L;
 
 
@@ -17,10 +18,13 @@ public class LowerLevelListResponse implements Serializable {
     private String actingLevel;
 
     @ApiModelProperty(value = "消费金额")
-    private Long amount;
+    private BigDecimal amount;
 
     @ApiModelProperty(value = "分佣金额")
-    private Long commissionAmount;
+    private BigDecimal commissionAmount;
+
+    @ApiModelProperty(value = " 充值金额")
+    private BigDecimal rechargeAmount;
 
     @ApiModelProperty(value = "注册时间")
     private String createDate;

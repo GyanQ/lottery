@@ -4,23 +4,26 @@ package com.vietnam.lottery.business.rechargeDetail.entity;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 充值记录(RechargeDetail)表实体类
+ * 充值记录(rechargeDetail)表实体类
  *
  * @author Gyan
- * @since 2022-02-17 11:48:01
+ * @since 2022-03-01 14:49:22
  */
 @SuppressWarnings("serial")
 public class RechargeDetail extends Model<RechargeDetail> {
     //id
     private String id;
-    //充值金额
-    private Long amount;
-    //状态(0未完成 1完成)
-    private String status;
-    //删除标志(0正常 1停用)
+    //支付类型(1zalo 2momo)
+    private String payType;
+    //金额
+    private BigDecimal amount;
+    //支付状态(1待支付 2已支付 3取消支付)
+    private String payStatus;
+    //删除标志（0代表存在、1代表删除）
     private String delFlag;
     //创建人
     private String createBy;
@@ -28,7 +31,7 @@ public class RechargeDetail extends Model<RechargeDetail> {
     private Date createDate;
     //修改人
     private String updateBy;
-    //修改时间
+    //更新时间
     private Date updateDate;
 
 
@@ -40,20 +43,28 @@ public class RechargeDetail extends Model<RechargeDetail> {
         this.id = id;
     }
 
-    public Long getAmount() {
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
+    }
+
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPayStatus() {
+        return payStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPayStatus(String payStatus) {
+        this.payStatus = payStatus;
     }
 
     public String getDelFlag() {
