@@ -16,10 +16,10 @@ import java.util.Date;
 public class RechargeDetail extends Model<RechargeDetail> {
     //id
     private String id;
-    //order_id
-    private String orderId;
     //充值金额
     private Long amount;
+    //状态(0未完成 1完成)
+    private String status;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
@@ -40,20 +40,20 @@ public class RechargeDetail extends Model<RechargeDetail> {
         this.id = id;
     }
 
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
     public Long getAmount() {
         return amount;
     }
 
     public void setAmount(Long amount) {
         this.amount = amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDelFlag() {

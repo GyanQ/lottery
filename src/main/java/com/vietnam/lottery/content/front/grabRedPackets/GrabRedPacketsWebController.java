@@ -6,7 +6,6 @@ import com.vietnam.lottery.business.grabRedPackets.request.ListRequest;
 import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
 import com.vietnam.lottery.business.grabRedPackets.service.GrabRedPacketsService;
 import com.vietnam.lottery.common.config.JwtUtil;
-import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 @RestController
 @Api(tags = "抢红包")
@@ -47,24 +44,5 @@ public class GrabRedPacketsWebController {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(grabRedPacketsService.bet(request));
-    }
-
-    @PostMapping("/callBack")
-    @ApiOperation("支付回调")
-    public String callBack(HttpServletRequest httpServletRequest) {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(httpServletRequest.getInputStream(), "UTF-8"));
-            String line = null;
-            StringBuilder sb = new StringBuilder();
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            String body = sb.toString();
-            log.info("==========回调信息{}", body);
-            grabRedPacketsService.callBack(body);
-        } catch (Exception e) {
-            throw new GlobalException(e.getMessage());
-        }
-        return "success";
     }
 }

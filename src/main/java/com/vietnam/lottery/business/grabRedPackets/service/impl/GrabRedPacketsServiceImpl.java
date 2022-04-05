@@ -1,8 +1,6 @@
 package com.vietnam.lottery.business.grabRedPackets.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.grabRedPackets.entity.GrabRedPackets;
@@ -14,7 +12,6 @@ import com.vietnam.lottery.business.grabRedPackets.service.GrabRedPacketsService
 import com.vietnam.lottery.business.grabRedPacketsDetail.mapper.GrabRedPacketsDetailMapper;
 import com.vietnam.lottery.business.order.entity.Order;
 import com.vietnam.lottery.business.order.mapper.OrderMapper;
-import com.vietnam.lottery.business.rechargeDetail.entity.RechargeDetail;
 import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
@@ -22,7 +19,6 @@ import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
-import com.vietnam.lottery.common.global.StatusEnum;
 import com.vietnam.lottery.common.utils.DateUtils;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
@@ -54,10 +50,6 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     private SysUserMapper sysUserMapper;
     @Resource
     private OrderMapper orderMapper;
-    @Resource
-    private GrabRedPacketsDetailMapper lotteryDetailMapper;
-    @Resource
-    private RechargeDetailMapper rechargeDetailMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -185,37 +177,6 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         user.setUpdateDate(new Date());
         sysUserMapper.updateById(user);
         return orderNo;
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void callBack(String body) {
-        log.info("回调信息:{}", body);
-        JSONObject json = JSONUtil.parseObj(body);
-        JSONObject data = json.getJSONObject("data");
-        Integer isPay = data.getInt("ispay");
-        String orderNo = data.getStr("orderid");
-        Order order = orderMapper.selectById(orderNo);
-        //支付成功
-        if (1 == isPay && null != order) {
-            GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(order.getGrabRedPacketsId());
-            //增加充值记录
-            RechargeDetail rechargeDetail = new RechargeDetail();
-            rechargeDetail.setOrderId(order.getId());
-            rechargeDetail.setAmount(grabRedPackets.getAmount());
-            rechargeDetail.setCreateBy(order.getCreateBy());
-            rechargeDetailMapper.insert(rechargeDetail);
-            //更新订单支付状态
-            order.setPayStatus(StatusEnum.FINISH_PAY.getCode());
-            orderMapper.updateById(order);
-            //更新用户余额
-            SysUser user = sysUserMapper.selectById(order.getCreateBy());
-            Long amount = user.getAmount() - grabRedPackets.getAmount();
-            user.setAmount(amount);
-            user.setUpdateBy(order.getCreateBy());
-            user.setUpdateDate(new Date());
-            sysUserMapper.updateById(user);
-        }
     }
 }
 

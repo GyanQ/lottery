@@ -35,8 +35,5 @@ public interface GrabRedPacketsService {
 
     /* 下注 */
     String bet(BetRequest request);
-
-    //回调
-    void callBack(String body);
 }
 
