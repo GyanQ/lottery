@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.withdrawDetail.response;
+package com.vietnam.lottery.business.withdraw.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vietnam.lottery.common.utils.PageRequest;
@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 public class WithdrawListResponse extends PageRequest implements Serializable {
@@ -18,7 +19,7 @@ public class WithdrawListResponse extends PageRequest implements Serializable {
     private String userId;
 
     @ApiModelProperty(value = "提现金额")
-    private Long amount;
+    private BigDecimal amount;
 
     @ApiModelProperty(value = "提现状态(1提现中 2已提现)")
     private String state;

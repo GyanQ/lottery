@@ -3,6 +3,7 @@ package com.vietnam.lottery.business.sysMenu.request;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -11,7 +12,7 @@ public class MenuUpdateRequest implements Serializable {
     private static final long serialVersionUID = -3372296366113251296L;
 
     @ApiModelProperty(value = "id")
-    @NotNull(message = "id不能为空")
+    @NotBlank(message = "id不能为空")
     private String id;
 
     @ApiModelProperty(value = "菜单名称")

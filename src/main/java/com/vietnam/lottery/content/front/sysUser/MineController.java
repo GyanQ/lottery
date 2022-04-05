@@ -8,9 +8,6 @@ import com.vietnam.lottery.business.actingCommissionDetail.response.LowerLevelLi
 import com.vietnam.lottery.business.actingCommissionDetail.service.ActingCommissionDetailService;
 import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
-import com.vietnam.lottery.business.withdrawDetail.request.WithdrawListRequest;
-import com.vietnam.lottery.business.withdrawDetail.response.WithdrawListResponse;
-import com.vietnam.lottery.business.withdrawDetail.service.WithdrawDetailService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -34,8 +30,6 @@ public class MineController {
     private SysUserService sysUserService;
     @Autowired
     private ActingCommissionDetailService actingCommissionDetailService;
-    @Resource
-    private WithdrawDetailService withdrawDetailService;
 
     @PostMapping("/accountBalance")
     @ApiOperation("账户余额")
@@ -53,14 +47,6 @@ public class MineController {
         LowerLevelListRequest listRequest = new LowerLevelListRequest();
         listRequest.setUserId(userId);
         return ResultUtil.success(actingCommissionDetailService.lowerLevelList(listRequest));
-    }
-
-    @PostMapping("/withdrawInfo")
-    @ApiOperation("提现记录")
-    public ResultModel<Page<WithdrawListResponse>> withDrawInfo(@RequestBody WithdrawListRequest request, HttpServletRequest httpServletRequest) {
-        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        request.setKeyWord(JwtUtil.parseToken(token));
-        return ResultUtil.success(withdrawDetailService.withDrawInfo(request));
     }
 
     @PostMapping("/commissionDetails")

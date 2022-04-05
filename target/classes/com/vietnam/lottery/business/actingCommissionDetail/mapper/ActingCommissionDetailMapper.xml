@@ -51,7 +51,8 @@
     </select>
 
     <select id="commissionAmount" resultType="com.vietnam.lottery.business.sysUser.response.CommissionAmountResponse">
-        select id as id, sum(amount) as amount
+        select id                     as id,
+               ifnull(sum(amount), 0) as amount
         from acting_commission_detail
         where create_by = #{userId}
     </select>

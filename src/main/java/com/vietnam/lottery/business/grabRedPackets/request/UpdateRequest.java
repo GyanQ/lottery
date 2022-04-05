@@ -3,6 +3,7 @@ package com.vietnam.lottery.business.grabRedPackets.request;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -11,7 +12,7 @@ public class UpdateRequest implements Serializable {
     private static final long serialVersionUID = 6100185547611792135L;
 
     @ApiModelProperty(value = "id")
-    @NotNull(message = "id不能为空")
+    @NotBlank(message = "id不能为空")
     private String id;
 
     @ApiModelProperty(value = "抢红包下注金额")

@@ -13,7 +13,7 @@ public class PullBlackRequest implements Serializable {
     private static final long serialVersionUID = 3963546362419118946L;
 
     @ApiModelProperty(value = "userId")
-    @NotNull(message = "userId不能为空")
+    @NotBlank(message = "userId不能为空")
     private String userId;
 
     @ApiModelProperty(value = "删除标志(0正常 1停用)")

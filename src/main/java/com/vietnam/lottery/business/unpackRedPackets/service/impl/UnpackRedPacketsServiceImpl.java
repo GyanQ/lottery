@@ -15,8 +15,6 @@ import com.vietnam.lottery.business.unpackRedPackets.response.UnPackDetailRespon
 import com.vietnam.lottery.business.unpackRedPackets.response.UnPackListResponse;
 import com.vietnam.lottery.business.unpackRedPackets.response.UnpackLotteryResponse;
 import com.vietnam.lottery.business.unpackRedPackets.service.UnpackRedPacketsService;
-import com.vietnam.lottery.business.unpackRedPacketsDetail.entity.UnpackRedPacketsDetail;
-import com.vietnam.lottery.business.unpackRedPacketsDetail.mapper.UnpackRedPacketsDetailMapper;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -26,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,8 +44,6 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     private UnpackRedPacketsMapper unpackRedPacketsMapper;
     @Autowired
     private SysOperateRecordService sysOperateRecordService;
-    @Resource
-    private UnpackRedPacketsDetailMapper unpackRedPacketsDetailMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -213,11 +208,6 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         response.setAmount(amount);
 
         //add拆红包明细
-        UnpackRedPacketsDetail unpack = new UnpackRedPacketsDetail();
-        unpack.setUnpackRedPacketsId(unpackOne.get(0).getId());
-        unpack.setAmount(Long.valueOf(amount));
-        unpack.setCreateBy(userId);
-        unpackRedPacketsDetailMapper.insert(unpack);
         return response;
     }
 
@@ -228,16 +218,6 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         QueryWrapper<UnpackRedPackets> query = new QueryWrapper<>();
         query.eq("del_flag", DelFlagEnum.CODE.getCode());
         return unpackRedPacketsMapper.selectList(query);
-    }
-
-    public static void main(String[] args) {
-        if (new BigDecimal(40).compareTo(new BigDecimal(40)) == 1) {
-            System.out.println("111");
-        } else if (new BigDecimal(40).compareTo(new BigDecimal(40)) == 0) {
-            System.out.println("2222");
-        } else if (new BigDecimal(40).compareTo(new BigDecimal(40)) == -1) {
-            System.out.println("3333");
-        }
     }
 }
 

@@ -9,7 +9,6 @@ import com.vietnam.lottery.business.acting.mapper.ActingMapper;
 import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper;
 import com.vietnam.lottery.business.actingHierarchyRelation.entity.ActingHierarchyRelation;
 import com.vietnam.lottery.business.actingHierarchyRelation.mapper.ActingHierarchyRelationMapper;
-import com.vietnam.lottery.business.grabRedPacketsDetail.mapper.GrabRedPacketsDetailMapper;
 import com.vietnam.lottery.business.sysLoginDetail.entity.SysLoginDetail;
 import com.vietnam.lottery.business.sysLoginDetail.mapper.SysLoginDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
@@ -23,7 +22,6 @@ import com.vietnam.lottery.business.sysUser.response.*;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.business.sysUserRoleRelation.entity.SysUserRoleRelation;
 import com.vietnam.lottery.business.sysUserRoleRelation.mapper.SysUserRoleRelationMapper;
-import com.vietnam.lottery.business.withdrawDetail.mapper.WithdrawDetailMapper;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.config.SmsUtils;
 import com.vietnam.lottery.common.global.DelFlagEnum;
@@ -53,10 +51,6 @@ public class SysUserServiceImpl implements SysUserService {
     private SysLoginDetailMapper sysLoginDetailMapper;
     @Autowired
     private ActingCommissionDetailMapper actingCommissionDetailMapper;
-    @Autowired
-    private WithdrawDetailMapper withdrawDetailMapper;
-    @Autowired
-    private GrabRedPacketsDetailMapper lotteryDetailMapper;
     @Autowired
     private SysSmsMapper sysSmsMapper;
     @Resource
@@ -326,21 +320,8 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public AccountBalanceResponse accountBalance(String userId) {
-        AccountBalanceResponse resp = new AccountBalanceResponse();
-        SysUser user = getById(userId);
-        resp.setAmount(user.getAmount());
-        //分佣余额
-        CommissionAmountResponse commissionAmountResp = actingCommissionDetailMapper.commissionAmount(user.getId());
-        //分佣提现余额
-        Long commissionWithdraw = withdrawDetailMapper.commissionWithdraw(commissionAmountResp.getId(), null);
-        Long commissionTotal = commissionAmountResp.getAmount() - (commissionWithdraw);
-        resp.setCommissionBalanceAmount(commissionTotal);
-        //红包余额
-        LotteryAmountResponse lotteryAmountResp = lotteryDetailMapper.lotteryAmount(user.getId());
-        Long lotteryWithdraw = withdrawDetailMapper.commissionWithdraw(null, lotteryAmountResp.getId());
-        Long lotteryTotal = lotteryAmountResp.getAmount() - (lotteryWithdraw);
-        resp.setRedEnvelopeAmount(lotteryTotal);
-        return resp;
+        AccountBalanceResponse response = new AccountBalanceResponse();
+        return response;
     }
 
     @Override

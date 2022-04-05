@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.withdrawDetail.request;
+package com.vietnam.lottery.business.withdraw.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vietnam.lottery.common.utils.PageRequest;

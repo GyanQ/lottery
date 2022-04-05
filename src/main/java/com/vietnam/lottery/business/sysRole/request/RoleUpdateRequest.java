@@ -12,7 +12,7 @@ public class RoleUpdateRequest implements Serializable {
     private static final long serialVersionUID = -1677996909750150435L;
 
     @ApiModelProperty(value = "id")
-    @NotNull(message = "id不能为空")
+    @NotBlank(message = "id不能为空")
     private String id;
 
     @ApiModelProperty(value = "角色名称")
