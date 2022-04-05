@@ -24,6 +24,6 @@ public class UnpackRedPacketsDetailController {
     @PostMapping("/list")
     @ApiOperation("列表")
     public ResultModel<Page<LotteryListResponse>> list(@RequestBody LotteryListRequest request) {
-        return ResultUtil.success(lotteryDetailService.list(request));
+        return ResultUtil.success(unpackRedPacketsDetailService.list(request));
     }
 }
