@@ -1,9 +1,9 @@
-package com.vietnam.lottery.business.lotteryDetail.service;
+package com.vietnam.lottery.business.grabRedPacketsDetail.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.lotteryDetail.request.LotteryListRequest;
-import com.vietnam.lottery.business.lotteryDetail.request.PayRequest;
-import com.vietnam.lottery.business.lotteryDetail.response.LotteryListResponse;
+import com.vietnam.lottery.business.grabRedPacketsDetail.request.LotteryListRequest;
+import com.vietnam.lottery.business.grabRedPacketsDetail.request.PayRequest;
+import com.vietnam.lottery.business.grabRedPacketsDetail.response.LotteryListResponse;
 import com.vietnam.lottery.common.utils.ResultModel;
 
 /**
@@ -12,7 +12,7 @@ import com.vietnam.lottery.common.utils.ResultModel;
  * @author Gyan
  * @since 2022-02-17 12:17:14
  */
-public interface LotteryDetailService {
+public interface GrabRedPacketsDetailsService {
 
     /* 开奖记录 */
     Page<LotteryListResponse> list(LotteryListRequest request);

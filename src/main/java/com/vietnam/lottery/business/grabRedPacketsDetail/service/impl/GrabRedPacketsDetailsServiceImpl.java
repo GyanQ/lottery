@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.lotteryDetail.service.impl;
+package com.vietnam.lottery.business.grabRedPacketsDetail.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
@@ -7,11 +7,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.grabRedPackets.entity.GrabRedPackets;
 import com.vietnam.lottery.business.grabRedPackets.mapper.GrabRedPacketsMapper;
-import com.vietnam.lottery.business.lotteryDetail.mapper.LotteryDetailMapper;
-import com.vietnam.lottery.business.lotteryDetail.request.LotteryListRequest;
-import com.vietnam.lottery.business.lotteryDetail.request.PayRequest;
-import com.vietnam.lottery.business.lotteryDetail.response.LotteryListResponse;
-import com.vietnam.lottery.business.lotteryDetail.service.LotteryDetailService;
+import com.vietnam.lottery.business.grabRedPacketsDetail.mapper.GrabRedPacketsDetailMapper;
+import com.vietnam.lottery.business.grabRedPacketsDetail.request.LotteryListRequest;
+import com.vietnam.lottery.business.grabRedPacketsDetail.request.PayRequest;
+import com.vietnam.lottery.business.grabRedPacketsDetail.response.LotteryListResponse;
+import com.vietnam.lottery.business.grabRedPacketsDetail.service.GrabRedPacketsDetailsService;
 import com.vietnam.lottery.business.order.entity.Order;
 import com.vietnam.lottery.business.order.mapper.OrderMapper;
 import com.vietnam.lottery.business.order.request.CreateOrderRequest;
@@ -36,11 +36,11 @@ import java.util.List;
  * @author Gyan
  * @since 2022-02-17 12:17:14
  */
-@Service("lotteryDetailService")
+@Service("grabRedPacketsDetail")
 @Slf4j
-public class LotteryDetailServiceImpl implements LotteryDetailService {
+public class GrabRedPacketsDetailsServiceImpl implements GrabRedPacketsDetailsService {
     @Autowired
-    private LotteryDetailMapper lotteryDetailMapper;
+    private GrabRedPacketsDetailMapper lotteryDetailMapper;
     @Resource
     private OrderMapper orderMapper;
     @Resource

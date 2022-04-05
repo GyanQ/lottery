@@ -9,7 +9,7 @@ import com.vietnam.lottery.business.acting.mapper.ActingMapper;
 import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper;
 import com.vietnam.lottery.business.actingHierarchyRelation.entity.ActingHierarchyRelation;
 import com.vietnam.lottery.business.actingHierarchyRelation.mapper.ActingHierarchyRelationMapper;
-import com.vietnam.lottery.business.lotteryDetail.mapper.LotteryDetailMapper;
+import com.vietnam.lottery.business.grabRedPacketsDetail.mapper.GrabRedPacketsDetailMapper;
 import com.vietnam.lottery.business.sysLoginDetail.mapper.SysLoginDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
@@ -55,7 +55,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Autowired
     private WithdrawDetailMapper withdrawDetailMapper;
     @Autowired
-    private LotteryDetailMapper lotteryDetailMapper;
+    private GrabRedPacketsDetailMapper lotteryDetailMapper;
     @Autowired
     private SysSmsMapper sysSmsMapper;
     @Resource

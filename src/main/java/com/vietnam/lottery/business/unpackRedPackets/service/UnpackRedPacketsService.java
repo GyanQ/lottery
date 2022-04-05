@@ -7,6 +7,7 @@ import com.vietnam.lottery.business.unpackRedPackets.request.UnPackListRequest;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackUpdateRequest;
 import com.vietnam.lottery.business.unpackRedPackets.response.UnPackDetailResponse;
 import com.vietnam.lottery.business.unpackRedPackets.response.UnPackListResponse;
+import com.vietnam.lottery.business.unpackRedPackets.response.UnpackLotteryResponse;
 import com.vietnam.lottery.common.utils.ResultModel;
 
 /**
@@ -31,5 +32,8 @@ public interface UnpackRedPacketsService {
 
     /* 列表 */
     Page<UnPackListResponse> list(UnPackListRequest request);
+
+    /* 抽奖 */
+    UnpackLotteryResponse lottery(String userId);
 }
 

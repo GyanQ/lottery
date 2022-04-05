@@ -11,8 +11,7 @@ import com.vietnam.lottery.business.grabRedPackets.request.*;
 import com.vietnam.lottery.business.grabRedPackets.response.DetailResponse;
 import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
 import com.vietnam.lottery.business.grabRedPackets.service.GrabRedPacketsService;
-import com.vietnam.lottery.business.lotteryDetail.entity.LotteryDetail;
-import com.vietnam.lottery.business.lotteryDetail.mapper.LotteryDetailMapper;
+import com.vietnam.lottery.business.grabRedPacketsDetail.mapper.GrabRedPacketsDetailMapper;
 import com.vietnam.lottery.business.order.entity.Order;
 import com.vietnam.lottery.business.order.mapper.OrderMapper;
 import com.vietnam.lottery.business.rechargeDetail.entity.RechargeDetail;
@@ -56,7 +55,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     @Resource
     private OrderMapper orderMapper;
     @Resource
-    private LotteryDetailMapper lotteryDetailMapper;
+    private GrabRedPacketsDetailMapper lotteryDetailMapper;
     @Resource
     private RechargeDetailMapper rechargeDetailMapper;
 
@@ -216,14 +215,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
             user.setUpdateBy(order.getCreateBy());
             user.setUpdateDate(new Date());
             sysUserMapper.updateById(user);
-            //更新开奖记录
-            LotteryDetail lotteryDetail = new LotteryDetail();
-            lotteryDetail.setOrderId(orderNo);
-            lotteryDetail.setGrabRedPacketsId(order.getGrabRedPacketsId());
-            lotteryDetail.setCreateBy(order.getCreateBy());
-            lotteryDetailMapper.insert(lotteryDetail);
         }
-
     }
 }
 

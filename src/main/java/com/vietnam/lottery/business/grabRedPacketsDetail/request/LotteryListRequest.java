@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.lotteryDetail.request;
+package com.vietnam.lottery.business.grabRedPacketsDetail.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vietnam.lottery.common.utils.PageRequest;

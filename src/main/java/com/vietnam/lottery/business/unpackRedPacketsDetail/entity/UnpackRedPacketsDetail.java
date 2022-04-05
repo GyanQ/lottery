@@ -1,31 +1,25 @@
-package com.vietnam.lottery.business.unpackRedPackets.entity;
+package com.vietnam.lottery.business.unpackRedPacketsDetail.entity;
 
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 拆红包配置(UnpackRedPackets)表实体类
+ * 拆红包明细(UnpackRedPacketsDetail)表实体类
  *
- * @author Gyan
- * @since 2022-02-16 18:00:37
+ * @author makejava
+ * @since 2022-04-05 09:49:57
  */
 @SuppressWarnings("serial")
-public class UnpackRedPackets extends Model<UnpackRedPackets> {
+public class UnpackRedPacketsDetail extends Model<UnpackRedPacketsDetail> {
     //id
     private String id;
-    //奖项名称
-    private String name;
-    //区间开始值
-    private Integer intervalBeginValue;
-    //区间结束值
-    private Integer intervalEndValue;
-    //中奖概率
-    private BigDecimal probability;
-    //删除标志(0正常 1停用)
+    //拆红包id
+    private String unpackRedPacketsId;
+    //拆红包金额
+    private Long amount;
+    //删除标志（0代表存在、1代表删除）
     private String delFlag;
     //创建人
     private String createBy;
@@ -33,7 +27,7 @@ public class UnpackRedPackets extends Model<UnpackRedPackets> {
     private Date createDate;
     //修改人
     private String updateBy;
-    //修改时间
+    //更新时间
     private Date updateDate;
 
 
@@ -45,36 +39,20 @@ public class UnpackRedPackets extends Model<UnpackRedPackets> {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUnpackRedPacketsId() {
+        return unpackRedPacketsId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUnpackRedPacketsId(String unpackRedPacketsId) {
+        this.unpackRedPacketsId = unpackRedPacketsId;
     }
 
-    public Integer getIntervalBeginValue() {
-        return intervalBeginValue;
+    public Long getAmount() {
+        return amount;
     }
 
-    public void setIntervalBeginValue(Integer intervalBeginValue) {
-        this.intervalBeginValue = intervalBeginValue;
-    }
-
-    public Integer getIntervalEndValue() {
-        return intervalEndValue;
-    }
-
-    public void setIntervalEndValue(Integer intervalEndValue) {
-        this.intervalEndValue = intervalEndValue;
-    }
-
-    public BigDecimal getProbability() {
-        return probability;
-    }
-
-    public void setProbability(BigDecimal probability) {
-        this.probability = probability;
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
 
     public String getDelFlag() {
@@ -126,5 +104,5 @@ public class UnpackRedPackets extends Model<UnpackRedPackets> {
     protected Serializable pkVal() {
         return this.id;
     }
-}
+    }
 

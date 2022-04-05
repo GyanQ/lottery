@@ -13,8 +13,12 @@ import com.vietnam.lottery.business.unpackRedPackets.request.UnPackListRequest;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackUpdateRequest;
 import com.vietnam.lottery.business.unpackRedPackets.response.UnPackDetailResponse;
 import com.vietnam.lottery.business.unpackRedPackets.response.UnPackListResponse;
+import com.vietnam.lottery.business.unpackRedPackets.response.UnpackLotteryResponse;
 import com.vietnam.lottery.business.unpackRedPackets.service.UnpackRedPacketsService;
+import com.vietnam.lottery.business.unpackRedPacketsDetail.entity.UnpackRedPacketsDetail;
+import com.vietnam.lottery.business.unpackRedPacketsDetail.mapper.UnpackRedPacketsDetailMapper;
 import com.vietnam.lottery.common.global.DelFlagEnum;
+import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +26,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 /**
  * 拆红包(UnpackRedPackets)表服务实现类
@@ -39,6 +47,8 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     private UnpackRedPacketsMapper unpackRedPacketsMapper;
     @Autowired
     private SysOperateRecordService sysOperateRecordService;
+    @Resource
+    private UnpackRedPacketsDetailMapper unpackRedPacketsDetailMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -151,6 +161,66 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         return responsePage;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public UnpackLotteryResponse lottery(String userId) {
+        UnpackLotteryResponse response = new UnpackLotteryResponse();
+        //查询所有拆红包配置
+        List<UnpackRedPackets> unpackList = unpackList();
+        if (CollectionUtils.isEmpty(unpackList)) throw new GlobalException("no data");
+
+        //提取所有中奖概率
+        List<BigDecimal> probability = unpackList.stream().map(o -> o.getProbability()).collect(Collectors.toList());
+
+        //临时存放概率
+        List<BigDecimal> probabilityList = new ArrayList<>();
+        probability.forEach(o -> {
+            BigDecimal pro = o.divide(new BigDecimal(100));
+            pro.add(pro);
+        });
+
+        //生成随机数
+        ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
+        double random = threadLocalRandom.nextDouble(0, 1);
+
+        //把随机数加到概率集合并排序
+        probabilityList.add(BigDecimal.valueOf(random));
+        Collections.sort(probabilityList);
+        //取出随机数的下标值
+        int index = probabilityList.indexOf(random);
+
+        BigDecimal gift = BigDecimal.ZERO;
+        //如果随机数是集合起始下标 取集合第二位奖项
+        if (index == 0) {
+            gift = probabilityList.get(index + 1);
+        }
+        //如果随机数是集合结束下标 取集合倒数二位奖项
+        if (index == probabilityList.size()) {
+            gift = probabilityList.get(index - 1);
+        }
+
+        Boolean flag = Math.max(probabilityList.get(index - 1).doubleValue(), random) == Math.min(random, probabilityList.get(index + 1).doubleValue());
+        if (flag) {
+            gift = probabilityList.get(index + 1);
+        } else {
+            throw new GlobalException("error");
+        }
+        //拆红包区间值
+        BigDecimal multiply = gift.multiply(new BigDecimal(100));
+        List<UnpackRedPackets> unpackOne = unpackList.stream().filter(o -> o.getProbability().compareTo(multiply) == 0).collect(Collectors.toList());
+        int amount = threadLocalRandom.nextInt(unpackOne.get(0).getIntervalBeginValue(), unpackOne.get(0).getIntervalEndValue());
+        response.setName(unpackOne.get(0).getName());
+        response.setAmount(amount);
+
+        //add拆红包明细
+        UnpackRedPacketsDetail unpack = new UnpackRedPacketsDetail();
+        unpack.setUnpackRedPacketsId(unpackOne.get(0).getId());
+        unpack.setAmount(Long.valueOf(amount));
+        unpack.setCreateBy(userId);
+        unpackRedPacketsDetailMapper.insert(unpack);
+        return response;
+    }
+
     /**
      * 查询全部拆红包
      */
@@ -158,6 +228,16 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         QueryWrapper<UnpackRedPackets> query = new QueryWrapper<>();
         query.eq("del_flag", DelFlagEnum.CODE.getCode());
         return unpackRedPacketsMapper.selectList(query);
+    }
+
+    public static void main(String[] args) {
+        if (new BigDecimal(40).compareTo(new BigDecimal(40)) == 1) {
+            System.out.println("111");
+        } else if (new BigDecimal(40).compareTo(new BigDecimal(40)) == 0) {
+            System.out.println("2222");
+        } else if (new BigDecimal(40).compareTo(new BigDecimal(40)) == -1) {
+            System.out.println("3333");
+        }
     }
 }
 

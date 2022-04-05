@@ -1,8 +1,7 @@
 package com.vietnam.lottery.content.front.lottery;
 
-import com.vietnam.lottery.business.grabRedPackets.request.BetRequest;
-import com.vietnam.lottery.business.lotteryDetail.request.PayRequest;
-import com.vietnam.lottery.business.lotteryDetail.service.LotteryDetailService;
+import com.vietnam.lottery.business.grabRedPacketsDetail.request.PayRequest;
+import com.vietnam.lottery.business.grabRedPacketsDetail.service.GrabRedPacketsDetailsService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
@@ -23,7 +22,7 @@ import javax.validation.Valid;
 @RequestMapping("/web/lottery")
 public class LotteryDetailWebController {
     @Autowired
-    private LotteryDetailService lotteryDetailService;
+    private GrabRedPacketsDetailsService lotteryDetailService;
 
     @PostMapping("/pay")
     @ApiOperation("充值")

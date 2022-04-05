@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.lotteryDetail.entity;
+package com.vietnam.lottery.business.grabRedPacketsDetail.entity;
 
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -13,16 +13,12 @@ import java.util.Date;
  * @since 2022-02-17 12:17:13
  */
 @SuppressWarnings("serial")
-public class LotteryDetail extends Model<LotteryDetail> {
+public class GrabRedPacketsDetail extends Model<GrabRedPacketsDetail> {
     //id
     private String id;
-    //order_id
-    private String orderId;
     //抢红包id
     private String grabRedPacketsId;
-    //拆红包id
-    private String unpackRedPacketsId;
-    //抽奖金额
+    //抢红包金额
     private Long amount;
     //删除标志(0正常 1停用)
     private String delFlag;
@@ -44,28 +40,12 @@ public class LotteryDetail extends Model<LotteryDetail> {
         this.id = id;
     }
 
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
     public String getGrabRedPacketsId() {
         return grabRedPacketsId;
     }
 
     public void setGrabRedPacketsId(String grabRedPacketsId) {
         this.grabRedPacketsId = grabRedPacketsId;
-    }
-
-    public String getUnpackRedPacketsId() {
-        return unpackRedPacketsId;
-    }
-
-    public void setUnpackRedPacketsId(String unpackRedPacketsId) {
-        this.unpackRedPacketsId = unpackRedPacketsId;
     }
 
     public Long getAmount() {
