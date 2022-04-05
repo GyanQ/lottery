@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.grabRedPacketsDetail.request;
+package com.vietnam.lottery.business.sysUserAccount.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vietnam.lottery.common.utils.PageRequest;
@@ -8,7 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class LotteryListRequest extends PageRequest implements Serializable {
+public class UserLotteryListRequest extends PageRequest implements Serializable {
     private static final long serialVersionUID = -4915813726129006929L;
 
     @ApiModelProperty(value = "账号、手机号、userId")

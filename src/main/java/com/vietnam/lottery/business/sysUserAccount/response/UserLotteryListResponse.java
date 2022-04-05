@@ -1,12 +1,13 @@
-package com.vietnam.lottery.business.grabRedPacketsDetail.response;
+package com.vietnam.lottery.business.sysUserAccount.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class LotteryListResponse implements Serializable {
+public class UserLotteryListResponse implements Serializable {
     private static final long serialVersionUID = -4915813726129006929L;
 
     @ApiModelProperty(value = "userId")
@@ -22,5 +23,6 @@ public class LotteryListResponse implements Serializable {
     private Long amount;
 
     @ApiModelProperty(value = "开奖时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String createDate;
 }

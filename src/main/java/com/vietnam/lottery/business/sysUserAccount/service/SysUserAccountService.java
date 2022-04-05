@@ -1,5 +1,9 @@
 package com.vietnam.lottery.business.sysUserAccount.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.sysUserAccount.request.UserLotteryListRequest;
+import com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListResponse;
+
 /**
  * 账户明细(SysUserAccount)表服务接口
  *
@@ -8,5 +12,7 @@ package com.vietnam.lottery.business.sysUserAccount.service;
  */
 public interface SysUserAccountService {
 
+    //开奖列表
+    Page<UserLotteryListResponse> list(UserLotteryListRequest request);
 }
 
