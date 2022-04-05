@@ -3,7 +3,9 @@ package com.vietnam.lottery.business.sysUserAccount.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysUserAccount.mapper.SysUserAccountMapper;
 import com.vietnam.lottery.business.sysUserAccount.request.UserLotteryListRequest;
+import com.vietnam.lottery.business.sysUserAccount.request.WithdrawListRequest;
 import com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListResponse;
+import com.vietnam.lottery.business.sysUserAccount.response.WithdrawListResponse;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +24,15 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
     private SysUserAccountMapper sysUserAccountMapper;
 
     @Override
-    public Page<UserLotteryListResponse> list(UserLotteryListRequest request) {
+    public Page<UserLotteryListResponse> lotteryList(UserLotteryListRequest request) {
         Page<UserLotteryListResponse> page = new Page<>(request.getCurrent(), request.getSize());
-        return sysUserAccountMapper.list(page, request);
+        return sysUserAccountMapper.lotteryList(page, request);
+    }
+
+    @Override
+    public Page<WithdrawListResponse> withdrawList(WithdrawListRequest request) {
+        Page<UserLotteryListResponse> page = new Page<>(request.getCurrent(), request.getSize());
+        return null;
     }
 }
 

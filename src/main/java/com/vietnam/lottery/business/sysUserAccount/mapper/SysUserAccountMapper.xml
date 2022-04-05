@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vietnam.lottery.business.sysUserAccount.mapper.SysUserAccountMapper">
 
-    <select id="list"
+    <select id="lotteryList"
             resultType="com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListResponse">
         select
         a.create_by as userId,
@@ -15,6 +15,7 @@
         left join sys_user c on a.create_by = c.id
         where a.type = '1'
         and a.spending = '0'
+        and a.del_flag = '0'
         <if test="request.keyWord != null and request.keyWord != ''">
             and c.id = #{request.keyWord}
         </if>
@@ -30,6 +31,39 @@
         <if test="request.endDate != null and request.endDate != ''">
             and date_format(a.create_date, '%Y-%m-%d') &lt;= date_format(#{request.endDate}, '%Y-%m-%d')
         </if>
+        order by a.create_date desc
+    </select>
+
+    <select id="withdrawList"
+            resultType="com.vietnam.lottery.business.sysUserAccount.response.WithdrawListResponse">
+        select
+        a.id as id ,
+        a.create_by as userId,
+        a.amount as amount,
+        a.create_date as createDate,
+        a.audit as audit
+        from sys_user_account a
+        left join sys_user b on a.create_by = b.id
+        where a.spending = '1' and a.del_flag = '0'
+        <if test="request.keyWord != null and request.keyWord != ''">
+            and b.id = #{request.keyWord}
+        </if>
+        <if test="request.keyWord != null and request.keyWord != ''">
+            or b.account = #{request.keyWord}
+        </if>
+        <if test="request.keyWord != null and request.keyWord != ''">
+            or b.phone = #{request.keyWord}
+        </if>
+        <if test="request.beginDate != null and request.beginDate != ''">
+            and date_format(a.create_date, '%Y-%m-%d') &gt;= date_format(#{request.beginDate}, '%Y-%m-%d')
+        </if>
+        <if test="request.endDate != null and request.endDate != ''">
+            and date_format(a.create_date, '%Y-%m-%d') &lt;= date_format(#{request.endDate}, '%Y-%m-%d')
+        </if>
+        <if test="request.audit != null and request.audit != ''">
+            and a.audit = #{request.audit}
+        </if>
+        order by a.create_date desc
     </select>
 </mapper>
 

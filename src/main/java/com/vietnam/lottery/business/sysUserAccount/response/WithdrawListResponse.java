@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.withdraw.response;
+package com.vietnam.lottery.business.sysUserAccount.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vietnam.lottery.common.utils.PageRequest;
@@ -20,9 +20,6 @@ public class WithdrawListResponse extends PageRequest implements Serializable {
 
     @ApiModelProperty(value = "提现金额")
     private BigDecimal amount;
-
-    @ApiModelProperty(value = "提现状态(1提现中 2已提现)")
-    private String state;
 
     @ApiModelProperty(value = "提现时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
