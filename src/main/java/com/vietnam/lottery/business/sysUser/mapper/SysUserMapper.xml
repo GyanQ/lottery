@@ -51,12 +51,15 @@
         b.rechargeTotal as rechargeTotal,
         c.incomeTotal as incomeTotal,
         a.login_way as loginWay,
-        a.del_flag as delFlag
+        a.del_flag as delFlag,
+        d.ip as ip
         from sys_user a
         left join (select ifnull(sum(amount), 0) as rechargeTotal, create_by from recharge_detail group by create_by) b
         on a.id = b.create_by
         left join (select ifnull(sum(amount), 0) as incomeTotal, create_by from recharge_detail group by create_by) c
         on a.id = c.create_by
+        left join (select ip,create_by from sys_login_detail group by create_by limit 1) d
+        on a.id = d.create_by
         where 1=1
         <if test="request.keyWord != null and request.keyWord != ''">
             and a.id = #{request.userId} or a.account = #{request.account} or a.phone = #{request.phone}

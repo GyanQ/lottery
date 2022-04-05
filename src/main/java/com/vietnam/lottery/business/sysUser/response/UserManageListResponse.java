@@ -31,4 +31,7 @@ public class UserManageListResponse implements Serializable {
 
     @ApiModelProperty(value = "删除标志(0正常 1停用)")
     private String delFlag;
+
+    @ApiModelProperty(value = "ip")
+    private String ip;
 }

@@ -21,4 +21,7 @@ public class GoogleLoginRequest implements Serializable {
 
     @ApiModelProperty(value = "推广渠道必传推广人userId")
     private String id;
+
+    @ApiModelProperty(hidden = true)
+    private String ip;
 }

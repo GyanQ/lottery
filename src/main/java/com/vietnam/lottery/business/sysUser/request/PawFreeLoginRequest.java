@@ -17,4 +17,7 @@ public class PawFreeLoginRequest implements Serializable {
     @ApiModelProperty(value = "验证码")
     @NotBlank(message = "验证码不能为空")
     private String code;
+
+    @ApiModelProperty(hidden = true)
+    private String ip;
 }

@@ -10,6 +10,7 @@ import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissi
 import com.vietnam.lottery.business.actingHierarchyRelation.entity.ActingHierarchyRelation;
 import com.vietnam.lottery.business.actingHierarchyRelation.mapper.ActingHierarchyRelationMapper;
 import com.vietnam.lottery.business.grabRedPacketsDetail.mapper.GrabRedPacketsDetailMapper;
+import com.vietnam.lottery.business.sysLoginDetail.entity.SysLoginDetail;
 import com.vietnam.lottery.business.sysLoginDetail.mapper.SysLoginDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
@@ -138,6 +139,7 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("userId", user.getId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
+        addLoginDetail(user.getId(), request.getIp());
         return map;
     }
 
@@ -318,6 +320,7 @@ public class SysUserServiceImpl implements SysUserService {
         if (!StringUtils.isBlank(request.getId())) {
             addActing(request.getId(), user.getId());
         }
+        addLoginDetail(user.getId(), request.getIp());
         return map;
     }
 
@@ -382,6 +385,7 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("userId", user.getId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
+        addLoginDetail(user.getId(), request.getIp());
         return map;
     }
 
@@ -408,6 +412,7 @@ public class SysUserServiceImpl implements SysUserService {
         if (!StringUtils.isBlank(request.getId())) {
             addActing(request.getId(), user.getId());
         }
+        addLoginDetail(user.getId(), request.getIp());
         return map;
     }
 
@@ -506,5 +511,13 @@ public class SysUserServiceImpl implements SysUserService {
         QueryWrapper<Acting> query = new QueryWrapper();
         query.eq("del_flag", DelFlagEnum.CODE.getCode()).eq(null != level, "level", level).eq(null != id, "id", id);
         return actingMapper.selectOne(query);
+    }
+
+    //新增用户登录明细
+    private void addLoginDetail(String userId, String ip) {
+        SysLoginDetail login = new SysLoginDetail();
+        login.setCreateBy(userId);
+        login.setIp(ip);
+        sysLoginDetailMapper.insert(login);
     }
 }

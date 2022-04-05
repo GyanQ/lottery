@@ -17,4 +17,7 @@ public class LoginRequest implements Serializable {
     @ApiModelProperty(value = "密码")
     @NotBlank(message = "密码不能为空")
     private String passWord;
+
+    @ApiModelProperty(hidden = true)
+    private String ip;
 }
