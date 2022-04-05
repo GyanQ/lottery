@@ -1,14 +1,12 @@
 package com.vietnam.lottery.business.sysUserAccount.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.sysUserAccount.request.CommissionListRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.SubordinateListListRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.UserLotteryListRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.WithdrawListRequest;
+import com.vietnam.lottery.business.sysUserAccount.request.*;
 import com.vietnam.lottery.business.sysUserAccount.response.CommissionListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.WithdrawListResponse;
+import com.vietnam.lottery.common.utils.ResultModel;
 
 import java.util.List;
 
@@ -31,5 +29,8 @@ public interface SysUserAccountService {
 
     //下级代理列表
     List<SubordinateListListResponse>  subordinateList(SubordinateListListRequest request);
+
+    //提现审核
+    ResultModel withdrawAudit(WithdrawAuditRequest request);
 }
 

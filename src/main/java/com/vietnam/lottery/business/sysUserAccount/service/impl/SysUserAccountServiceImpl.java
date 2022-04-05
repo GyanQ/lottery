@@ -1,22 +1,26 @@
 package com.vietnam.lottery.business.sysUserAccount.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
 import com.vietnam.lottery.business.sysUserAccount.mapper.SysUserAccountMapper;
-import com.vietnam.lottery.business.sysUserAccount.request.CommissionListRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.SubordinateListListRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.UserLotteryListRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.WithdrawListRequest;
+import com.vietnam.lottery.business.sysUserAccount.request.*;
 import com.vietnam.lottery.business.sysUserAccount.response.CommissionListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.WithdrawListResponse;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
+import com.vietnam.lottery.common.global.GlobalException;
+import com.vietnam.lottery.common.utils.ResultModel;
+import com.vietnam.lottery.common.utils.ResultUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -64,6 +68,18 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
     public List<SubordinateListListResponse> subordinateList(SubordinateListListRequest request) {
         list = myLowerLevel(request.getUserId());
         return list;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel withdrawAudit(WithdrawAuditRequest request) {
+        SysUserAccount userAccount = sysUserAccountMapper.selectById(request.getId());
+        if (ObjectUtil.isEmpty(userAccount)) throw new GlobalException("fail to edit");
+
+        userAccount.setAudit(request.getAudit());
+        userAccount.setUpdateBy(request.getCreateBy());
+        userAccount.setUpdateDate(new Date());
+        return ResultUtil.success(sysUserAccountMapper.updateById(userAccount));
     }
 
     /* 递归查询下级代理用户 */

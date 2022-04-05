@@ -1,10 +1,7 @@
 package com.vietnam.lottery.content.back.sysUserAccount;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.sysUserAccount.request.CommissionListRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.SubordinateListListRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.UserLotteryListRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.WithdrawListRequest;
+import com.vietnam.lottery.business.sysUserAccount.request.*;
 import com.vietnam.lottery.business.sysUserAccount.response.CommissionListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListResponse;
@@ -60,5 +57,16 @@ public class SysUserAccountController {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setUserId(JwtUtil.parseToken(token));
         return ResultUtil.success(sysUserAccountService.subordinateList(request));
+    }
+
+    @PostMapping("/withdrawAudit")
+    @ApiOperation("提现审核")
+    public ResultModel withdrawAudit(@RequestBody @Valid WithdrawAuditRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        request.setCreateBy(JwtUtil.parseToken(token));
+        return ResultUtil.success(sysUserAccountService.withdrawAudit(request));
     }
 }
