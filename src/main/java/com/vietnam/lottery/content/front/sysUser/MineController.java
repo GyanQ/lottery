@@ -47,7 +47,7 @@ public class MineController {
 
     @PostMapping("/partner")
     @ApiOperation("我的伙伴")
-    public ResultModel<List<LowerLevelListResponse>> partner(@RequestBody HttpServletRequest httpServletRequest) {
+    public ResultModel<List<LowerLevelListResponse>> partner(HttpServletRequest httpServletRequest) {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
         LowerLevelListRequest listRequest = new LowerLevelListRequest();
