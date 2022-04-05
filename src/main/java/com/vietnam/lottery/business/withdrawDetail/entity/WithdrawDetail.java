@@ -16,16 +16,10 @@ import java.util.Date;
 public class WithdrawDetail extends Model<WithdrawDetail> {
     //id
     private String id;
-    //commission_detail_id
-    private String commissionDetailId;
-    //lottery_detail_id
-    private String lotteryDetailId;
     //金额
     private Long amount;
-    //审核状态(1未审核 2审核未通过 3审核通过)
+    //审核状态(1未审核 2审核未通过 3审核通过 4审核中)
     private String audit;
-    //提现状态(1提现中 2已提现)
-    private String state;
     //删除标志(0正常 1停用)
     private String delFlag;
     //创建人
@@ -46,22 +40,6 @@ public class WithdrawDetail extends Model<WithdrawDetail> {
         this.id = id;
     }
 
-    public String getCommissionDetailId() {
-        return commissionDetailId;
-    }
-
-    public void setCommissionDetailId(String commissionDetailId) {
-        this.commissionDetailId = commissionDetailId;
-    }
-
-    public String getLotteryDetailId() {
-        return lotteryDetailId;
-    }
-
-    public void setLotteryDetailId(String lotteryDetailId) {
-        this.lotteryDetailId = lotteryDetailId;
-    }
-
     public String getAudit() {
         return audit;
     }
@@ -76,14 +54,6 @@ public class WithdrawDetail extends Model<WithdrawDetail> {
 
     public void setAmount(Long amount) {
         this.amount = amount;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public String getDelFlag() {
