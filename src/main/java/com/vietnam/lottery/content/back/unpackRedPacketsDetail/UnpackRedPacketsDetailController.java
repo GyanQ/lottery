@@ -1,9 +1,9 @@
-package com.vietnam.lottery.content.back.lotteryDetail;
+package com.vietnam.lottery.content.back.unpackRedPacketsDetail;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.grabRedPacketsDetail.request.LotteryListRequest;
 import com.vietnam.lottery.business.grabRedPacketsDetail.response.LotteryListResponse;
-import com.vietnam.lottery.business.grabRedPacketsDetail.service.GrabRedPacketsDetailsService;
+import com.vietnam.lottery.business.unpackRedPacketsDetail.service.UnpackRedPacketsDetailService;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "开奖记录")
+@Api(tags = "拆红包开奖记录")
 @RequestMapping("/lottery")
-public class LotteryDetailController {
+public class UnpackRedPacketsDetailController {
     @Autowired
-    private GrabRedPacketsDetailsService lotteryDetailService;
+    private UnpackRedPacketsDetailService unpackRedPacketsDetailService;
 
     @PostMapping("/list")
     @ApiOperation("列表")

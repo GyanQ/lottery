@@ -11,8 +11,5 @@ import com.vietnam.lottery.business.grabRedPacketsDetail.response.LotteryListRes
  * @since 2022-02-17 12:17:14
  */
 public interface GrabRedPacketsDetailsService {
-
-    /* 开奖记录 */
-    Page<LotteryListResponse> list(LotteryListRequest request);
 }
 

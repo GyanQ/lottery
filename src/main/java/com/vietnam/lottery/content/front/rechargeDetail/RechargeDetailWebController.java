@@ -1,4 +1,4 @@
-package com.vietnam.lottery.content.front.rechargeDetailWebController;
+package com.vietnam.lottery.content.front.rechargeDetail;
 
 import com.vietnam.lottery.business.grabRedPacketsDetail.request.PayRequest;
 import com.vietnam.lottery.business.rechargeDetail.service.RechargeDetailService;
