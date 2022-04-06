@@ -4,22 +4,23 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.vietnam.lottery.business.rechargeDetail.request.CreateOrderRequest;
+import com.vietnam.lottery.business.sysUserAccount.request.CreateWithdrawRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 @Slf4j
 public class PaymentUtils {
 
+    private final static String userid = "d3259916fa4344378a0fa60d9cd487ea";
+
+    private final static String token = "myrxxlo5mg4j33s5wal5xse0hg3l4oli";
+
     public static String createOrder(CreateOrderRequest request) {
         JSONObject json = JSONUtil.createObj();
         //商户编号
-        json.put("userid", "d3259916fa4344378a0fa60d9cd487ea");
+        json.put("userid", userid);
         //商户订单号
         json.put("orderid", request.getOrderId());
         //商户订单类型
@@ -33,12 +34,35 @@ public class PaymentUtils {
         //前端跳转地址
         json.put("returnurl", null);
         //生成签名
-        String str = ("myrxxlo5mg4j33s5wal5xse0hg3l4oli" + request.getOrderId() + amount).toLowerCase();
+        String str = (token + request.getOrderId() + amount).toLowerCase();
         //签名
         json.put("sign", md5(str));
 
         log.info("创建订单入参:{}", json);
         String body = HttpRequest.post("https://jsue13qsoi.77777.org/api/create").header("Content-Type", "application/json").body(json.toString()).execute().body();
+        return body;
+    }
+
+    public static String createWithdraw(CreateWithdrawRequest request) {
+        JSONObject json = JSONUtil.createObj();
+        //商户编号
+        json.put("userid", userid);
+        //商户订单号
+        json.put("orderid", request.getOrderNo());
+        //金额
+        String amount = request.getAmount().toString();
+        json.put("amount", amount);
+        //订单信息通知地址
+        json.put("notifyurl", "http://47.242.74.180:8090/api/sys/account/callBack");
+        //生成签名
+        String str = (token + request.getOrderNo() + amount).toLowerCase();
+        //签名
+        json.put("sign", md5(str));
+        //订单其他数据(提现必传)
+        json.put("payload", request.getPayload());
+
+        log.info("创建订单入参:{}", json);
+        String body = HttpRequest.post("https://jsue13qsoi.77777.org/api/wd").header("Content-Type", "application/json").body(json.toString()).execute().body();
         return body;
     }
 
@@ -49,30 +73,5 @@ public class PaymentUtils {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("MD5签名过程中出现错误");
         }
-    }
-
-    // 将request中的参数转换成Map
-    public static Map<String, Object> convertRequestParamsToMap(HttpServletRequest request) {
-        Map<String, Object> retMap = new HashMap<String, Object>();
-        Set<Map.Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
-
-        for (Map.Entry<String, String[]> entry : entrySet) {
-            String name = entry.getKey();
-            String[] values = entry.getValue();
-            int valLen = values.length;
-
-            if (valLen == 1) {
-                retMap.put(name, values[0]);
-            } else if (valLen > 1) {
-                StringBuilder sb = new StringBuilder();
-                for (String val : values) {
-                    sb.append(",").append(val);
-                }
-                retMap.put(name, sb.toString().substring(1));
-            } else {
-                retMap.put(name, "");
-            }
-        }
-        return retMap;
     }
 }

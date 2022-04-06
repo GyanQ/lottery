@@ -69,4 +69,15 @@ public class SysUserAccountController {
         request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysUserAccountService.withdrawAudit(request));
     }
+
+    @PostMapping("/callBack")
+    @ApiOperation("提现回调")
+    public ResultModel callBack(@RequestBody @Valid WithdrawAuditRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+        }
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        request.setCreateBy(JwtUtil.parseToken(token));
+        return ResultUtil.success(sysUserAccountService.withdrawAudit(request));
+    }
 }

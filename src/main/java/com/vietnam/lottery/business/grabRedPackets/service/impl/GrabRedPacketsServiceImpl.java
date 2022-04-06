@@ -155,16 +155,19 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         BigDecimal incomeAmount = BigDecimal.ZERO;
         //用户支出金额
         BigDecimal expenditureAmount = BigDecimal.ZERO;
+        //提现余额
+        BigDecimal withdrawAmount = BigDecimal.ZERO;
         //查询用户余额
         Map<String, Map<String, Object>> map = sysUserAccountMapper.getByIdAmount(request.getCreateBy());
         for (Map<String, Object> value : map.values()) {
             incomeAmount = (BigDecimal) value.get("incomeAmount");
             expenditureAmount = (BigDecimal) value.get("expenditureAmount");
+            withdrawAmount = (BigDecimal) value.get("withdrawAmount");
         }
         //用户充值余额
         BigDecimal rechargeTotal = rechargeDetailMapper.getByIdRecharge(request.getCreateBy());
         //用户总余额
-        BigDecimal userAmount = rechargeTotal.add(incomeAmount).subtract(expenditureAmount);
+        BigDecimal userAmount = rechargeTotal.add(incomeAmount).subtract(expenditureAmount).subtract(withdrawAmount);
 
         //查询抢红包余额
         GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
