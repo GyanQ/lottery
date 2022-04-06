@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
+import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
+import com.vietnam.lottery.business.sysUserAccount.mapper.SysUserAccountMapper;
 import com.vietnam.lottery.business.unpackRedPackets.entity.UnpackRedPackets;
 import com.vietnam.lottery.business.unpackRedPackets.mapper.UnpackRedPacketsMapper;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackAddRequest;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,6 +47,8 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     private UnpackRedPacketsMapper unpackRedPacketsMapper;
     @Autowired
     private SysOperateRecordService sysOperateRecordService;
+    @Resource
+    private SysUserAccountMapper sysUserAccountMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -207,7 +212,14 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         response.setName(unpackOne.get(0).getName());
         response.setAmount(amount);
 
-        //add拆红包明细
+        //新增拆红包明细
+        SysUserAccount sysUserAccount = new SysUserAccount();
+        sysUserAccount.setProductId(unpackOne.get(0).getId());
+        sysUserAccount.setType("1");
+        sysUserAccount.setSpending("0");
+        sysUserAccount.setAmount(new BigDecimal(amount));
+        sysUserAccount.setCreateBy(userId);
+        sysUserAccountMapper.insert(sysUserAccount);
         return response;
     }
 
