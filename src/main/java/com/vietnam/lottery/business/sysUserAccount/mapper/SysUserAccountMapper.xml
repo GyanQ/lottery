@@ -130,5 +130,19 @@
           and a.create_by = #{userId}
           and a.del_flag = '0'
     </select>
+
+    <select id="getByIdCount" resultType="java.util.Map">
+        select a.create_by              as createBy,
+               ifnull(count(0), 0)      as grabCount,
+               ifnull(b.unpackCount, 0) as unpackCount
+        from sys_user_account a
+                 left join (select create_by, count(0) as unpackCount
+                            from sys_user_account
+                            where type = '1'
+                            group by create_by) b on a.create_by = b.create_by
+        where a.type = '2'
+          and a.del_flag = '0'
+          and a.create_by = #{userId}
+    </select>
 </mapper>
 
