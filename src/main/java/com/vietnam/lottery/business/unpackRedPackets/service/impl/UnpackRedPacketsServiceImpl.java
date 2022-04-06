@@ -186,7 +186,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         List<BigDecimal> probabilityList = new ArrayList<>();
         probability.forEach(o -> {
             BigDecimal pro = o.divide(new BigDecimal(100));
-            pro.add(pro);
+            probabilityList.add(pro);
         });
 
         //生成随机数
@@ -194,27 +194,26 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         double random = threadLocalRandom.nextDouble(0, 1);
 
         //把随机数加到概率集合并排序
-        probabilityList.add(BigDecimal.valueOf(random));
+        BigDecimal value = BigDecimal.valueOf(random);
+        probabilityList.add(value);
         Collections.sort(probabilityList);
         //取出随机数的下标值
-        int index = probabilityList.indexOf(random);
+        int index = probabilityList.indexOf(value);
 
         BigDecimal gift = BigDecimal.ZERO;
         //如果随机数是集合起始下标 取集合第二位奖项
         if (index == 0) {
             gift = probabilityList.get(index + 1);
-        }
-        //如果随机数是集合结束下标 取集合倒数二位奖项
-        if (index == probabilityList.size()) {
+        } else if ((index == probabilityList.size() - 1)) {
+            //如果随机数是集合结束下标 取集合倒数二位奖项
             gift = probabilityList.get(index - 1);
+        } else {
+            Boolean flag = Math.max(probabilityList.get(index - 1).doubleValue(), random) == Math.min(random, probabilityList.get(index + 1).doubleValue());
+            if (flag) {
+                gift = probabilityList.get(index + 1);
+            }
         }
 
-        Boolean flag = Math.max(probabilityList.get(index - 1).doubleValue(), random) == Math.min(random, probabilityList.get(index + 1).doubleValue());
-        if (flag) {
-            gift = probabilityList.get(index + 1);
-        } else {
-            throw new GlobalException("error");
-        }
         //拆红包区间值
         BigDecimal multiply = gift.multiply(new BigDecimal(100));
         List<UnpackRedPackets> unpackOne = unpackList.stream().filter(o -> o.getProbability().compareTo(multiply) == 0).collect(Collectors.toList());
