@@ -162,18 +162,17 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     @Transactional(rollbackFor = Exception.class)
     public UnpackLotteryResponse lottery(String userId) {
         //======判断用户是否还有拆红包机会
-        int grabCount = 0;
-        int unpackCount = 0;
-        Map<String, Map<String, Object>> count = sysUserAccountMapper.getByIdCount(userId);
-        for (Map<String, Object> value : count.values()) {
-            grabCount = (Integer) value.get("grabCount");
-            unpackCount = (Integer) value.get("unpackCount");
+        Long grabCount = 0l;
+        Long unpackCount = 0l;
+        Map<String, Map<String, Long>> count = sysUserAccountMapper.getByIdCount(userId);
+        for (Map<String, Long> value : count.values()) {
+            grabCount = value.get("grabCount");
+            unpackCount += value.get("unpackCount");
         }
 
         if (unpackCount >= grabCount) {
             throw new GlobalException("Need to grab a bonus");
         }
-
 
         UnpackLotteryResponse response = new UnpackLotteryResponse();
         //查询所有拆红包配置

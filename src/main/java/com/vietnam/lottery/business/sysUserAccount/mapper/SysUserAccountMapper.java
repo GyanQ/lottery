@@ -39,7 +39,7 @@ public interface SysUserAccountMapper extends BaseMapper<SysUserAccount> {
 
     //根据userId查询用户抢红包和拆红包次数
     @MapKey("createBy")
-    Map<String, Map<String, Object>> getByIdCount(@Param("userId") String userId);
+    Map<String, Map<String, Long>> getByIdCount(@Param("userId") String userId);
 
     //根据userId查询用户余额
     AccountBalanceResponse getByIdAmountDetail(@Param("userId") String userId);
