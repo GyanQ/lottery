@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 public class UpdateRequest implements Serializable {
@@ -16,7 +17,7 @@ public class UpdateRequest implements Serializable {
     private String id;
 
     @ApiModelProperty(value = "抢红包下注金额")
-    private Long amount;
+    private BigDecimal amount;
 
     @ApiModelProperty(value = "区间开始值")
     private Integer begin;

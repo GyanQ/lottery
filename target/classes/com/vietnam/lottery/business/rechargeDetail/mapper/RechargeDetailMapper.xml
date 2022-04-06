@@ -26,5 +26,12 @@
         </if>
         order by a.create_date desc
     </select>
+
+    <select id="getByIdRecharge" resultType="java.math.BigDecimal">
+        select ifnull(sum(a.amount), 0) as rechatgeTotal
+        from recharge_detail a
+        where a.pay_status = '2'
+          and a.del_flag = '0' a.create_by = #{userId}
+    </select>
 </mapper>
 

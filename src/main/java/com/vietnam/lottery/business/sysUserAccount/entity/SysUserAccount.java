@@ -4,6 +4,7 @@ package com.vietnam.lottery.business.sysUserAccount.entity;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -23,7 +24,7 @@ public class SysUserAccount extends Model<SysUserAccount> {
     //开支(0支入 1支出)
     private String spending;
     //金额
-    private Double amount;
+    private BigDecimal amount;
     //审核状态(1未审核 2审核未通过 3审核通过 4审核中)
     private String audit;
     //删除标志（0代表存在、1代表删除）
@@ -70,11 +71,11 @@ public class SysUserAccount extends Model<SysUserAccount> {
         this.spending = spending;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

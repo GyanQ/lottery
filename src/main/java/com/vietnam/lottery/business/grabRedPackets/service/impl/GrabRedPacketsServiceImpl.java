@@ -9,12 +9,12 @@ import com.vietnam.lottery.business.grabRedPackets.request.*;
 import com.vietnam.lottery.business.grabRedPackets.response.DetailResponse;
 import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
 import com.vietnam.lottery.business.grabRedPackets.service.GrabRedPacketsService;
-import com.vietnam.lottery.business.rechargeDetail.entity.RechargeDetail;
 import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
-import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.mapper.SysUserMapper;
+import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
+import com.vietnam.lottery.business.sysUserAccount.mapper.SysUserAccountMapper;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.DateUtils;
@@ -27,9 +27,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 抢红包(GrabRedPackets)表服务实现类
@@ -47,12 +49,14 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     @Autowired
     private SysUserMapper sysUserMapper;
     @Resource
-    private RechargeDetailMapper orderMapper;
+    private RechargeDetailMapper rechargeDetailMapper;
+    @Resource
+    private SysUserAccountMapper sysUserAccountMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel add(AddRequest request) {
-        if (50000 > request.getAmount()) {
+        if (new BigDecimal(50000).compareTo(request.getAmount()) == -1) {
             return ResultUtil.failure("The amount cannot be less than 50000");
         }
         GrabRedPackets grabRedPackets = new GrabRedPackets();
@@ -77,7 +81,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(grabRedPackets)) return ResultUtil.failure("fail to edit");
 
-        if (50000 > request.getAmount()) {
+        if (new BigDecimal(50000).compareTo(request.getAmount()) == -1) {
             return ResultUtil.failure("The amount cannot be less than 50000");
         }
         grabRedPackets.setAmount(request.getAmount());
@@ -145,36 +149,43 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     }
 
     @Override
-    public String bet(BetRequest request) {
-//        SysUser user = sysUserMapper.selectById(request.getCreateBy());
-//        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Unable to query user information");
-//
-//        GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
-//        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("Can't find the red envelope information");
-//
-//        //查询用户余额是否足够
-//        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("Insufficient balance");
-//
-//        //生成订单号
-//        String date = DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATETIME_PATTERN);
-//        String orderNo = request.getCreateBy().toString() + date;
-//
-//        //查询用户余额是否足够
-//        if (user.getAmount() < redPackets.getAmount()) throw new GlobalException("Insufficient balance");
-//
-//        //生成订单
-//        RechargeDetail order = new RechargeDetail();
-//        order.setId(orderNo);
-//        order.setGrabRedPacketsId(request.getId());
-//        order.setCreateBy(request.getCreateBy());
-//        orderMapper.insert(order);
-//        //更新用户余额
-//        Long amount = user.getAmount() - redPackets.getAmount();
-//        user.setAmount(amount);
-//        user.setUpdateBy(order.getCreateBy());
-//        user.setUpdateDate(new Date());
-//        sysUserMapper.updateById(user);
-        return null;
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel bet(BetRequest request) {
+        //用户支入金额
+        BigDecimal incomeAmount = BigDecimal.ZERO;
+        //用户支出金额
+        BigDecimal expenditureAmount = BigDecimal.ZERO;
+        //查询用户余额
+        Map<String, Map<String, Object>> map = sysUserAccountMapper.getByIdAmount(request.getCreateBy());
+        for (Map<String, Object> value : map.values()) {
+            incomeAmount = (BigDecimal) value.get("incomeAmount");
+            expenditureAmount = (BigDecimal) value.get("expenditureAmount");
+        }
+        //用户充值余额
+        BigDecimal rechargeTotal = rechargeDetailMapper.getByIdRecharge(request.getCreateBy());
+        //用户总余额
+        BigDecimal userAmount = rechargeTotal.add(incomeAmount).subtract(expenditureAmount);
+
+        //查询抢红包余额
+        GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
+        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("Can't find the red envelope information");
+
+        if (userAmount.compareTo(redPackets.getAmount()) == -1) {
+            throw new GlobalException("Insufficient balance please recharge");
+        }
+
+        //生成订单号
+        String date = DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATETIME_PATTERN);
+        String orderNo = request.getCreateBy().toString() + date;
+
+        //用户余额记录
+        SysUserAccount sysUserAccount = new SysUserAccount();
+        sysUserAccount.setId(orderNo);
+        sysUserAccount.setProductId(redPackets.getId());
+        sysUserAccount.setType("2");
+        sysUserAccount.setSpending("1");
+        sysUserAccount.setAmount(redPackets.getAmount());
+        return ResultUtil.success(sysUserAccountMapper.insert(sysUserAccount));
     }
 }
 

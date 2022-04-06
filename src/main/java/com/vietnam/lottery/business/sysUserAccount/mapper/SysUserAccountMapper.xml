@@ -116,5 +116,19 @@
         where a.superior_id = #{id}
         order by e.create_date desc
     </select>
+
+    <select id="getByIdAmount" resultType="java.util.Map">
+        select a.create_by                    as createBy,
+               ifnull(sum(a.amount), 0)       as incomeAmount,
+               ifnull(b.expenditureAmount, 0) as expenditureAmount
+        from sys_user_account a
+                 left join (select create_by, sum(amount) as expenditureAmount
+                            from sys_user_account
+                            where spending = '1'
+                            group by create_by) b on a.create_by = b.create_by
+        where a.spending = '0'
+          and a.create_by = #{userId}
+          and a.del_flag = '0'
+    </select>
 </mapper>
 

@@ -10,10 +10,12 @@ import com.vietnam.lottery.business.sysUserAccount.response.CommissionListRespon
 import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.WithdrawListResponse;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 账户明细(SysUserAccount)表数据库访问层
@@ -34,5 +36,9 @@ public interface SysUserAccountMapper extends BaseMapper<SysUserAccount> {
 
     /* 下级代理列表 */
     List<SubordinateListListResponse> lowerLevelList(@Param("id") String id);
+
+    //根据userId查询用户支入支出
+    @MapKey("createBy")
+    Map<String, Map<String, Object>> getByIdAmount(@Param("userId") String userId);
 }
 
