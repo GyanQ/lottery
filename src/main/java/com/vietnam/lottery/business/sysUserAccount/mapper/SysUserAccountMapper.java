@@ -4,13 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
-import com.vietnam.lottery.business.sysUserAccount.request.CommissionListRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.UserLotteryListRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.WithdrawListRequest;
-import com.vietnam.lottery.business.sysUserAccount.response.CommissionListResponse;
-import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
-import com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListResponse;
-import com.vietnam.lottery.business.sysUserAccount.response.WithdrawListResponse;
+import com.vietnam.lottery.business.sysUserAccount.request.*;
+import com.vietnam.lottery.business.sysUserAccount.response.*;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -48,5 +43,11 @@ public interface SysUserAccountMapper extends BaseMapper<SysUserAccount> {
 
     //根据userId查询用户余额
     AccountBalanceResponse getByIdAmountDetail(@Param("userId") String userId);
+
+    //根据userId查询分佣明细
+    Page<CommissionLDetailResponse> commissionDetails(@Param("page") Page page, @Param("request") CommissionLDetailRequest request);
+
+    //根据userId查询提现记录
+    Page<WithdrawDetailResponse> withdrawDetail(@Param("page") Page page, @Param("request") WithdrawDetailRequest request);
 }
 

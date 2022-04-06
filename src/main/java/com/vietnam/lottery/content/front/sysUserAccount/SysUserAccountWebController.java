@@ -1,7 +1,14 @@
 package com.vietnam.lottery.content.front.sysUserAccount;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
+import com.vietnam.lottery.business.sysUserAccount.request.CommissionLDetailRequest;
+import com.vietnam.lottery.business.sysUserAccount.request.SubordinateListListRequest;
+import com.vietnam.lottery.business.sysUserAccount.request.WithdrawDetailRequest;
 import com.vietnam.lottery.business.sysUserAccount.request.WithdrawRequest;
+import com.vietnam.lottery.business.sysUserAccount.response.CommissionLDetailResponse;
+import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
+import com.vietnam.lottery.business.sysUserAccount.response.WithdrawDetailResponse;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -17,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @Api(tags = "用户账户")
@@ -42,5 +50,31 @@ public class SysUserAccountWebController {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
         return ResultUtil.success(sysUserAccountService.accountBalance(userId));
+    }
+
+    @PostMapping("/partner")
+    @ApiOperation("我的伙伴")
+    public ResultModel<List<SubordinateListListResponse>> partner(HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        String userId = JwtUtil.parseToken(token);
+        SubordinateListListRequest listRequest = new SubordinateListListRequest();
+        listRequest.setUserId(userId);
+        return ResultUtil.success(sysUserAccountService.subordinateList(listRequest));
+    }
+
+    @PostMapping("/commissionDetails")
+    @ApiOperation("分佣明细")
+    public ResultModel<Page<CommissionLDetailResponse>> commissionDetails(@RequestBody CommissionLDetailRequest request, HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        request.setUserId(JwtUtil.parseToken(token));
+        return ResultUtil.success(sysUserAccountService.commissionDetails(request));
+    }
+
+    @PostMapping("/withdrawDetail")
+    @ApiOperation("提现记录")
+    public ResultModel<Page<WithdrawDetailResponse>> withdrawDetail(@RequestBody WithdrawDetailRequest request, HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        request.setCreateBy(JwtUtil.parseToken(token));
+        return ResultUtil.success(sysUserAccountService.withdrawDetail(request));
     }
 }

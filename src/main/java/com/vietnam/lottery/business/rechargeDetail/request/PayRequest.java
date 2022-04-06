@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.grabRedPacketsDetail.request;
+package com.vietnam.lottery.business.rechargeDetail.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

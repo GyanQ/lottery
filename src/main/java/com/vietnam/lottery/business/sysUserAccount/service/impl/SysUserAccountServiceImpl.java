@@ -6,10 +6,7 @@ import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
 import com.vietnam.lottery.business.sysUserAccount.mapper.SysUserAccountMapper;
 import com.vietnam.lottery.business.sysUserAccount.request.*;
-import com.vietnam.lottery.business.sysUserAccount.response.CommissionListResponse;
-import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
-import com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListResponse;
-import com.vietnam.lottery.business.sysUserAccount.response.WithdrawListResponse;
+import com.vietnam.lottery.business.sysUserAccount.response.*;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -103,6 +100,18 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         BigDecimal expenditure = response.getWithdrawalAmount().add(response.getGrabAmount());
         response.setAmount(spendingAmount.subtract(expenditure));
         return response;
+    }
+
+    @Override
+    public Page<CommissionLDetailResponse> commissionDetails(CommissionLDetailRequest request) {
+        Page<CommissionLDetailResponse> page = new Page<>(request.getCurrent(), request.getSize());
+        return sysUserAccountMapper.commissionDetails(page, request);
+    }
+
+    @Override
+    public Page<WithdrawDetailResponse> withdrawDetail(WithdrawDetailRequest request) {
+        Page<WithdrawDetailResponse> page = new Page<>(request.getCurrent(), request.getSize());
+        return sysUserAccountMapper.withdrawDetail(page, request);
     }
 
     /* 递归查询下级代理用户 */

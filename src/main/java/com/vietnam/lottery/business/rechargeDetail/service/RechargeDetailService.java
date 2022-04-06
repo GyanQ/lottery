@@ -1,7 +1,7 @@
 package com.vietnam.lottery.business.rechargeDetail.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.grabRedPacketsDetail.request.PayRequest;
+import com.vietnam.lottery.business.rechargeDetail.request.PayRequest;
 import com.vietnam.lottery.business.rechargeDetail.request.RechargeListRequest;
 import com.vietnam.lottery.business.rechargeDetail.response.RechargeListResponse;
 import com.vietnam.lottery.common.utils.ResultModel;

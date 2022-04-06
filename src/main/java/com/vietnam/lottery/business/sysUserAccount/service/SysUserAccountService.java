@@ -3,10 +3,7 @@ package com.vietnam.lottery.business.sysUserAccount.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUserAccount.request.*;
-import com.vietnam.lottery.business.sysUserAccount.response.CommissionListResponse;
-import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
-import com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListResponse;
-import com.vietnam.lottery.business.sysUserAccount.response.WithdrawListResponse;
+import com.vietnam.lottery.business.sysUserAccount.response.*;
 import com.vietnam.lottery.common.utils.ResultModel;
 
 import java.util.List;
@@ -29,7 +26,7 @@ public interface SysUserAccountService {
     Page<CommissionListResponse> commissionsList(CommissionListRequest request);
 
     //下级代理列表
-    List<SubordinateListListResponse>  subordinateList(SubordinateListListRequest request);
+    List<SubordinateListListResponse> subordinateList(SubordinateListListRequest request);
 
     //提现审核
     ResultModel withdrawAudit(WithdrawAuditRequest request);
@@ -39,5 +36,11 @@ public interface SysUserAccountService {
 
     /* 账户余额 */
     AccountBalanceResponse accountBalance(String userId);
+
+    //根据userId查询分佣明细
+    Page<CommissionLDetailResponse> commissionDetails(CommissionLDetailRequest request);
+
+    //根据userId查询提现记录
+    Page<WithdrawDetailResponse> withdrawDetail(WithdrawDetailRequest request);
 }
 

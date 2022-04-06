@@ -3,7 +3,7 @@ package com.vietnam.lottery.business.rechargeDetail.service.impl;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.grabRedPacketsDetail.request.PayRequest;
+import com.vietnam.lottery.business.rechargeDetail.request.PayRequest;
 import com.vietnam.lottery.business.rechargeDetail.entity.RechargeDetail;
 import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
 import com.vietnam.lottery.business.rechargeDetail.request.CreateOrderRequest;

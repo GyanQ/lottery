@@ -185,5 +185,26 @@
                 and pay_type = '2'
                 and del_flag = '0') e
     </select>
+    <select id="commissionDetails"
+            resultType="com.vietnam.lottery.business.sysUserAccount.response.CommissionLDetailResponse">
+        select a.amount      as amount,
+               a.create_date as createDate
+        from sys_user_account a
+        where a.create_by = #{request.userId}
+          and a.type = '0'
+          and a.spending = '0'
+          and a.del_flag = '0'
+    </select>
+
+    <select id="withdrawDetail"
+            resultType="com.vietnam.lottery.business.sysUserAccount.response.WithdrawDetailResponse">
+        select a.amount      as amount,
+               a.create_date as createDate
+        from sys_user_account a
+        where a.create_by = #{request.userId}
+          and a.type = '3'
+          and a.spending = '1'
+          and a.del_flag = '0'
+    </select>
 </mapper>
 

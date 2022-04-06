@@ -1,6 +1,6 @@
 package com.vietnam.lottery.content.front.rechargeDetail;
 
-import com.vietnam.lottery.business.grabRedPacketsDetail.request.PayRequest;
+import com.vietnam.lottery.business.rechargeDetail.request.PayRequest;
 import com.vietnam.lottery.business.rechargeDetail.service.RechargeDetailService;
 import com.vietnam.lottery.common.config.JwtUtil;
 import com.vietnam.lottery.common.global.GlobalException;
