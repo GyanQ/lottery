@@ -24,8 +24,6 @@ public class SysUser extends Model<SysUser> {
     private String passWord;
     //手机号码
     private String phone;
-    //余额
-    private Long amount;
     //登录方式(1账号 2FaceBook 3Google)
     private String loginWay;
     //删除标志（0代表存在、2代表删除）
@@ -77,14 +75,6 @@ public class SysUser extends Model<SysUser> {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
     }
 
     public String getLoginWay() {

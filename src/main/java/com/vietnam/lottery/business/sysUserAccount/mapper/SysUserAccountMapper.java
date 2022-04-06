@@ -2,6 +2,7 @@ package com.vietnam.lottery.business.sysUserAccount.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
 import com.vietnam.lottery.business.sysUserAccount.request.CommissionListRequest;
 import com.vietnam.lottery.business.sysUserAccount.request.UserLotteryListRequest;
@@ -44,5 +45,8 @@ public interface SysUserAccountMapper extends BaseMapper<SysUserAccount> {
     //根据userId查询用户抢红包和拆红包次数
     @MapKey("createBy")
     Map<String, Map<String, Object>> getByIdCount(@Param("userId") String userId);
+
+    //根据userId查询用户余额
+    AccountBalanceResponse getByIdAmountDetail(@Param("userId") String userId);
 }
 

@@ -53,9 +53,6 @@ public interface SysUserService {
     /* facebook登录 */
     Map<String, Object> faceBookLogin(FaceBookLoginRequest request);
 
-    /* 账户余额 */
-    AccountBalanceResponse accountBalance(String userId);
-
     /* 发送短信 */
     ResultModel sendSms(SendSmsRequest request);
 

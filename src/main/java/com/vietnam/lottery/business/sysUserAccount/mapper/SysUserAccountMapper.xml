@@ -144,5 +144,46 @@
           and a.del_flag = '0'
           and a.create_by = #{userId}
     </select>
+    <select id="getByIdAmountDetail"
+            resultType="com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse">
+        select ifnull(a.commissionBalanceAmount, 0) as commissionBalanceAmount,
+               ifnull(b.redEnvelopeAmount, 0)       as redEnvelopeAmount,
+               ifnull(c.grabAmount, 0)              as grabAmount,
+               ifnull(d.withdrawalAmount, 0)        as withdrawalAmount,
+               ifnull(e.rechargeAmount, 0)          as rechargeAmount
+        from (select sum(amount) as commissionBalanceAmount
+              from sys_user_account
+              where create_by = #{userId}
+                and type = '0'
+                and spending = '0'
+                and del_flag = '0'
+             ) a,
+             (select sum(amount) as redEnvelopeAmount
+              from sys_user_account
+              where create_by = #{userId}
+                and type = '1'
+                and spending = '0'
+                and del_flag = '0'
+             ) b,
+             (select sum(amount) as grabAmount
+              from sys_user_account
+              where create_by = #{userId}
+                and type = '2'
+                and spending = '1'
+                and del_flag = '0'
+             ) c,
+             (select sum(amount) as withdrawalAmount
+              from sys_user_account
+              where create_by = #{userId}
+                and type = '3'
+                and spending = '1'
+                and del_flag = '0'
+             ) d,
+             (select sum(amount) as rechargeAmount
+              from recharge_detail
+              where create_by = #{userId}
+                and pay_type = '2'
+                and del_flag = '0') e
+    </select>
 </mapper>
 

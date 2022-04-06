@@ -1,6 +1,7 @@
 package com.vietnam.lottery.business.sysUserAccount.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUserAccount.request.*;
 import com.vietnam.lottery.business.sysUserAccount.response.CommissionListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
@@ -35,5 +36,8 @@ public interface SysUserAccountService {
 
     //提现
     ResultModel withdraw(WithdrawRequest request);
+
+    /* 账户余额 */
+    AccountBalanceResponse accountBalance(String userId);
 }
 

@@ -21,13 +21,6 @@ public class MineController {
     @Autowired
     private SysUserService sysUserService;
 
-    @PostMapping("/accountBalance")
-    @ApiOperation("账户余额")
-    public ResultModel<AccountBalanceResponse> accountBalance(HttpServletRequest httpServletRequest) {
-        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        String userId = JwtUtil.parseToken(token);
-        return ResultUtil.success(sysUserService.accountBalance(userId));
-    }
 
 //    @PostMapping("/partner")
 //    @ApiOperation("我的伙伴")

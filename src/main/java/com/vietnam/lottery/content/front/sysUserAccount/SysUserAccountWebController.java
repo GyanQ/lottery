@@ -1,5 +1,6 @@
 package com.vietnam.lottery.content.front.sysUserAccount;
 
+import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUserAccount.request.WithdrawRequest;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
 import com.vietnam.lottery.common.config.JwtUtil;
@@ -33,5 +34,13 @@ public class SysUserAccountWebController {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysUserAccountService.withdraw(request));
+    }
+
+    @PostMapping("/accountBalance")
+    @ApiOperation("账户余额")
+    public ResultModel<AccountBalanceResponse> accountBalance(HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        String userId = JwtUtil.parseToken(token);
+        return ResultUtil.success(sysUserAccountService.accountBalance(userId));
     }
 }

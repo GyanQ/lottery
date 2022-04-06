@@ -316,12 +316,6 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public AccountBalanceResponse accountBalance(String userId) {
-        AccountBalanceResponse response = new AccountBalanceResponse();
-        return response;
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel sendSms(SendSmsRequest request) {
         //随机生成6位验证码

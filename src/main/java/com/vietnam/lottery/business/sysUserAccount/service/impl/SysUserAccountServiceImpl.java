@@ -2,6 +2,7 @@ package com.vietnam.lottery.business.sysUserAccount.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
 import com.vietnam.lottery.business.sysUserAccount.mapper.SysUserAccountMapper;
 import com.vietnam.lottery.business.sysUserAccount.request.*;
@@ -93,6 +94,15 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         sysUserAccount.setBankCardId(request.getBankCardId());
         sysUserAccount.setCreateBy(request.getCreateBy());
         return ResultUtil.success(sysUserAccountMapper.insert(sysUserAccount));
+    }
+
+    @Override
+    public AccountBalanceResponse accountBalance(String userId) {
+        AccountBalanceResponse response = sysUserAccountMapper.getByIdAmountDetail(userId);
+        BigDecimal spendingAmount = response.getCommissionBalanceAmount().add(response.getRedEnvelopeAmount()).add(response.getRechargeAmount());
+        BigDecimal expenditure = response.getWithdrawalAmount().add(response.getGrabAmount());
+        response.setAmount(spendingAmount.subtract(expenditure));
+        return response;
     }
 
     /* 递归查询下级代理用户 */
