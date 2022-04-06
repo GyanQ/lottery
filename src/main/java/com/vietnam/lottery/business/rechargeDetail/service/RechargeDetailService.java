@@ -17,7 +17,7 @@ public interface RechargeDetailService {
     Page<RechargeListResponse> list(RechargeListRequest request);
 
     //充值
-    JSONObject pay(PayRequest request);
+    String pay(PayRequest request);
 
     //回调
     void callBack(String body);

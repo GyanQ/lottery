@@ -32,7 +32,7 @@ public class PaymentUtils {
         //订单信息通知地址
         json.put("notifyurl", "http://47.242.74.180:8090/api/web/grab/callBack");
         //前端跳转地址
-        json.put("returnurl", null);
+        json.put("returnurl", "http://47.242.74.180:8091");
         //生成签名
         String str = (token + request.getOrderId() + amount).toLowerCase();
         //签名

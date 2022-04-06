@@ -42,7 +42,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public JSONObject pay(PayRequest request) {
+    public String pay(PayRequest request) {
         //todo:首次充值赠送20000盾
 //        Long amount = 20000l;
 //        if (CollectionUtils.isEmpty(rechargeDetailList)) {
@@ -73,7 +73,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         rechargeDetail.setAmount(new BigDecimal(request.getAmount()));
         rechargeDetail.setCreateBy(request.getCreateBy());
         rechargeDetailMapper.insert(rechargeDetail);
-        return data;
+        return data.getStr("pageurl");
     }
 
     @Override
