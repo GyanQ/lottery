@@ -118,17 +118,27 @@
     </select>
 
     <select id="getByIdAmount" resultType="java.util.Map">
-        select a.create_by                    as createBy,
-               ifnull(sum(a.amount), 0)       as incomeAmount,
-               ifnull(b.expenditureAmount, 0) as expenditureAmount
-        from sys_user_account a
-                 left join (select create_by, sum(amount) as expenditureAmount
-                            from sys_user_account
-                            where spending = '1'
-                            group by create_by) b on a.create_by = b.create_by
-        where a.spending = '0'
-          and a.create_by = #{userId}
-          and a.del_flag = '0'
+        select ifnull(a.amount, 0)            as incomeAmount,
+               ifnull(b.expenditureAmount, 0) as expenditureAmount,
+               ifnull(c.withdrawAmount, 0)    as withdrawAmount
+        from (select sum(amount) as incomeAmount
+              from sys_user_account
+              where create_by = #{userId}
+                and spending = '0'
+                and del_flag = '0') a,
+             (select sum(amount) as expenditureAmount
+              from sys_user_account
+              where create_by = #{userId}
+                and type = '2'
+                and spending = '1'
+                and del_flag = '0') b,
+             (select sum(amount) as withdrawAmount
+              from sys_user_account
+              where create_by = #{userId}
+                and type = '3'
+                and spending = '1'
+                and audit = '3'
+                and del_flag = '0') c
     </select>
 
     <select id="getByIdCount" resultType="java.util.Map">
@@ -184,6 +194,27 @@
               where create_by = #{userId}
                 and pay_type = '2'
                 and del_flag = '0') e
+    </select>
+    <select id="commissionDetails"
+            resultType="com.vietnam.lottery.business.sysUserAccount.response.CommissionLDetailResponse">
+        select a.amount      as amount,
+               a.create_date as createDate
+        from sys_user_account a
+        where a.create_by = #{request.userId}
+          and a.type = '0'
+          and a.spending = '0'
+          and a.del_flag = '0'
+    </select>
+
+    <select id="withdrawDetail"
+            resultType="com.vietnam.lottery.business.sysUserAccount.response.WithdrawDetailResponse">
+        select a.amount      as amount,
+               a.create_date as createDate
+        from sys_user_account a
+        where a.create_by = #{request.userId}
+          and a.type = '3'
+          and a.spending = '1'
+          and a.del_flag = '0'
     </select>
 </mapper>
 

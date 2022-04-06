@@ -3,10 +3,10 @@ package com.vietnam.lottery.business.rechargeDetail.service.impl;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.rechargeDetail.request.PayRequest;
 import com.vietnam.lottery.business.rechargeDetail.entity.RechargeDetail;
 import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
 import com.vietnam.lottery.business.rechargeDetail.request.CreateOrderRequest;
+import com.vietnam.lottery.business.rechargeDetail.request.PayRequest;
 import com.vietnam.lottery.business.rechargeDetail.request.RechargeListRequest;
 import com.vietnam.lottery.business.rechargeDetail.response.RechargeListResponse;
 import com.vietnam.lottery.business.rechargeDetail.service.RechargeDetailService;
@@ -14,8 +14,6 @@ import com.vietnam.lottery.common.config.PaymentUtils;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.global.StatusEnum;
 import com.vietnam.lottery.common.utils.DateUtils;
-import com.vietnam.lottery.common.utils.ResultModel;
-import com.vietnam.lottery.common.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +42,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultModel pay(PayRequest request) {
+    public JSONObject pay(PayRequest request) {
         //todo:首次充值赠送20000盾
 //        Long amount = 20000l;
 //        if (CollectionUtils.isEmpty(rechargeDetailList)) {
@@ -74,7 +72,8 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         rechargeDetail.setPayType(request.getType());
         rechargeDetail.setAmount(new BigDecimal(request.getAmount()));
         rechargeDetail.setCreateBy(request.getCreateBy());
-        return ResultUtil.success(rechargeDetailMapper.insert(rechargeDetail));
+        rechargeDetailMapper.insert(rechargeDetail);
+        return data;
     }
 
     @Override
