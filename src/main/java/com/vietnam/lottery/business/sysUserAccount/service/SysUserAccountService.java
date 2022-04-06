@@ -32,5 +32,8 @@ public interface SysUserAccountService {
 
     //提现审核
     ResultModel withdrawAudit(WithdrawAuditRequest request);
+
+    //提现
+    ResultModel withdraw(WithdrawRequest request);
 }
 

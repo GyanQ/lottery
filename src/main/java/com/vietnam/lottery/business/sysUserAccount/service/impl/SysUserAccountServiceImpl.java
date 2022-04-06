@@ -82,6 +82,19 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         return ResultUtil.success(sysUserAccountMapper.updateById(userAccount));
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel withdraw(WithdrawRequest request) {
+        SysUserAccount sysUserAccount = new SysUserAccount();
+        sysUserAccount.setType("3");
+        sysUserAccount.setSpending("1");
+        sysUserAccount.setAmount(request.getAmount());
+        sysUserAccount.setAudit("1");
+        sysUserAccount.setBankCardId(request.getBankCardId());
+        sysUserAccount.setCreateBy(request.getCreateBy());
+        return ResultUtil.success(sysUserAccountMapper.insert(sysUserAccount));
+    }
+
     /* 递归查询下级代理用户 */
     private List<SubordinateListListResponse> myLowerLevel(String id) {
         List<SubordinateListListResponse> listResponses = sysUserAccountMapper.lowerLevelList(id);

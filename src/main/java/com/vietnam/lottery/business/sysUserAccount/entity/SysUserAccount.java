@@ -25,8 +25,10 @@ public class SysUserAccount extends Model<SysUserAccount> {
     private String spending;
     //金额
     private BigDecimal amount;
-    //审核状态(1未审核 2审核未通过 3审核通过 4审核中)
+    //审核状态(1未审核 2审核未通过 3审核通过)
     private String audit;
+    //bank_card_id
+    private String bankCardId;
     //删除标志（0代表存在、1代表删除）
     private String delFlag;
     //创建人
@@ -85,6 +87,14 @@ public class SysUserAccount extends Model<SysUserAccount> {
 
     public void setAudit(String audit) {
         this.audit = audit;
+    }
+
+    public String getBankCardId() {
+        return bankCardId;
+    }
+
+    public void setBankCardId(String bankCardId) {
+        this.bankCardId = bankCardId;
     }
 
     public String getDelFlag() {

@@ -1,11 +1,5 @@
 package com.vietnam.lottery.content.front.sysUser;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vietnam.lottery.business.actingCommissionDetail.request.CommissionDetailsRequest;
-import com.vietnam.lottery.business.sysUserAccount.request.SubordinateListListRequest;
-import com.vietnam.lottery.business.actingCommissionDetail.response.CommissionDetailsResponse;
-import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
-import com.vietnam.lottery.business.actingCommissionDetail.service.ActingCommissionDetailService;
 import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.config.JwtUtil;
@@ -15,12 +9,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 @Api(tags = "我的")
@@ -28,8 +20,6 @@ import java.util.List;
 public class MineController {
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private ActingCommissionDetailService actingCommissionDetailService;
 
     @PostMapping("/accountBalance")
     @ApiOperation("账户余额")
@@ -48,12 +38,12 @@ public class MineController {
 //        listRequest.setUserId(userId);
 //        return ResultUtil.success(actingCommissionDetailService.lowerLevelList(listRequest));
 //    }
-
-    @PostMapping("/commissionDetails")
-    @ApiOperation("分佣明细")
-    public ResultModel<Page<CommissionDetailsResponse>> commissionDetails(@RequestBody CommissionDetailsRequest request, HttpServletRequest httpServletRequest) {
-        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        request.setUserId(JwtUtil.parseToken(token));
-        return ResultUtil.success(actingCommissionDetailService.commissionDetails(request));
-    }
+//
+//    @PostMapping("/commissionDetails")
+//    @ApiOperation("分佣明细")
+//    public ResultModel<Page<CommissionDetailsResponse>> commissionDetails(@RequestBody CommissionDetailsRequest request, HttpServletRequest httpServletRequest) {
+//        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+//        request.setUserId(JwtUtil.parseToken(token));
+//        return ResultUtil.success(actingCommissionDetailService.commissionDetails(request));
+//    }
 }

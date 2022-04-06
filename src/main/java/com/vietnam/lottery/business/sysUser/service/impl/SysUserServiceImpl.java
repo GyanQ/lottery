@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.acting.entity.Acting;
 import com.vietnam.lottery.business.acting.mapper.ActingMapper;
-import com.vietnam.lottery.business.actingCommissionDetail.mapper.ActingCommissionDetailMapper;
 import com.vietnam.lottery.business.actingHierarchyRelation.entity.ActingHierarchyRelation;
 import com.vietnam.lottery.business.actingHierarchyRelation.mapper.ActingHierarchyRelationMapper;
 import com.vietnam.lottery.business.sysLoginDetail.entity.SysLoginDetail;
@@ -49,8 +48,6 @@ public class SysUserServiceImpl implements SysUserService {
     private SysOperateRecordService sysOperateRecordService;
     @Autowired
     private SysLoginDetailMapper sysLoginDetailMapper;
-    @Autowired
-    private ActingCommissionDetailMapper actingCommissionDetailMapper;
     @Autowired
     private SysSmsMapper sysSmsMapper;
     @Resource
