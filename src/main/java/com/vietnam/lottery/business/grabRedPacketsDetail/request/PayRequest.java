@@ -10,13 +10,13 @@ import java.io.Serializable;
 public class PayRequest implements Serializable {
     private static final long serialVersionUID = -4915813726129006929L;
 
-    @ApiModelProperty(value = "订单号")
-    @NotBlank(message = "订单号不能为空")
-    private String orderNo;
-
     @ApiModelProperty(value = "支付类型(1zalo 2momo)")
     @NotBlank(message = "支付类型不能为空")
     private String type;
+
+    @ApiModelProperty(value = "充值金额")
+    @NotBlank(message = "充值金额不能为空")
+    private String amount;
 
     @ApiModelProperty(hidden = true)
     private String createBy;
