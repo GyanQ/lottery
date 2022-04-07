@@ -24,7 +24,7 @@ import javax.validation.Valid;
 
 @RestController
 @Api(tags = "充值配置")
-@RequestMapping("/recharge")
+@RequestMapping("/recharge/config")
 public class RechargeController {
     @Autowired
     private RechargeService rechargeService;

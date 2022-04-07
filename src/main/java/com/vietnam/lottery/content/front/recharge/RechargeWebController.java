@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api(tags = "充值配置")
-@RequestMapping("/web/recharge")
+@RequestMapping("/web/recharge/config")
 public class RechargeWebController {
     @Autowired
     private RechargeService rechargeService;
