@@ -85,7 +85,7 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel withdrawAudit(WithdrawAuditRequest request) {
         SysUserAccount userAccount = sysUserAccountMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(userAccount)) throw new GlobalException("fail to edit");
+        if (ObjectUtil.isEmpty(userAccount)) throw new GlobalException("查询不到提现记录");
 
         if ("2".equals(request.getAudit())) {
             userAccount.setAudit(request.getAudit());
@@ -112,10 +112,10 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         //用户总余额
         BigDecimal totalAmount = rechargeTotal.add(incomeAmount).subtract(expenditureAmount).subtract(withdrawAmount);
         if (totalAmount.compareTo(userAccount.getAmount()) == -1) {
-            throw new GlobalException("Withdrawal failed due to insufficient user balance");
+            throw new GlobalException("用户余额不足,提现失败");
         }
         SysBankCard bankCard = sysBankCardMapper.selectById(userAccount.getBankCardId());
-        if (ObjectUtil.isEmpty(bankCard)) throw new GlobalException("Can't find bank card information");
+        if (ObjectUtil.isEmpty(bankCard)) throw new GlobalException("查询不到用户银行卡信息");
         String payload = bankCard.getCollectionName() + bankCard.getCardNum() + bankCard.getCardSerialNum() + bankCard.getBackName();
 
         //发起提现
@@ -129,7 +129,7 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         JSONObject data = json.getJSONObject("data");
         log.info("获取data,{}", data);
         if (json.getInt("code") != 1) {
-            throw new GlobalException("Failed to create payment order");
+            throw new GlobalException("调用提现api失败");
         }
         //更新提现明细
         userAccount.setUpdateBy(request.getCreateBy());

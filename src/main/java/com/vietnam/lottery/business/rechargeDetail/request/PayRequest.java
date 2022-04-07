@@ -14,9 +14,9 @@ public class PayRequest implements Serializable {
     @NotBlank(message = "支付类型不能为空")
     private String type;
 
-    @ApiModelProperty(value = "充值金额")
-    @NotBlank(message = "充值金额不能为空")
-    private String amount;
+    @ApiModelProperty(value = "充值金额id")
+    @NotBlank(message = "充值金额id不能为空")
+    private String id;
 
     @ApiModelProperty(hidden = true)
     private String createBy;

@@ -27,7 +27,7 @@ public class PaymentUtils {
         String type = ("1".equals(request.getType())) ? "zalo" : "momo";
         json.put("type", type);
         //金额
-        String amount = request.getAmount() + ".0000";
+        String amount = request.getAmount().toString();
         json.put("amount", amount);
         //订单信息通知地址
         json.put("notifyurl", "http://47.242.74.180:8090/api/web/grab/callBack");

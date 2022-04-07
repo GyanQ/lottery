@@ -1,8 +1,11 @@
 package com.vietnam.lottery.business.rechargeDetail.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.recharge.entity.Recharge;
+import com.vietnam.lottery.business.recharge.mapper.RechargeMapper;
 import com.vietnam.lottery.business.rechargeDetail.entity.RechargeDetail;
 import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
 import com.vietnam.lottery.business.rechargeDetail.request.CreateOrderRequest;
@@ -19,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -33,6 +36,8 @@ import java.util.Date;
 public class RechargeDetailServiceImpl implements RechargeDetailService {
     @Autowired
     private RechargeDetailMapper rechargeDetailMapper;
+    @Resource
+    private RechargeMapper rechargeMapper;
 
     @Override
     public Page<RechargeListResponse> list(RechargeListRequest request) {
@@ -43,12 +48,10 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String pay(PayRequest request) {
-        //todo:首次充值赠送20000盾
-//        Long amount = 20000l;
-//        if (CollectionUtils.isEmpty(rechargeDetailList)) {
-//            amount += grabRedPackets.getAmount();
-//        }
-
+        Recharge recharge = rechargeMapper.selectById(request.getId());
+        if (ObjectUtil.isEmpty(recharge)) {
+            throw new GlobalException("Không thể nhận được số tiền, nạp tiền không thành công");
+        }
         //生成订单号
         String date = DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATETIME_PATTERN);
         String orderNo = request.getCreateBy().toString() + date;
@@ -56,7 +59,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         //支付
         CreateOrderRequest orderRequest = new CreateOrderRequest();
         orderRequest.setOrderId(orderNo);
-        orderRequest.setAmount(request.getAmount());
+        orderRequest.setAmount(recharge.getAmount());
         orderRequest.setType(request.getType());
         log.info("创建支付申请传参:{}", orderRequest);
         String str = PaymentUtils.createOrder(orderRequest);
@@ -65,12 +68,12 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         JSONObject data = json.getJSONObject("data");
         log.info("获取data,{}", data);
         if (json.getInt("code") != 1) {
-            throw new GlobalException("Failed to create payment order");
+            throw new GlobalException("Nạp tiền không thành công");
         }
         //增加充值记录
         RechargeDetail rechargeDetail = new RechargeDetail();
         rechargeDetail.setPayType(request.getType());
-        rechargeDetail.setAmount(new BigDecimal(request.getAmount()));
+        rechargeDetail.setAmount(recharge.getAmount());
         rechargeDetail.setCreateBy(request.getCreateBy());
         rechargeDetailMapper.insert(rechargeDetail);
         return data.getStr("pageurl");
