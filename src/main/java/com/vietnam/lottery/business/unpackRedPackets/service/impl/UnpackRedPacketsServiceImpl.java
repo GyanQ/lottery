@@ -166,7 +166,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         Long unpackCount = 0l;
         Map<String, Map<String, Long>> count = sysUserAccountMapper.getByIdCount(userId);
         for (Map<String, Long> value : count.values()) {
-            grabCount = value.get("grabCount");
+            grabCount += value.get("grabCount");
             unpackCount += value.get("unpackCount");
         }
 

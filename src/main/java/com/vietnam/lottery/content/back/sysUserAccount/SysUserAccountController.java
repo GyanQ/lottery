@@ -8,6 +8,7 @@ import com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListRespo
 import com.vietnam.lottery.business.sysUserAccount.response.WithdrawListResponse;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
 import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
 
 @RestController
@@ -72,12 +75,19 @@ public class SysUserAccountController {
 
     @PostMapping("/callBack")
     @ApiOperation("提现回调")
-    public ResultModel callBack(@RequestBody @Valid WithdrawAuditRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
-        if (bindingResult.hasErrors()) {
-            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
+    public String callBack(HttpServletRequest httpServletRequest) {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(httpServletRequest.getInputStream(), "UTF-8"));
+            String line = null;
+            StringBuilder sb = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            String body = sb.toString();
+            sysUserAccountService.callBack(body);
+        } catch (Exception e) {
+            throw new GlobalException(e.getMessage());
         }
-        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        request.setCreateBy(JwtUtil.parseToken(token));
-        return ResultUtil.success(sysUserAccountService.withdrawAudit(request));
+        return "success";
     }
 }

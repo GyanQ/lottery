@@ -14,10 +14,6 @@ public class WithdrawAuditRequest implements Serializable {
     @NotBlank(message = "id不能为空")
     private String id;
 
-    @ApiModelProperty(value = "审核状态(1未审核 2审核未通过 3审核通过 4审核中)")
-    @NotBlank(message = "审核状态不能为空")
-    private String audit;
-
     @ApiModelProperty(hidden = true)
     private String createBy;
 }

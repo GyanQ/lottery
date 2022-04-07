@@ -1,6 +1,8 @@
 package com.vietnam.lottery.business.sysUserAccount.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
 import com.vietnam.lottery.business.sysBankCard.entity.SysBankCard;
@@ -15,6 +17,7 @@ import com.vietnam.lottery.common.config.PaymentUtils;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -33,6 +36,7 @@ import java.util.Map;
  * @since 2022-04-05 22:30:50
  */
 @Service("sysUserAccountService")
+@Slf4j
 public class SysUserAccountServiceImpl implements SysUserAccountService {
     @Resource
     private SysUserAccountMapper sysUserAccountMapper;
@@ -89,18 +93,18 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         BigDecimal expenditureAmount = BigDecimal.ZERO;
         //提现余额
         BigDecimal withdrawAmount = BigDecimal.ZERO;
-        //查询用户余额
-        Map<String, Map<String, Object>> map = sysUserAccountMapper.getByIdAmount(request.getCreateBy());
-        for (Map<String, Object> value : map.values()) {
-            incomeAmount = (BigDecimal) value.get("incomeAmount");
-            expenditureAmount = (BigDecimal) value.get("expenditureAmount");
-            withdrawAmount = (BigDecimal) value.get("withdrawAmount");
+        //查询用户余额明细
+        Map<String, Map<String, BigDecimal>> map = sysUserAccountMapper.getByIdAmount(request.getCreateBy());
+        for (Map<String, BigDecimal> value : map.values()) {
+            incomeAmount.add(value.get("incomeAmount"));
+            expenditureAmount.add(value.get("expenditureAmount"));
+            withdrawAmount.add(value.get("withdrawAmount"));
         }
         //用户充值余额
         BigDecimal rechargeTotal = rechargeDetailMapper.getByIdRecharge(request.getCreateBy());
         //用户总余额
-        BigDecimal userAmount = rechargeTotal.add(incomeAmount).subtract(expenditureAmount).subtract(withdrawAmount);
-        if (userAmount.compareTo(userAccount.getAmount()) == -1) {
+        BigDecimal totalAmount = rechargeTotal.add(incomeAmount).subtract(expenditureAmount).subtract(withdrawAmount);
+        if (totalAmount.compareTo(userAccount.getAmount()) == -1) {
             throw new GlobalException("Withdrawal failed due to insufficient user balance");
         }
         SysBankCard bankCard = sysBankCardMapper.selectById(userAccount.getBankCardId());
@@ -112,10 +116,15 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         createWithdrawRequest.setPayload(payload);
         createWithdrawRequest.setAmount(userAccount.getAmount());
         createWithdrawRequest.setOrderNo(userAccount.getId());
-        PaymentUtils.createWithdraw(createWithdrawRequest);
-
+        String str = PaymentUtils.createWithdraw(createWithdrawRequest);
+        log.info("创建提现Result:{}", str);
+        JSONObject json = JSONUtil.parseObj(str);
+        JSONObject data = json.getJSONObject("data");
+        log.info("获取data,{}", data);
+        if (json.getInt("code") != 1) {
+            throw new GlobalException("Failed to create payment order");
+        }
         //更新提现明细
-        userAccount.setAudit(request.getAudit());
         userAccount.setUpdateBy(request.getCreateBy());
         userAccount.setUpdateDate(new Date());
         return ResultUtil.success(sysUserAccountMapper.updateById(userAccount));
@@ -153,6 +162,23 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
     public Page<WithdrawDetailResponse> withdrawDetail(WithdrawDetailRequest request) {
         Page<WithdrawDetailResponse> page = new Page<>(request.getCurrent(), request.getSize());
         return sysUserAccountMapper.withdrawDetail(page, request);
+    }
+
+    @Override
+    public void callBack(String body) {
+        log.info("提现回调信息:{}", body);
+        JSONObject json = JSONUtil.parseObj(body);
+        JSONObject data = json.getJSONObject("data");
+        Integer isPay = data.getInt("ispay");
+        String orderNo = data.getStr("orderid");
+        SysUserAccount sysUserAccount = sysUserAccountMapper.selectById(orderNo);
+        //支付成功
+        if (1 == isPay && null != sysUserAccount) {
+            //更新充值记录
+            sysUserAccount.setAudit("3");
+            sysUserAccount.setUpdateDate(new Date());
+            sysUserAccountMapper.insert(sysUserAccount);
+        }
     }
 
     /* 递归查询下级代理用户 */

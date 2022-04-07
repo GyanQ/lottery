@@ -158,11 +158,11 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         //提现余额
         BigDecimal withdrawAmount = BigDecimal.ZERO;
         //查询用户余额
-        Map<String, Map<String, Object>> map = sysUserAccountMapper.getByIdAmount(request.getCreateBy());
-        for (Map<String, Object> value : map.values()) {
-            incomeAmount = (BigDecimal) value.get("incomeAmount");
-            expenditureAmount = (BigDecimal) value.get("expenditureAmount");
-            withdrawAmount = (BigDecimal) value.get("withdrawAmount");
+        Map<String, Map<String, BigDecimal>> map = sysUserAccountMapper.getByIdAmount(request.getCreateBy());
+        for (Map<String, BigDecimal> value : map.values()) {
+            incomeAmount = value.get("incomeAmount");
+            expenditureAmount = value.get("expenditureAmount");
+            withdrawAmount = value.get("withdrawAmount");
         }
         //用户充值余额
         BigDecimal rechargeTotal = rechargeDetailMapper.getByIdRecharge(request.getCreateBy());

@@ -42,5 +42,8 @@ public interface SysUserAccountService {
 
     //根据userId查询提现记录
     Page<WithdrawDetailResponse> withdrawDetail(WithdrawDetailRequest request);
+
+    //提现回调
+    void callBack(String body);
 }
 

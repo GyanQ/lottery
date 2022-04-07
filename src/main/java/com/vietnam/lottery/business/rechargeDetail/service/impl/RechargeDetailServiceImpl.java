@@ -64,7 +64,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         JSONObject json = JSONUtil.parseObj(str);
         JSONObject data = json.getJSONObject("data");
         log.info("获取data,{}", data);
-        if (!"success".equals(json.get("msg"))) {
+        if (json.getInt("code") != 1) {
             throw new GlobalException("Failed to create payment order");
         }
         //增加充值记录
@@ -79,7 +79,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void callBack(String body) {
-        log.info("回调信息:{}", body);
+        log.info("支付回调信息:{}", body);
         JSONObject json = JSONUtil.parseObj(body);
         JSONObject data = json.getJSONObject("data");
         Integer isPay = data.getInt("ispay");
