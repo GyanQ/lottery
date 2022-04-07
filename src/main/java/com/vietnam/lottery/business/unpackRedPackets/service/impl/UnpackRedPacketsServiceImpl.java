@@ -53,8 +53,8 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         List<UnpackRedPackets> unpackList = unpackList();
         if (!CollectionUtils.isEmpty(unpackList)) {
             BigDecimal probability = unpackList.stream().map(UnpackRedPackets::getProbability).reduce(BigDecimal.ZERO, BigDecimal::add);
-            BigDecimal total = new BigDecimal(100);
-            if (probability.compareTo(total) == 1) {
+            BigDecimal total = probability.add(request.getProbability());
+            if (total.compareTo(new BigDecimal(100)) == 1) {
                 return ResultUtil.failure("拆红包概率大于100%");
             }
         }
@@ -84,8 +84,8 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         List<UnpackRedPackets> unpackList = unpackList();
         if (!CollectionUtils.isEmpty(unpackList)) {
             BigDecimal probability = unpackList.stream().map(UnpackRedPackets::getProbability).reduce(BigDecimal.ZERO, BigDecimal::add);
-            BigDecimal total = new BigDecimal(100);
-            if (probability.compareTo(total) == 1) {
+            BigDecimal total = probability.add(request.getProbability());
+            if (total.compareTo(new BigDecimal(100)) == 1) {
                 return ResultUtil.failure("拆红包概率大于100%");
             }
         }
