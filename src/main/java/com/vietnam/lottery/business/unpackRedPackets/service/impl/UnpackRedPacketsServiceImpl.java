@@ -54,8 +54,8 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         if (!CollectionUtils.isEmpty(unpackList)) {
             BigDecimal probability = unpackList.stream().map(UnpackRedPackets::getProbability).reduce(BigDecimal.ZERO, BigDecimal::add);
             BigDecimal total = new BigDecimal(100);
-            if (total != probability) {
-                return ResultUtil.failure("The probabilities do not add up to 100");
+            if (probability.compareTo(total) == 1) {
+                return ResultUtil.failure("拆红包概率大于100%");
             }
         }
         UnpackRedPackets unpackRedPackets = new UnpackRedPackets();
@@ -85,8 +85,8 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         if (!CollectionUtils.isEmpty(unpackList)) {
             BigDecimal probability = unpackList.stream().map(UnpackRedPackets::getProbability).reduce(BigDecimal.ZERO, BigDecimal::add);
             BigDecimal total = new BigDecimal(100);
-            if (total != probability) {
-                return ResultUtil.failure("The probabilities do not add up to 100");
+            if (probability.compareTo(total) == 1) {
+                return ResultUtil.failure("拆红包概率大于100%");
             }
         }
 
