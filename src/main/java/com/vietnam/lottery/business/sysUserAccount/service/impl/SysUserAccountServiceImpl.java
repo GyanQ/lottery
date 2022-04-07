@@ -87,6 +87,13 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         SysUserAccount userAccount = sysUserAccountMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(userAccount)) throw new GlobalException("fail to edit");
 
+        if ("2".equals(request.getAudit())) {
+            userAccount.setAudit(request.getAudit());
+            userAccount.setUpdateBy(request.getCreateBy());
+            userAccount.setUpdateDate(new Date());
+            return ResultUtil.success(sysUserAccountMapper.updateById(userAccount));
+        }
+
         //用户支入金额
         BigDecimal incomeAmount = BigDecimal.ZERO;
         //用户支出金额
