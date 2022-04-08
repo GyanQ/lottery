@@ -6,9 +6,7 @@ import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +22,7 @@ public class UnpackRedPacketsWebController {
 
     @PostMapping("/lottery")
     @ApiOperation("拆红包抽奖")
-    public ResultModel lottery(@RequestBody HttpServletRequest httpServletRequest) {
+    public ResultModel lottery(HttpServletRequest httpServletRequest) {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
         return ResultUtil.success(unpackRedPacketsService.lottery(userId));

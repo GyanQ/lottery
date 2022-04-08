@@ -50,7 +50,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel add(UnPackAddRequest request) {
-        List<UnpackRedPackets> unpackList = unpackList();
+        List<UnpackRedPackets> unpackList = unpackList(null);
         if (!CollectionUtils.isEmpty(unpackList)) {
             BigDecimal probability = unpackList.stream().map(UnpackRedPackets::getProbability).reduce(BigDecimal.ZERO, BigDecimal::add);
             BigDecimal total = probability.add(request.getProbability());
@@ -81,7 +81,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         UnpackRedPackets unpackRedPackets = unpackRedPacketsMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(unpackRedPackets)) return ResultUtil.failure("fail to edit");
 
-        List<UnpackRedPackets> unpackList = unpackList();
+        List<UnpackRedPackets> unpackList = unpackList(unpackRedPackets.getId());
         if (!CollectionUtils.isEmpty(unpackList)) {
             BigDecimal probability = unpackList.stream().map(UnpackRedPackets::getProbability).reduce(BigDecimal.ZERO, BigDecimal::add);
             BigDecimal total = probability.add(request.getProbability());
@@ -176,7 +176,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
 
         UnpackLotteryResponse response = new UnpackLotteryResponse();
         //查询所有拆红包配置
-        List<UnpackRedPackets> unpackList = unpackList();
+        List<UnpackRedPackets> unpackList = unpackList(null);
         if (CollectionUtils.isEmpty(unpackList)) throw new GlobalException("no data");
 
         //提取所有中奖概率
@@ -235,8 +235,9 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     /**
      * 查询全部拆红包
      */
-    private List<UnpackRedPackets> unpackList() {
+    private List<UnpackRedPackets> unpackList(String id) {
         QueryWrapper<UnpackRedPackets> query = new QueryWrapper<>();
+        query.ne(ObjectUtil.isNotEmpty(id), "id", id);
         query.eq("del_flag", DelFlagEnum.CODE.getCode());
         return unpackRedPacketsMapper.selectList(query);
     }
