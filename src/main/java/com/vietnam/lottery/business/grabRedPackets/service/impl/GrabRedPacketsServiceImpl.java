@@ -188,6 +188,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         sysUserAccount.setType("2");
         sysUserAccount.setSpending("1");
         sysUserAccount.setAmount(redPackets.getAmount());
+        sysUserAccount.setCreateBy(request.getCreateBy());
         return ResultUtil.success(sysUserAccountMapper.insert(sysUserAccount));
     }
 }
