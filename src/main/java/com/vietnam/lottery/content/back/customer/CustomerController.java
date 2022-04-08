@@ -30,9 +30,6 @@ public class CustomerController {
         //文件名称
         String fileName = file.getOriginalFilename();
         File fileDir = new File(filePath);
-        if (!fileDir.getParentFile().exists()) {
-            fileDir.getParentFile().mkdir();
-        }
         try {
             file.transferTo(fileDir);
         } catch (IllegalStateException e) {
