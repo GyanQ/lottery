@@ -51,7 +51,6 @@ public class RechargeDetailWebController {
                 sb.append(line);
             }
             String body = sb.toString();
-            log.info("解析充值回调:{}", body);
             rechargeDetailService.callBack(body);
         } catch (Exception e) {
             throw new GlobalException(e.getMessage());
