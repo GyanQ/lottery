@@ -124,15 +124,19 @@
         where b.create_by = #{request.userId}
     </select>
     <select id="detail" resultType="com.vietnam.lottery.business.sysUser.response.UserDetailResponse">
-        select a.phone,
-               b.ip,
-               a.account,
-               b.create_date
+        select a.account as account,
+               a.name    as name,
+               a.phone   as phone,
+               b.ip      as ip,
+               b.create_date as date
         from sys_user a
-                 left join
-             (select ip, create_by, create_date
-              from sys_login_detail
-              order by create_date desc limit 1) b on a.id = b.create_by
+            left join
+            (select ip, create_by, create_date
+            from sys_login_detail
+            group by create_by, create_date
+            order by create_date desc
+            limit 1) b
+        on a.id = b.create_by
         where a.id = #{id}
     </select>
 </mapper>
