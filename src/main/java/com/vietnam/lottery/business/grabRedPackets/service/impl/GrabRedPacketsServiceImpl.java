@@ -56,8 +56,8 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel add(AddRequest request) {
-        if (new BigDecimal(50000).compareTo(request.getAmount()) == -1) {
-            return ResultUtil.failure("The amount cannot be less than 50000");
+        if (request.getAmount().compareTo(new BigDecimal(50000)) == -1) {
+            return ResultUtil.failure("金额不能小于50000盾");
         }
         GrabRedPackets grabRedPackets = new GrabRedPackets();
         grabRedPackets.setAmount(request.getAmount());
@@ -81,8 +81,8 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(grabRedPackets)) return ResultUtil.failure("fail to edit");
 
-        if (new BigDecimal(50000).compareTo(request.getAmount()) == -1) {
-            return ResultUtil.failure("The amount cannot be less than 50000");
+        if (request.getAmount().compareTo(new BigDecimal(50000)) == -1) {
+            return ResultUtil.failure("金额不能小于50000盾");
         }
         grabRedPackets.setAmount(request.getAmount());
         grabRedPackets.setIntervalBeginValue(request.getBegin());
@@ -104,7 +104,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel delete(DeleteRequest request) {
         GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(grabRedPackets)) return ResultUtil.failure("fail to delete");
+        if (ObjectUtil.isEmpty(grabRedPackets)) return ResultUtil.failure("查询不到数据,删除失败");
 
         grabRedPackets.setDelFlag(DelFlagEnum.MESSAGE.getCode());
         //操作记录
