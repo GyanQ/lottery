@@ -250,14 +250,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public Page<UserManageListResponse> manageList(UserManageListRequest request) {
         Page<UserManageListResponse> page = new Page<>(request.getCurrent(), request.getSize());
-        Page<UserManageListResponse> iPage = sysUserMapper.manageList(page, request);
-        if (CollectionUtils.isEmpty(iPage.getRecords())) return iPage;
-
-        iPage.getRecords().forEach(o -> {
-            UserManageListResponse response = new UserManageListResponse();
-            response.setEndDate(sysLoginDetailMapper.selectDate(o.getUserId()));
-        });
-        return iPage;
+        return sysUserMapper.manageList(page, request);
     }
 
     @Override

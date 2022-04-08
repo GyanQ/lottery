@@ -22,7 +22,7 @@ public class UserManageListRequest extends PageRequest implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String endDate;
 
-    @ApiModelProperty(value = "排序：1余额升序 2余额降序 3充值升序 4充值降序 5收益升序 6收益降序")
+    @ApiModelProperty(value = "排序：1余额升序 2余额降序 3充值升序 4充值降序 5收益升序 6收益降序 7登录时间升序 8登录时间降序")
     private String type;
 
     @ApiModelProperty(value = "删除标志（0代表存在、1代表删除）")

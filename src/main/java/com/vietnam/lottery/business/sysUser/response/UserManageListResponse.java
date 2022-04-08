@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 public class UserManageListResponse implements Serializable {
@@ -14,13 +15,13 @@ public class UserManageListResponse implements Serializable {
     private String userId;
 
     @ApiModelProperty(value = "用户余额")
-    private Long amount;
+    private BigDecimal amount;
 
     @ApiModelProperty(value = "累计充值")
-    private Long rechargeTotal;
+    private BigDecimal rechargeTotal;
 
     @ApiModelProperty(value = "累计收益")
-    private Long incomeTotal;
+    private BigDecimal incomeTotal;
 
     @ApiModelProperty(value = "最后登录时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
