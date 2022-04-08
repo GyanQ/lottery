@@ -17,4 +17,7 @@ public class WithdrawDetailResponse implements Serializable {
     @ApiModelProperty(value = "提现日期")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String createDate;
+
+    @ApiModelProperty(value = "审核状态(1未审核 2审核未通过 3审核通过)")
+    private String audit;
 }
