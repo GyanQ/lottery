@@ -72,6 +72,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         }
         //增加充值记录
         RechargeDetail rechargeDetail = new RechargeDetail();
+        rechargeDetail.setId(orderNo);
         rechargeDetail.setPayType(request.getType());
         rechargeDetail.setAmount(recharge.getAmount());
         rechargeDetail.setCreateBy(request.getCreateBy());
