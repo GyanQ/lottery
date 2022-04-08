@@ -30,7 +30,7 @@ public class PaymentUtils {
         String amount = request.getAmount().toString();
         json.put("amount", amount);
         //订单信息通知地址
-        json.put("notifyurl", "http://47.242.74.180:8090/api/web/grab/callBack");
+        json.put("notifyurl", "http://47.242.74.180:8090/api/web/recharge/callBack");
         //前端跳转地址
         json.put("returnurl", "http://47.242.74.180:8091");
         //生成签名
