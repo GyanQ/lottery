@@ -47,22 +47,36 @@
     </select>
     <select id="manageList" resultType="com.vietnam.lottery.business.sysUser.response.UserManageListResponse">
         select a.id as userId,
-        a.amount as amount,
-        b.rechargeTotal as rechargeTotal,
-        c.incomeTotal as incomeTotal,
+        (rechargeTotal + ifnull(e.commissionTotal, 0) + ifnull(d.incomeTotal, 0)) -
+        (ifnull(f.grabToal, 0) - ifnull(g.withdrawTotal, 0)) as amoun,
+        ifnull(c.rechargeTotal,0) as rechargeTotal,
+        ifnull(d.incomeTotal,0) as incomeTotal,
         a.login_way as loginWay,
         a.del_flag as delFlag,
-        d.ip as ip
+        b.ip as ip,
+        b.create_date as endDate
         from sys_user a
-        left join (select ifnull(sum(amount), 0) as rechargeTotal, create_by from recharge_detail group by create_by) b
-        on a.id = b.create_by
-        left join (select ifnull(sum(amount), 0) as incomeTotal, create_by from recharge_detail group by create_by) c
-        on a.id = c.create_by
-        left join (select ip,create_by from sys_login_detail group by create_by limit 1) d
-        on a.id = d.create_by
+        left join (select ip,create_by,create_date from sys_login_detail group by create_by, create_date order by
+        create_date desc limit 1) b on a.id = b.create_by
+        left join (select create_by,sum(amount) as rechargeTotal from recharge_detail where pay_status = '2' and
+        del_flag = '0' group by create_by) c on a.id = c.create_by
+        left join (select create_by,sum(amount) as incomeTotal from sys_user_account where type = '1' and spending = '0'
+        and del_flag = '0' group by create_by) d on a.id = d.create_by
+        left join (select create_by,sum(amount) as commissionTotal from sys_user_account where type = '0'
+        and spending ='0' and del_flag = '0' group by create_by) e on a.id = e.create_by
+        left join (select create_by,sum(amount) as grabToal from sys_user_account where type = '2' and spending = '1'
+        and del_flag = '0' group by create_by) f on a.id = f.create_by
+        left join (select create_by,sum(amount) as withdrawTotal from sys_user_account where type = '3'
+        and spending ='1' and audit = '3' and del_flag = '0' group by create_by) g on a.id = g.create_by
         where 1=1
         <if test="request.keyWord != null and request.keyWord != ''">
-            and a.id = #{request.userId} or a.account = #{request.account} or a.phone = #{request.phone}
+            and a.id = #{request.userId}
+        </if>
+        <if test="request.keyWord != null and request.keyWord != ''">
+            or a.account = #{request.account}
+        </if>
+        <if test="request.keyWord != null and request.keyWord != ''">
+            or a.phone = #{request.phone}
         </if>
         <if test="request.delFlag != null and request.delFlag != ''">
             and a.del_flag = #{request.delFlag}
@@ -74,10 +88,10 @@
             and date_format(a.create_date, '%Y-%m-%d') &lt;= date_format(#{request.endDate}, '%Y-%m-%d')
         </if>
         <if test="request.type == 1">
-            order by a.amount
+            order by amount
         </if>
         <if test="request.type == 2">
-            order by a.amount desc
+            order by amount desc
         </if>
         <if test="request.type == 3">
             order by rechargeTotal
@@ -90,6 +104,12 @@
         </if>
         <if test="request.type == 6">
             order by incomeTotal desc
+        </if>
+        <if test="request.type == 7">
+            order by endDate
+        </if>
+        <if test="request.type == 8">
+            order by endDate desc
         </if>
     </select>
     <select id="redPacketsList"
