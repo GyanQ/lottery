@@ -38,7 +38,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /* 红包记录 */
     Page<GrabRedPacketsListResponse> redPacketsList(@Param("page") Page page, @Param("request") GrabRedPacketsListRequest request);
 
-    /* 用户详情 */
+    /* 根据userId查询详情 */
     UserDetailResponse detail(@Param("id") String id);
 }
 
