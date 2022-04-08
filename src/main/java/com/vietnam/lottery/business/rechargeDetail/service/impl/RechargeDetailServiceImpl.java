@@ -83,20 +83,27 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void callBack(String body) {
-        log.info("支付回调信息:{}", body);
+        log.info("充值回调信息body:{}", body);
         JSONObject json = JSONUtil.parseObj(body);
         JSONObject data = json.getJSONObject("data");
+        log.info("获取充值回调信息data:{}", json);
         Integer isPay = data.getInt("ispay");
+        log.info("获取充值回调信息ispay:{}", isPay);
         String orderNo = data.getStr("orderid");
+        log.info("获取充值回调信息orderNo:{}", json);
         RechargeDetail recharge = rechargeDetailMapper.selectById(orderNo);
+        log.info("获取充值回调信息recharge", recharge);
+        if (ObjectUtil.isEmpty(recharge)) return;
         //支付成功
-        if (1 == isPay && null != recharge) {
-            //更新充值记录
-            recharge.setPayStatus(StatusEnum.FINISH_PAY.getCode());
-            recharge.setUpdateBy(recharge.getUpdateBy());
-            recharge.setUpdateDate(new Date());
-            rechargeDetailMapper.insert(recharge);
+        if (isPay != 0) {
+            log.info("充值失败");
         }
+        //更新充值记录
+        recharge.setPayStatus(StatusEnum.FINISH_PAY.getCode());
+        recharge.setUpdateBy(recharge.getUpdateBy());
+        recharge.setUpdateDate(new Date());
+        rechargeDetailMapper.insert(recharge);
+
     }
 }
 
