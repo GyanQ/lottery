@@ -171,7 +171,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         }
 
         if (unpackCount >= grabCount) {
-            throw new GlobalException("Need to grab a bonus");
+            throw new GlobalException("Không có cơ hội xổ số, bạn cần lấy một phong bì đỏ");
         }
 
         UnpackLotteryResponse response = new UnpackLotteryResponse();

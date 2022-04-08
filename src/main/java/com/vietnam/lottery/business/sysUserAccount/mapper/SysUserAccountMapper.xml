@@ -118,7 +118,7 @@
     </select>
 
     <select id="getByIdAmount" resultType="java.util.Map">
-        select ifnull(a.amount, 0)            as incomeAmount,
+        select ifnull(a.incomeAmount, 0)            as incomeAmount,
                ifnull(b.expenditureAmount, 0) as expenditureAmount,
                ifnull(c.withdrawAmount, 0)    as withdrawAmount
         from (select sum(amount) as incomeAmount

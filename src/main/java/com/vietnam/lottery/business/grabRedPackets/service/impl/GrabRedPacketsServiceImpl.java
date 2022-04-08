@@ -171,10 +171,10 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
 
         //查询抢红包余额
         GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("Can't find the red envelope information");
+        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("Không truy vấn được số dư trong phong bì đỏ");
 
         if (userAmount.compareTo(redPackets.getAmount()) == -1) {
-            throw new GlobalException("Insufficient balance please recharge");
+            throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
         }
 
         //生成订单号
