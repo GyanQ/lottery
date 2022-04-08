@@ -92,11 +92,12 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         String orderNo = data.getStr("orderid");
         log.info("获取充值回调信息orderNo:{}", orderNo);
         RechargeDetail recharge = rechargeDetailMapper.selectById(orderNo);
-        log.info("获取充值回调信息recharge,{}", recharge);
+        log.info("充值记录recharge,{}", recharge);
         if (ObjectUtil.isEmpty(recharge)) return;
-        //支付成功
+
         if (isPay != 1) {
             log.info("充值失败");
+            return;
         }
         //更新充值记录
         recharge.setPayStatus(StatusEnum.FINISH_PAY.getCode());

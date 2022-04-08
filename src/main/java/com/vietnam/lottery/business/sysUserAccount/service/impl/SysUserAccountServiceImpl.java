@@ -175,21 +175,31 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void callBack(String body) {
         log.info("提现回调信息:{}", body);
         JSONObject json = JSONUtil.parseObj(body);
         JSONObject data = json.getJSONObject("data");
+        log.info("获取提现回调信息data:{}", data);
         Integer isPay = data.getInt("ispay");
+        log.info("获取提现回调信息ispay:{}", isPay);
         String orderNo = data.getStr("orderid");
+        log.info("获取提现回调信息orderNo:{}", orderNo);
         SysUserAccount sysUserAccount = sysUserAccountMapper.selectById(orderNo);
-        //支付成功
-        if (1 == isPay && null != sysUserAccount) {
-            //更新充值记录
-            sysUserAccount.setAudit("3");
-            sysUserAccount.setUpdateDate(new Date());
-            sysUserAccountMapper.insert(sysUserAccount);
+        log.info("账户明细sysUserAccount,{}", sysUserAccount);
+        if (ObjectUtil.isEmpty(sysUserAccount)) return;
+
+        if (isPay != 1) {
+            log.info("提现失败");
+            return;
         }
+        //更新充值记录
+        sysUserAccount.setAudit("3");
+        sysUserAccount.setUpdateBy(sysUserAccount.getCreateBy());
+        sysUserAccount.setUpdateDate(new Date());
+        sysUserAccountMapper.updateById(sysUserAccount);
     }
+
 
     /* 递归查询下级代理用户 */
     private List<SubordinateListListResponse> myLowerLevel(String id) {
