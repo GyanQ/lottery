@@ -27,7 +27,7 @@ public class UserManageListResponse implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String endDate;
 
-    @ApiModelProperty(value = "登录类型")
+    @ApiModelProperty(value = "登录方式(1账号、2FaceBook、3Google)")
     private String loginWay;
 
     @ApiModelProperty(value = "删除标志(0正常 1停用)")
