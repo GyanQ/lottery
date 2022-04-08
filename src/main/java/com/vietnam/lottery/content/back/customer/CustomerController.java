@@ -37,7 +37,7 @@ public class CustomerController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        fileName = filePath + "/" + fileName;
+        fileName = "http://47.242.74.180:8090" + "/img/" + fileName;
         return ResultUtil.success(fileName);
     }
 }
