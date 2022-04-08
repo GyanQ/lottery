@@ -15,7 +15,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //定义排除swagger访问的路径配置
-        String[] swaggerExcludes = new String[]{"/doc.html", "/swagger-resources/**", "/webjars/**", "/sys/home/**", "/sys/front/**", "/error","/web/grab/callBack"};
+        String[] swaggerExcludes = new String[]{"/doc.html", "/swagger-resources/**", "/webjars/**", "/sys/home/**", "/sys/front/**", "/error", "/web/recharge/callBack", "/sys/account/callBack"};
 
         //拦截器规则
         registry.addInterceptor(authHandlerInterceptor)

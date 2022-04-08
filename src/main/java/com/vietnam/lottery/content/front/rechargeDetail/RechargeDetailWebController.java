@@ -8,6 +8,7 @@ import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import java.io.InputStreamReader;
 @RestController
 @Api(tags = "充值")
 @RequestMapping("/web/recharge")
+@Slf4j
 public class RechargeDetailWebController {
     @Autowired
     private RechargeDetailService rechargeDetailService;
@@ -49,6 +51,7 @@ public class RechargeDetailWebController {
                 sb.append(line);
             }
             String body = sb.toString();
+            log.info("解析充值回调:{}", body);
             rechargeDetailService.callBack(body);
         } catch (Exception e) {
             throw new GlobalException(e.getMessage());
