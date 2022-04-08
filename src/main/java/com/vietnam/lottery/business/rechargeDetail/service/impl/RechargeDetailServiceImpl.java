@@ -86,13 +86,13 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         log.info("充值回调信息body:{}", body);
         JSONObject json = JSONUtil.parseObj(body);
         JSONObject data = json.getJSONObject("data");
-        log.info("获取充值回调信息data:{}", json);
+        log.info("获取充值回调信息data:{}", data);
         Integer isPay = data.getInt("ispay");
         log.info("获取充值回调信息ispay:{}", isPay);
         String orderNo = data.getStr("orderid");
-        log.info("获取充值回调信息orderNo:{}", json);
+        log.info("获取充值回调信息orderNo:{}", orderNo);
         RechargeDetail recharge = rechargeDetailMapper.selectById(orderNo);
-        log.info("获取充值回调信息recharge", recharge);
+        log.info("获取充值回调信息recharge,{}", recharge);
         if (ObjectUtil.isEmpty(recharge)) return;
         //支付成功
         if (isPay != 1) {
@@ -100,7 +100,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         }
         //更新充值记录
         recharge.setPayStatus(StatusEnum.FINISH_PAY.getCode());
-        recharge.setUpdateBy(recharge.getUpdateBy());
+        recharge.setUpdateBy(recharge.getCreateBy());
         recharge.setUpdateDate(new Date());
         rechargeDetailMapper.updateById(recharge);
     }

@@ -17,4 +17,7 @@ public class RechargeListResponse implements Serializable {
 
     @ApiModelProperty(value = "充值时间")
     private String createDate;
+
+    @ApiModelProperty(value = "支付状态(1待支付 2已支付 3取消支付)")
+    private String status;
 }

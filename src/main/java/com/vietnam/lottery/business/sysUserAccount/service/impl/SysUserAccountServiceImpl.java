@@ -153,8 +153,11 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
     @Override
     public AccountBalanceResponse accountBalance(String userId) {
         AccountBalanceResponse response = sysUserAccountMapper.getByIdAmountDetail(userId);
+        //收入余额
         BigDecimal spendingAmount = response.getCommissionBalanceAmount().add(response.getRedEnvelopeAmount()).add(response.getRechargeAmount());
+        //支出余额
         BigDecimal expenditure = response.getWithdrawalAmount().add(response.getGrabAmount());
+        //账户总余额
         response.setAmount(spendingAmount.subtract(expenditure));
         return response;
     }
