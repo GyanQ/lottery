@@ -102,8 +102,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         recharge.setPayStatus(StatusEnum.FINISH_PAY.getCode());
         recharge.setUpdateBy(recharge.getUpdateBy());
         recharge.setUpdateDate(new Date());
-        rechargeDetailMapper.insert(recharge);
-
+        rechargeDetailMapper.updateById(recharge);
     }
 }
 
