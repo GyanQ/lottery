@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 
@@ -25,13 +24,15 @@ public class CustomerController {
 
     @PostMapping("/upload")
     @ApiOperation("上传")
-    public ResultModel add(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    public ResultModel add(@RequestParam("file") MultipartFile file) {
         //文件存放地址
-        String filePath = request.getSession().getServletContext().getRealPath("opt/lottery/img");
+        String filePath = "/opt/lottery/img";
         //文件名称
         String fileName = file.getOriginalFilename();
         File fileDir = new File(filePath);
-
+        if (!fileDir.getParentFile().exists()) {
+            fileDir.getParentFile().mkdir();
+        }
         try {
             file.transferTo(fileDir);
         } catch (IllegalStateException e) {
