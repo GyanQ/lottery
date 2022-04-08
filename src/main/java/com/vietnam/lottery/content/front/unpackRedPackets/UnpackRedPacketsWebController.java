@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,14 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @Api(tags = "拆红包")
 @RequestMapping("/web/unpack")
-@Slf4j
 public class UnpackRedPacketsWebController {
     @Resource
     private UnpackRedPacketsService unpackRedPacketsService;
 
     @PostMapping("/lottery")
     @ApiOperation("拆红包抽奖")
-    public ResultModel lottery(HttpServletRequest httpServletRequest) {
+    public ResultModel lottery(@RequestBody HttpServletRequest httpServletRequest) {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
         return ResultUtil.success(unpackRedPacketsService.lottery(userId));
