@@ -214,7 +214,7 @@
                a.create_date as createDate,
                a.audit       as audit
         from sys_user_account a
-        where a.create_by = #{request.userId}
+        where a.create_by = #{request.createBy}
           and a.type = '3'
           and a.spending = '1'
           and a.del_flag = '0'
