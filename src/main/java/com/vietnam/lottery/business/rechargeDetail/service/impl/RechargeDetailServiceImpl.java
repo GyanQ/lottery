@@ -95,7 +95,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         log.info("获取充值回调信息recharge", recharge);
         if (ObjectUtil.isEmpty(recharge)) return;
         //支付成功
-        if (isPay != 0) {
+        if (isPay != 1) {
             log.info("充值失败");
         }
         //更新充值记录
