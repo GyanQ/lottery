@@ -48,7 +48,7 @@
     <select id="manageList" resultType="com.vietnam.lottery.business.sysUser.response.UserManageListResponse">
         select a.id as userId,
         (rechargeTotal + ifnull(e.commissionTotal, 0) + ifnull(d.incomeTotal, 0)) -
-        (ifnull(f.grabToal, 0) - ifnull(g.withdrawTotal, 0)) as amoun,
+        (ifnull(f.grabToal, 0) - ifnull(g.withdrawTotal, 0)) as amount,
         ifnull(c.rechargeTotal,0) as rechargeTotal,
         ifnull(d.incomeTotal,0) as incomeTotal,
         a.login_way as loginWay,
