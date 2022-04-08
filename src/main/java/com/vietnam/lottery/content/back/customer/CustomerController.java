@@ -26,10 +26,10 @@ public class CustomerController {
     @ApiOperation("上传")
     public ResultModel add(@RequestParam("file") MultipartFile file) {
         //文件存放地址
-        String filePath = "/opt/lottery/img";
+        String filePath = "/home/wwwroot/lottery/img";
         //文件名称
         String fileName = file.getOriginalFilename();
-        File fileDir = new File(filePath);
+        File fileDir = new File(filePath + "/" + fileName);
         try {
             file.transferTo(fileDir);
         } catch (IllegalStateException e) {
