@@ -52,7 +52,7 @@ public class CustomerController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        fileName = "http://47.242.74.180:8090" + "/img/" + fileName;
+        fileName = "http://admin.redpz.com" + "/img/" + fileName;
         return ResultUtil.success(fileName);
     }
 }

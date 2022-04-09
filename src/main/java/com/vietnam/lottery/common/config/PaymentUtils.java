@@ -30,9 +30,9 @@ public class PaymentUtils {
         String amount = request.getAmount().toString();
         json.put("amount", amount);
         //订单信息通知地址
-        json.put("notifyurl", "http://47.242.74.180:8090/api/web/recharge/callBack");
+        json.put("notifyurl", "http://redpz.com/api/web/recharge/callBack");
         //前端跳转地址
-        json.put("returnurl", "http://47.242.74.180:8091");
+        json.put("returnurl", "http://redpz.com");
         //生成签名
         String str = (token + request.getOrderId() + amount).toLowerCase();
         //签名
@@ -53,7 +53,7 @@ public class PaymentUtils {
         String amount = request.getAmount().toString();
         json.put("amount", amount);
         //订单信息通知地址
-        json.put("notifyurl", "http://47.242.74.180:8090/api/sys/account/callBack");
+        json.put("notifyurl", "http://admin.redpz.com/api/sys/account/callBack");
         //生成签名
         String str = (token + request.getOrderNo() + amount).toLowerCase();
         //签名
