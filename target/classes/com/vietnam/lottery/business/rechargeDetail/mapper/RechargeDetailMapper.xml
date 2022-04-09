@@ -3,7 +3,9 @@
 <mapper namespace="com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper">
 
     <select id="list" resultType="com.vietnam.lottery.business.rechargeDetail.response.RechargeListResponse">
-        select a.create_by as userId,
+        select
+        a.id as id,
+        a.create_by as userId,
         a.amount as amount,
         a.create_date as createDate,
         a.pay_status as status

@@ -1,5 +1,6 @@
 package com.vietnam.lottery.business.customer.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.vietnam.lottery.business.customer.entity.Customer;
 import com.vietnam.lottery.business.customer.mapper.CustomerMapper;
@@ -14,12 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 客服配置(Customer)表服务实现类
@@ -62,19 +60,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerListResponse> list() {
-        List<Customer> list = customerMapper.selectList(new QueryWrapper<>());
+    public CustomerListResponse detail() {
+        Customer customer = customerMapper.selectOne(new QueryWrapper<>());
 
-        List<CustomerListResponse> responseList = new ArrayList<>();
-        if (CollectionUtils.isEmpty(list)) return responseList;
+        CustomerListResponse response = new CustomerListResponse();
+        if (ObjectUtil.isEmpty(customer)) return response;
 
-        list.forEach(o -> {
-            CustomerListResponse resp = new CustomerListResponse();
-            resp.setUrl(o.getUrl());
-            resp.setTeleAccount(o.getTeleAccount());
-            responseList.add(resp);
-        });
-        return responseList;
+        CustomerListResponse resp = new CustomerListResponse();
+        resp.setUrl(customer.getUrl());
+        resp.setTeleAccount(customer.getTeleAccount());
+        return response;
     }
 }
 

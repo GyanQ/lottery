@@ -18,6 +18,6 @@ public interface CustomerService {
     ResultModel addOrUpdate(AddOrUpdateRequest request);
 
     //新增and修改
-    List<CustomerListResponse> list();
+    CustomerListResponse detail();
 }
 
