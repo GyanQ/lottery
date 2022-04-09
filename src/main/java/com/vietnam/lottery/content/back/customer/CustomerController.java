@@ -24,7 +24,7 @@ public class CustomerController {
 
     @PostMapping("/upload")
     @ApiOperation("上传")
-    public ResultModel add(@RequestParam("file") MultipartFile file) {
+    public ResultModel upload(@RequestParam("file") MultipartFile file) {
         //文件存放地址
         String filePath = "/home/wwwroot/lottery/img";
         //文件名称
