@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class AddOrUpdateRequest implements Serializable {
     private static final long serialVersionUID = 828174882348351758L;
 
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "id(修改不传)")
     private String id;
 
     @ApiModelProperty(value = "url")
