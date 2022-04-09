@@ -66,9 +66,9 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerListResponse response = new CustomerListResponse();
         if (ObjectUtil.isEmpty(customer)) return response;
 
-        CustomerListResponse resp = new CustomerListResponse();
-        resp.setUrl(customer.getUrl());
-        resp.setTeleAccount(customer.getTeleAccount());
+        response.setId(customer.getId());
+        response.setUrl(customer.getUrl());
+        response.setTeleAccount(customer.getTeleAccount());
         return response;
     }
 }
