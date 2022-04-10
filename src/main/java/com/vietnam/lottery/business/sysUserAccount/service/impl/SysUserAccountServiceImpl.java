@@ -5,14 +5,14 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
-import com.vietnam.lottery.business.sysBankCard.entity.SysBankCard;
-import com.vietnam.lottery.business.sysBankCard.mapper.SysBankCardMapper;
 import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
 import com.vietnam.lottery.business.sysUserAccount.mapper.SysUserAccountMapper;
 import com.vietnam.lottery.business.sysUserAccount.request.*;
 import com.vietnam.lottery.business.sysUserAccount.response.*;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
+import com.vietnam.lottery.business.sysUserBankCard.entity.SysUserBankCard;
+import com.vietnam.lottery.business.sysUserBankCard.mapper.SysUserBankCardMapper;
 import com.vietnam.lottery.common.config.PaymentUtils;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -43,7 +43,7 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
     @Resource
     private RechargeDetailMapper rechargeDetailMapper;
     @Resource
-    private SysBankCardMapper sysBankCardMapper;
+    private SysUserBankCardMapper sysUserBankCardMapper;
 
     @Override
     public Page<UserLotteryListResponse> lotteryList(UserLotteryListRequest request) {
@@ -114,9 +114,9 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         if (totalAmount.compareTo(userAccount.getAmount()) == -1) {
             throw new GlobalException("用户余额不足,提现失败");
         }
-        SysBankCard bankCard = sysBankCardMapper.selectById(userAccount.getBankCardId());
+        SysUserBankCard bankCard = sysUserBankCardMapper.selectById(userAccount.getBankCardId());
         if (ObjectUtil.isEmpty(bankCard)) throw new GlobalException("查询不到用户银行卡信息");
-        String payload = bankCard.getCollectionName() + bankCard.getCardNum() + bankCard.getCardSerialNum() + bankCard.getBackName();
+        String payload = bankCard.getCardName() + bankCard.getCardNo() + bankCard.getBankId() + bankCard.getBackName();
 
         //发起提现
         CreateWithdrawRequest createWithdrawRequest = new CreateWithdrawRequest();

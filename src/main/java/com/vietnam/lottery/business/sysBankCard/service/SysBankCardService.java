@@ -3,7 +3,6 @@ package com.vietnam.lottery.business.sysBankCard.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.sysBankCard.entity.SysBankCard;
 import com.vietnam.lottery.business.sysBankCard.request.BankCardListRequest;
-import com.vietnam.lottery.business.sysBankCard.response.BankCardListResponse;
 
 /**
  * 用户银行信息(SysBankCard)表服务接口
