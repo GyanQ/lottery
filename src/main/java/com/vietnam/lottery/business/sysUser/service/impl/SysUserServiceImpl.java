@@ -130,6 +130,7 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("userId", user.getId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
+
         addLoginDetail(user.getId(), request.getIp());
         return map;
     }
