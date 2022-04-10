@@ -1,4 +1,4 @@
-package com.vietnam.lottery.business.sysBankCard.request;
+package com.vietnam.lottery.business.sysUserBankCard.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,21 +10,19 @@ import java.io.Serializable;
 public class BankCardUpdateRequest implements Serializable {
     private static final long serialVersionUID = 3014161430709131367L;
 
-    @ApiModelProperty(value = "id")
-    @NotBlank(message = "id不能为空")
+    @ApiModelProperty(value = "用户银行列表id")
+    @NotBlank(message = "用户银行列表id不能为空")
     private String id;
 
+    @ApiModelProperty(value = "银行列表id")
+    @NotBlank(message = "银行列表id不能为空")
+    private String bankId;
+
     @ApiModelProperty(value = "收款人姓名")
-    private String collectionName;
+    private String cardName;
 
     @ApiModelProperty(value = "银行卡号")
-    private String cardNum;
-
-    @ApiModelProperty(value = "银行编号")
-    private String cardSerialNum;
-
-    @ApiModelProperty(value = "银行名称")
-    private String backName;
+    private String cardNo;
 
     @ApiModelProperty(hidden = true)
     private String updateBy;

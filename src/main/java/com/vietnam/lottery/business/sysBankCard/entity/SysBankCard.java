@@ -4,36 +4,23 @@ package com.vietnam.lottery.business.sysBankCard.entity;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
- * 用户银行信息(SysBankCard)表实体类
+ * 银行信息(SysBankCard)表实体类
  *
  * @author Gyan
- * @since 2022-04-01 10:49:50
+ * @since 2022-04-10 14:41:00
  */
 @SuppressWarnings("serial")
 public class SysBankCard extends Model<SysBankCard> {
     //id
     private String id;
-    //收款人姓名
-    private String collectionName;
-    //收款人卡号
-    private String cardNum;
-    //银行编号
-    private String cardSerialNum;
     //银行名称
     private String backName;
-    //删除标志（0代表存在、1代表删除）
-    private String delFlag;
-    //创建人
-    private String createBy;
-    //创建时间
-    private Date createDate;
-    //修改人
-    private String updateBy;
-    //更新时间
-    private Date updateDate;
+    //银行编号
+    private String bankId;
+    //银行简称
+    private String bankAbbreviation;
 
 
     public String getId() {
@@ -44,30 +31,6 @@ public class SysBankCard extends Model<SysBankCard> {
         this.id = id;
     }
 
-    public String getCollectionName() {
-        return collectionName;
-    }
-
-    public void setCollectionName(String collectionName) {
-        this.collectionName = collectionName;
-    }
-
-    public String getCardNum() {
-        return cardNum;
-    }
-
-    public void setCardNum(String cardNum) {
-        this.cardNum = cardNum;
-    }
-
-    public String getCardSerialNum() {
-        return cardSerialNum;
-    }
-
-    public void setCardSerialNum(String cardSerialNum) {
-        this.cardSerialNum = cardSerialNum;
-    }
-
     public String getBackName() {
         return backName;
     }
@@ -76,44 +39,20 @@ public class SysBankCard extends Model<SysBankCard> {
         this.backName = backName;
     }
 
-    public String getDelFlag() {
-        return delFlag;
+    public String getBankId() {
+        return bankId;
     }
 
-    public void setDelFlag(String delFlag) {
-        this.delFlag = delFlag;
+    public void setBankId(String bankId) {
+        this.bankId = bankId;
     }
 
-    public String getCreateBy() {
-        return createBy;
+    public String getBankAbbreviation() {
+        return bankAbbreviation;
     }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setBankAbbreviation(String bankAbbreviation) {
+        this.bankAbbreviation = bankAbbreviation;
     }
 
     /**

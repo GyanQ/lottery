@@ -8,8 +8,9 @@ import java.io.Serializable;
 
 @Data
 public class BankCardListRequest extends PageRequest implements Serializable {
-    private static final long serialVersionUID = 3014161430709131367L;
 
-    @ApiModelProperty(hidden = true)
-    private String userId;
+    private static final long serialVersionUID = -1695537181089400752L;
+
+    @ApiModelProperty(value = "银行名称")
+    private String bankName;
 }

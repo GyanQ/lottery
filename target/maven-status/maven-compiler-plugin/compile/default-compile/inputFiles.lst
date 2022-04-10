@@ -86,6 +86,7 @@ D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysOperateRecord\
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysRole\response\RoleListResponse.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysBankCard\request\BankCardListRequest.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUserAccount\request\WithdrawAuditRequest.java
+D:\WordFace\lottery\src\main\java\com\vietnam\lottery\content\front\customer\CustomerController.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\customer\entity\Customer.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\business\sysUserAccount\request\CreateWithdrawRequest.java
 D:\WordFace\lottery\src\main\java\com\vietnam\lottery\common\config\MybatisPlusConfig.java

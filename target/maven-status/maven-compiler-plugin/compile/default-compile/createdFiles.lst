@@ -42,6 +42,7 @@ com\vietnam\lottery\business\customer\service\impl\CustomerServiceImpl.class
 com\vietnam\lottery\business\sysUser\response\AccountBalanceResponse.class
 com\vietnam\lottery\business\sysUserRoleRelation\request\UserRoleAddRequest.class
 com\vietnam\lottery\business\sysBankCard\response\BankCardListResponse.class
+com\vietnam\lottery\content\front\customer\CustomerController.class
 com\vietnam\lottery\business\sysUser\response\UserGetPermissionResponse.class
 com\vietnam\lottery\business\grabRedPackets\request\UpdateRequest.class
 com\vietnam\lottery\business\sysUser\request\UserManageListRequest.class

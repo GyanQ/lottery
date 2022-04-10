@@ -1,15 +1,14 @@
-package com.vietnam.lottery.business.sysBankCard.request;
+package com.vietnam.lottery.business.sysUserBankCard.request;
 
+import com.vietnam.lottery.common.utils.PageRequest;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class BankCardDeleteRequest implements Serializable {
+public class BankCardListRequest extends PageRequest implements Serializable {
     private static final long serialVersionUID = 3014161430709131367L;
-
-    private String id;
 
     @ApiModelProperty(hidden = true)
     private String userId;
