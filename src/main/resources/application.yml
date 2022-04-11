@@ -33,7 +33,7 @@ jwt:
   header: authorization
   tokenPrefix: Bearer
   secret: vietnamLottery202201241022
-  expireTime: 10080
+  expireTime: 2
 
 ##日志配置
 #logging:
