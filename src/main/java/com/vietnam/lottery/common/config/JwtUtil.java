@@ -55,7 +55,7 @@ public class JwtUtil {
 
     // 创建token
     public static String createToken(Map<String, Object> map) {
-        Date date = new Date(System.currentTimeMillis() + (expireTime));
+        Date date = new Date(System.currentTimeMillis() + expireTime * 60 * 1000);
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
