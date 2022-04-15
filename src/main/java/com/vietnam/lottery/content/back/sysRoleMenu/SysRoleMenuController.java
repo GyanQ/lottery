@@ -3,7 +3,7 @@ package com.vietnam.lottery.content.back.sysRoleMenu;
 import com.vietnam.lottery.business.sysRoleMenu.request.menuConfigRequest;
 import com.vietnam.lottery.business.sysRoleMenu.response.MenuPermissionsResponse;
 import com.vietnam.lottery.business.sysRoleMenu.service.SysRoleMenuService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

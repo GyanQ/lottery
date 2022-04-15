@@ -7,7 +7,7 @@ import com.vietnam.lottery.business.sysUserBankCard.request.BankCardListRequest;
 import com.vietnam.lottery.business.sysUserBankCard.request.BankCardUpdateRequest;
 import com.vietnam.lottery.business.sysUserBankCard.response.BankCardListResponse;
 import com.vietnam.lottery.business.sysUserBankCard.service.SysUserBankCardService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

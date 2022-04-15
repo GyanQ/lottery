@@ -10,7 +10,7 @@ import com.vietnam.lottery.business.sysUserAccount.response.CommissionLDetailRes
 import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.WithdrawDetailResponse;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

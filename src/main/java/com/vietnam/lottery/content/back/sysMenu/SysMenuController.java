@@ -6,7 +6,7 @@ import com.vietnam.lottery.business.sysMenu.request.MenuUpdateRequest;
 import com.vietnam.lottery.business.sysMenu.response.MenuDetailResponse;
 import com.vietnam.lottery.business.sysMenu.response.MenuLiseResponse;
 import com.vietnam.lottery.business.sysMenu.service.SysMenuService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

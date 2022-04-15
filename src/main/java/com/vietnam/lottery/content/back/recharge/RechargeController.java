@@ -7,7 +7,7 @@ import com.vietnam.lottery.business.recharge.request.RechargeListRequest;
 import com.vietnam.lottery.business.recharge.request.RechargeUpdateRequest;
 import com.vietnam.lottery.business.recharge.response.RechargeListResponse;
 import com.vietnam.lottery.business.recharge.service.RechargeService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

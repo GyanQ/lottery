@@ -8,7 +8,7 @@ import com.vietnam.lottery.business.sysRole.request.RoleUpdateRequest;
 import com.vietnam.lottery.business.sysRole.response.RoleDetailResponse;
 import com.vietnam.lottery.business.sysRole.response.RoleListResponse;
 import com.vietnam.lottery.business.sysRole.service.SysRoleService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

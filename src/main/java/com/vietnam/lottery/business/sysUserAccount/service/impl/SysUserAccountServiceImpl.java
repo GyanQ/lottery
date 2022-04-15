@@ -13,7 +13,7 @@ import com.vietnam.lottery.business.sysUserAccount.response.*;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
 import com.vietnam.lottery.business.sysUserBankCard.entity.SysUserBankCard;
 import com.vietnam.lottery.business.sysUserBankCard.mapper.SysUserBankCardMapper;
-import com.vietnam.lottery.common.config.PaymentUtils;
+import com.vietnam.lottery.common.utils.PaymentUtils;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;

@@ -1,7 +1,7 @@
 package com.vietnam.lottery.common.interceptor;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.global.GlobalException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;

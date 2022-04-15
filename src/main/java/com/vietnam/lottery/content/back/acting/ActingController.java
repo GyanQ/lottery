@@ -8,7 +8,7 @@ import com.vietnam.lottery.business.acting.request.ActingUpdateRequest;
 import com.vietnam.lottery.business.acting.response.ActingDetailResponse;
 import com.vietnam.lottery.business.acting.response.ActingListResponse;
 import com.vietnam.lottery.business.acting.service.ActingService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

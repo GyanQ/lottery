@@ -5,7 +5,7 @@ import com.vietnam.lottery.business.grabRedPackets.request.BetRequest;
 import com.vietnam.lottery.business.grabRedPackets.request.ListRequest;
 import com.vietnam.lottery.business.grabRedPackets.response.ListResponse;
 import com.vietnam.lottery.business.grabRedPackets.service.GrabRedPacketsService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

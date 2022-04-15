@@ -2,7 +2,7 @@ package com.vietnam.lottery.content.back.sysUserRoleRelation;
 
 import com.vietnam.lottery.business.sysUserRoleRelation.request.UserRoleAddRequest;
 import com.vietnam.lottery.business.sysUserRoleRelation.service.SysUserRoleRelationService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

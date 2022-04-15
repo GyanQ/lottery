@@ -3,7 +3,7 @@ package com.vietnam.lottery.content.back.customer;
 import com.vietnam.lottery.business.customer.request.AddOrUpdateRequest;
 import com.vietnam.lottery.business.customer.response.CustomerListResponse;
 import com.vietnam.lottery.business.customer.service.CustomerService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

@@ -1,4 +1,4 @@
-package com.vietnam.lottery.common.config;
+package com.vietnam.lottery.common.utils;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;

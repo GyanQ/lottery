@@ -2,7 +2,7 @@ package com.vietnam.lottery.content.front.rechargeDetail;
 
 import com.vietnam.lottery.business.rechargeDetail.request.PayRequest;
 import com.vietnam.lottery.business.rechargeDetail.service.RechargeDetailService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

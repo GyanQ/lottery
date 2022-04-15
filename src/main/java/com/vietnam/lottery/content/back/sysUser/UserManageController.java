@@ -8,7 +8,7 @@ import com.vietnam.lottery.business.sysUser.response.GrabRedPacketsListResponse;
 import com.vietnam.lottery.business.sysUser.response.UserDetailResponse;
 import com.vietnam.lottery.business.sysUser.response.UserManageListResponse;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

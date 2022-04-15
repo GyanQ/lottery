@@ -7,7 +7,7 @@ import com.vietnam.lottery.business.sysUserAccount.response.SubordinateListListR
 import com.vietnam.lottery.business.sysUserAccount.response.UserLotteryListResponse;
 import com.vietnam.lottery.business.sysUserAccount.response.WithdrawListResponse;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;

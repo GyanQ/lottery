@@ -2,7 +2,7 @@ package com.vietnam.lottery.content.front.sysUser;
 
 import com.vietnam.lottery.business.sysUser.request.*;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.IpUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;

@@ -1,4 +1,4 @@
-package com.vietnam.lottery.common.interceptor;
+package com.vietnam.lottery.common.global;
 
 
 import com.vietnam.lottery.common.utils.ResultModel;

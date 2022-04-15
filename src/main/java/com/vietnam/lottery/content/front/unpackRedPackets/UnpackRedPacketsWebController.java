@@ -1,7 +1,7 @@
 package com.vietnam.lottery.content.front.unpackRedPackets;
 
 import com.vietnam.lottery.business.unpackRedPackets.service.UnpackRedPacketsService;
-import com.vietnam.lottery.common.config.JwtUtil;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;

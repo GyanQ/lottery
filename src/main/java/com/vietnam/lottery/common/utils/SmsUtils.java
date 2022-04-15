@@ -1,4 +1,4 @@
-package com.vietnam.lottery.common.config;
+package com.vietnam.lottery.common.utils;
 
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.DefaultAcsClient;
