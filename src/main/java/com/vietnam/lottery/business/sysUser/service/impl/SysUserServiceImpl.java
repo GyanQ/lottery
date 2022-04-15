@@ -91,7 +91,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel register(UserRegisterRequest request) {
         Boolean flag = isExist(request.getAccount());
-        if (!flag) return ResultUtil.failure("account already exists");
+        if (!flag) return ResultUtil.failure("tài khoản đã tồn tại");
 
         String passWord = DigestUtils.md5DigestAsHex(request.getPassWord().getBytes());
         SysUser user = new SysUser();
@@ -104,7 +104,7 @@ public class SysUserServiceImpl implements SysUserService {
 
         String code = sysSmsMapper.selectByPhone(request.getPhone());
         if (!code.equals(request.getCode())) {
-            return ResultUtil.failure("Verification code error");
+            return ResultUtil.failure("Lỗi mã xác minh");
         }
         //推广代理
         if (!StringUtils.isBlank(request.getUserId())) {
@@ -118,12 +118,12 @@ public class SysUserServiceImpl implements SysUserService {
     public Map<String, Object> amountLogin(LoginRequest request) {
         //查询账号是否存在
         SysUser user = accountIsExist(request.getAccount());
-        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Can't find account information");
+        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Không thể truy vấn thông tin người dùng");
         user.setLoginWay("2");
         sysUserMapper.updateById(user);
         //校验密码
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
-        if (!flag) throw new GlobalException("wrong password");
+        if (!flag) throw new GlobalException("sai mật khẩu");
 
         Map<String, Object> map = new HashMap<>();
         //创建token
@@ -341,10 +341,10 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> pawFreeLogin(PawFreeLoginRequest request) {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("phone", request.getPhone()).eq("del_flag", DelFlagEnum.CODE.getCode()));
-        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Account does not exist");
+        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Tài khoản không tồn tại");
 
         String code = sysSmsMapper.selectByPhone(request.getPhone());
-        if (!code.equals(request.getCode())) throw new GlobalException("Verification code error");
+        if (!code.equals(request.getCode())) throw new GlobalException("Lỗi mã xác minh");
 
         //创建token
         Map<String, Object> map = new HashMap<>();
@@ -441,6 +441,7 @@ public class SysUserServiceImpl implements SysUserService {
      * userid: 下级
      */
     private void addActing(String superiorId, String userId) {
+        //增加代理关系
         ActingHierarchyRelation relation = new ActingHierarchyRelation();
         relation.setActingId(selectActingId(null, "一级代理").getId());
         relation.setCreateBy(userId);
@@ -451,11 +452,13 @@ public class SysUserServiceImpl implements SysUserService {
         List<ActingHierarchyRelation> list = actingHierarchyRelationMapper.selectList(new QueryWrapper<ActingHierarchyRelation>().eq("del_flag", DelFlagEnum.CODE.getCode()).eq("create_by", superiorId));
         if (CollectionUtils.isEmpty(list)) return;
 
-        //挂二三级代理
+        //二级、三级代理
         for (ActingHierarchyRelation o : list) {
             ActingHierarchyRelation byActingUserId = new ActingHierarchyRelation();
+            //查询代理等级
             Acting acting = selectActingId(o.getActingId(), null);
-            if (null == acting) continue;
+            if (ObjectUtil.isEmpty(acting)) continue;
+
             switch (acting.getLevel()) {
                 case "一级代理":
                     byActingUserId.setActingId(selectActingId(null, "二级代理").getId());
@@ -463,8 +466,6 @@ public class SysUserServiceImpl implements SysUserService {
                 case "二级代理":
                     byActingUserId.setActingId(selectActingId(null, "三级代理").getId());
                     break;
-                default:
-                    continue;
             }
             byActingUserId.setCreateBy(userId);
             byActingUserId.setSuperiorId(o.getSuperiorId());
@@ -475,7 +476,9 @@ public class SysUserServiceImpl implements SysUserService {
     /* 查询代理等级 */
     private Acting selectActingId(String id, String level) {
         QueryWrapper<Acting> query = new QueryWrapper();
-        query.eq("del_flag", DelFlagEnum.CODE.getCode()).eq(null != level, "level", level).eq(null != id, "id", id);
+        query.eq("del_flag", DelFlagEnum.CODE.getCode());
+        query.eq(null != level, "level", level);
+        query.eq(null != id, "id", id);
         return actingMapper.selectOne(query);
     }
 
