@@ -15,6 +15,7 @@ import java.io.IOException;
 @Component
 public class AuthHandlerInterceptor implements HandlerInterceptor {
 
+    // token续期 策略用redis会更好一点 但是我比较懒
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         //http的header中获得token

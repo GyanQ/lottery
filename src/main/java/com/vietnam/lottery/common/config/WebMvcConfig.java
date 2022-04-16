@@ -11,7 +11,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private AuthHandlerInterceptor authHandlerInterceptor;
 
-    /* 添加jwt拦截器 */
+    /* 添加拦截器 */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //定义排除swagger访问的路径配置
