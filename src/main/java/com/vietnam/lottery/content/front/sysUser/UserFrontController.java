@@ -3,7 +3,6 @@ package com.vietnam.lottery.content.front.sysUser;
 import com.vietnam.lottery.business.sysUser.request.*;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.common.utils.JwtUtil;
-import com.vietnam.lottery.common.utils.IpUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -33,7 +32,7 @@ public class UserFrontController {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
-        request.setIp(IpUtil.getIp(httpServletRequest));
+        request.setIp(httpServletRequest.getRemoteAddr());
         Map<String, Object> map = sysUserService.amountLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
         return ResultUtil.success(map);
@@ -54,7 +53,7 @@ public class UserFrontController {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
-        request.setIp(IpUtil.getIp(httpServletRequest));
+        request.setIp(httpServletRequest.getRemoteAddr());
         Map<String, Object> map = sysUserService.faceBookLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
         return ResultUtil.success(map);
@@ -84,7 +83,7 @@ public class UserFrontController {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
-        request.setIp(IpUtil.getIp(httpServletRequest));
+        request.setIp(httpServletRequest.getRemoteAddr());
         Map<String, Object> map = sysUserService.pawFreeLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
         return ResultUtil.success(map);
@@ -96,7 +95,7 @@ public class UserFrontController {
         if (bindingResult.hasErrors()) {
             return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
         }
-        request.setIp(IpUtil.getIp(httpServletRequest));
+        request.setIp(httpServletRequest.getRemoteAddr());
         Map<String, Object> map = sysUserService.googleLogin(request);
         httpServletResponse.setHeader(JwtUtil.getHeader(), map.get("token").toString());
         return ResultUtil.success(map);
