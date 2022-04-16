@@ -21,12 +21,12 @@ import com.vietnam.lottery.business.sysUser.response.*;
 import com.vietnam.lottery.business.sysUser.service.SysUserService;
 import com.vietnam.lottery.business.sysUserRoleRelation.entity.SysUserRoleRelation;
 import com.vietnam.lottery.business.sysUserRoleRelation.mapper.SysUserRoleRelationMapper;
-import com.vietnam.lottery.common.utils.JwtUtil;
-import com.vietnam.lottery.common.utils.SmsUtils;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
+import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
+import com.vietnam.lottery.common.utils.SmsUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -288,12 +288,12 @@ public class SysUserServiceImpl implements SysUserService {
         //查询账号是否存在
         SysUser user = accountIsExist(request.getUserId().toString());
         if (ObjectUtil.isEmpty(user)) {
-            SysUser userInfo = new SysUser();
-            userInfo.setLoginWay("2");
-            userInfo.setAccount(request.getUserId().toString());
-            userInfo.setCreateBy(request.getUserId());
-            userInfo.setName(request.getName());
-            sysUserMapper.insert(userInfo);
+            user = new SysUser();
+            user.setLoginWay("2");
+            user.setAccount(request.getUserId().toString());
+            user.setCreateBy(request.getUserId());
+            user.setName(request.getName());
+            sysUserMapper.insert(user);
         }
 
         //创建token
@@ -361,12 +361,12 @@ public class SysUserServiceImpl implements SysUserService {
         //查询账号是否存在
         SysUser user = accountIsExist(request.getUserId().toString());
         if (ObjectUtil.isEmpty(user)) {
-            SysUser userInfo = new SysUser();
-            userInfo.setLoginWay("2");
-            userInfo.setAccount(request.getUserId().toString());
-            userInfo.setCreateBy(request.getUserId());
-            userInfo.setName(request.getName());
-            sysUserMapper.insert(userInfo);
+            user = new SysUser();
+            user.setLoginWay("2");
+            user.setAccount(request.getUserId().toString());
+            user.setCreateBy(request.getUserId());
+            user.setName(request.getName());
+            sysUserMapper.insert(user);
         }
 
         //创建token
