@@ -13,10 +13,10 @@ import com.vietnam.lottery.business.rechargeDetail.request.PayRequest;
 import com.vietnam.lottery.business.rechargeDetail.request.RechargeListRequest;
 import com.vietnam.lottery.business.rechargeDetail.response.RechargeListResponse;
 import com.vietnam.lottery.business.rechargeDetail.service.RechargeDetailService;
-import com.vietnam.lottery.common.utils.PaymentUtils;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.global.StatusEnum;
 import com.vietnam.lottery.common.utils.DateUtils;
+import com.vietnam.lottery.common.utils.PaymentUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +73,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         //增加充值记录
         RechargeDetail rechargeDetail = new RechargeDetail();
         rechargeDetail.setId(orderNo);
+        rechargeDetail.setPayStatus(StatusEnum.WAIT_PAY.getCode());
         rechargeDetail.setPayType(request.getType());
         rechargeDetail.setAmount(recharge.getAmount());
         rechargeDetail.setCreateBy(request.getCreateBy());
