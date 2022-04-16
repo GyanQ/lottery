@@ -341,7 +341,13 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> pawFreeLogin(PawFreeLoginRequest request) {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("phone", request.getPhone()).eq("del_flag", DelFlagEnum.CODE.getCode()));
-        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Tài khoản không tồn tại");
+        if (ObjectUtil.isEmpty(user)) {
+            user = new SysUser();
+            user.setLoginWay("4");
+            user.setAccount(request.getPhone());
+            user.setName(request.getPhone());
+            sysUserMapper.insert(user);
+        }
 
         String code = sysSmsMapper.selectByPhone(request.getPhone());
         if (!code.equals(request.getCode())) throw new GlobalException("Lỗi mã xác minh");
