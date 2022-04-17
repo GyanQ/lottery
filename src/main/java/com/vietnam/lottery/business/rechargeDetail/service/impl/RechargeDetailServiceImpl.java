@@ -18,7 +18,6 @@ import com.vietnam.lottery.common.global.StatusEnum;
 import com.vietnam.lottery.common.utils.DateUtils;
 import com.vietnam.lottery.common.utils.PaymentUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +51,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
     public String pay(PayRequest request) {
         //金额
         BigDecimal amount = BigDecimal.ZERO;
-        if (StringUtils.isBlank(request.getId())) {
+        if (null == request.getId()) {
             amount = amount.add(request.getAmount());
         } else {
             Recharge recharge = rechargeMapper.selectById(request.getId());
