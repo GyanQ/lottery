@@ -32,7 +32,7 @@ public class PaymentUtils {
         //订单信息通知地址
         json.put("notifyurl", "https://wwww.redpz.com/api/web/recharge/callBack");
         //前端跳转地址
-        json.put("returnurl", "https://wwww.redpz.com");
+        json.put("returnurl", "https://www.redpz.com/#/grab");
         //生成签名
         String str = (token + request.getOrderId() + amount).toLowerCase();
         //签名
