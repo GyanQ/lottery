@@ -19,7 +19,7 @@ public class PayRequest implements Serializable {
     private String id;
 
     @ApiModelProperty(value = "充值金额")
-    private BigDecimal amount;
+    private String amount;
 
     @ApiModelProperty(hidden = true)
     private String createBy;

@@ -50,15 +50,15 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
     @Transactional(rollbackFor = Exception.class)
     public String pay(PayRequest request) {
         //金额
-        BigDecimal amount = BigDecimal.ZERO;
+        BigDecimal amount;
         if (null == request.getId()) {
-            amount = amount.add(request.getAmount());
+            amount = new BigDecimal(request.getAmount() + ".0000");
         } else {
             Recharge recharge = rechargeMapper.selectById(request.getId());
             if (ObjectUtil.isEmpty(recharge)) {
                 throw new GlobalException("Không thể nhận được số tiền, nạp tiền không thành công");
             }
-            amount = amount.add(recharge.getAmount());
+            amount = BigDecimal.ZERO.add(recharge.getAmount());
         }
 
         //生成订单号
