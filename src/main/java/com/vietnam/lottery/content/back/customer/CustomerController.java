@@ -52,7 +52,7 @@ public class CustomerController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        fileName = "http://admin.redpz.com" + "/img/" + fileName;
+        fileName = "https://admin.redpz.com" + "/img/" + fileName;
         return ResultUtil.success(fileName);
     }
 }
