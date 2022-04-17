@@ -1,6 +1,7 @@
 package com.vietnam.lottery.content.front.rechargeDetail;
 
 import com.vietnam.lottery.business.rechargeDetail.request.PayRequest;
+import com.vietnam.lottery.business.rechargeDetail.request.SelectOrderRequest;
 import com.vietnam.lottery.business.rechargeDetail.service.RechargeDetailService;
 import com.vietnam.lottery.common.utils.JwtUtil;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -56,4 +57,13 @@ public class RechargeDetailWebController {
         }
         return "success";
     }
+
+    @PostMapping("/selectOrder")
+    @ApiOperation("主动获取订单信息")
+    public ResultModel selectOrder(@RequestBody SelectOrderRequest request, HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        request.setCreateBy(JwtUtil.parseToken(token));
+        return ResultUtil.success(rechargeDetailService.selectOrder(request));
+    }
+
 }

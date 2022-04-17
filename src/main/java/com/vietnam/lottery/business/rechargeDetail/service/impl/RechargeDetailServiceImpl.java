@@ -4,6 +4,8 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.grabRedPackets.entity.GrabRedPackets;
+import com.vietnam.lottery.business.grabRedPackets.mapper.GrabRedPacketsMapper;
 import com.vietnam.lottery.business.recharge.entity.Recharge;
 import com.vietnam.lottery.business.recharge.mapper.RechargeMapper;
 import com.vietnam.lottery.business.rechargeDetail.entity.RechargeDetail;
@@ -11,8 +13,11 @@ import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
 import com.vietnam.lottery.business.rechargeDetail.request.CreateOrderRequest;
 import com.vietnam.lottery.business.rechargeDetail.request.PayRequest;
 import com.vietnam.lottery.business.rechargeDetail.request.RechargeListRequest;
+import com.vietnam.lottery.business.rechargeDetail.request.SelectOrderRequest;
 import com.vietnam.lottery.business.rechargeDetail.response.RechargeListResponse;
 import com.vietnam.lottery.business.rechargeDetail.service.RechargeDetailService;
+import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
+import com.vietnam.lottery.business.sysUserAccount.mapper.SysUserAccountMapper;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.global.StatusEnum;
 import com.vietnam.lottery.common.utils.DateUtils;
@@ -25,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 订单(Order)表服务实现类
@@ -39,6 +46,10 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
     private RechargeDetailMapper rechargeDetailMapper;
     @Resource
     private RechargeMapper rechargeMapper;
+    @Resource
+    private SysUserAccountMapper sysUserAccountMapper;
+    @Resource
+    private GrabRedPacketsMapper grabRedPacketsMapper;
 
     @Override
     public Page<RechargeListResponse> list(RechargeListRequest request) {
@@ -48,7 +59,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String pay(PayRequest request) {
+    public Map<String, Object> pay(PayRequest request) {
         //金额
         BigDecimal amount;
         if (null == request.getId()) {
@@ -87,7 +98,11 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         rechargeDetail.setAmount(amount);
         rechargeDetail.setCreateBy(request.getCreateBy());
         rechargeDetailMapper.insert(rechargeDetail);
-        return data.getStr("pageurl");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("pageurl", data.getStr("pageurl"));
+        map.put("ticket", data.getStr("ticket"));
+        return map;
     }
 
     @Override
@@ -114,6 +129,31 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         recharge.setUpdateBy(recharge.getCreateBy());
         recharge.setUpdateDate(new Date());
         rechargeDetailMapper.updateById(recharge);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean selectOrder(SelectOrderRequest request) {
+        String body = PaymentUtils.selectOrder(request.getTicket());
+        log.info("主动获取订单信息:{}", body);
+        JSONObject json = JSONUtil.parseObj(body);
+        JSONObject data = json.getJSONObject("data");
+        log.info("获取data,{}", data);
+        if (data.getInt("ispay") != 1) {
+            return false;
+        }
+        GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(request.getId());
+        if (ObjectUtil.isEmpty(grabRedPackets)) {
+            return false;
+        }
+        SysUserAccount userAccount = new SysUserAccount();
+        userAccount.setProductId(request.getId());
+        userAccount.setType("2");
+        userAccount.setSpending("1");
+        userAccount.setAmount(grabRedPackets.getAmount());
+        userAccount.setCreateBy(request.getCreateBy());
+        sysUserAccountMapper.insert(userAccount);
+        return true;
     }
 }
 

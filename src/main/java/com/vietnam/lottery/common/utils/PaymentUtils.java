@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 public class PaymentUtils {
@@ -63,6 +65,13 @@ public class PaymentUtils {
 
         log.info("创建订单入参:{}", json);
         String body = HttpRequest.post("https://jsue13qsoi.77777.org/api/wd").header("Content-Type", "application/json").body(json.toString()).execute().body();
+        return body;
+    }
+
+    public static String selectOrder(String ticket) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("ticket", ticket);
+        String body = HttpRequest.get("https://jsue13qsoi.77777.org/api/getpayinfo").header("Content-Type", "application/json").form(paramMap).execute().body();
         return body;
     }
 

@@ -4,7 +4,10 @@ import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.rechargeDetail.request.PayRequest;
 import com.vietnam.lottery.business.rechargeDetail.request.RechargeListRequest;
+import com.vietnam.lottery.business.rechargeDetail.request.SelectOrderRequest;
 import com.vietnam.lottery.business.rechargeDetail.response.RechargeListResponse;
+
+import java.util.Map;
 
 /**
  * 订单(Order)表服务接口
@@ -17,9 +20,12 @@ public interface RechargeDetailService {
     Page<RechargeListResponse> list(RechargeListRequest request);
 
     //充值
-    String pay(PayRequest request);
+    Map<String,Object> pay(PayRequest request);
 
     //回调
     void callBack(String body);
+
+    //主动获取订单信息
+    Boolean selectOrder(SelectOrderRequest request);
 }
 
