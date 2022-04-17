@@ -140,11 +140,11 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         JSONObject data = json.getJSONObject("data");
         log.info("获取data,{}", data);
         if (data.getInt("ispay") != 1) {
-            return true;
+            return false;
         }
         GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(grabRedPackets)) {
-            return true;
+            return false;
         }
         SysUserAccount userAccount = new SysUserAccount();
         userAccount.setProductId(request.getId());
