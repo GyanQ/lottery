@@ -30,7 +30,7 @@ public class PaymentUtils {
         String amount = request.getAmount().toString();
         json.put("amount", amount);
         //订单信息通知地址
-        json.put("notifyurl", "https://wwww.redpz.com/api/web/recharge/callBack");
+        json.put("notifyurl", "https://www.redpz.com/api/web/recharge/callBack");
         //前端跳转地址
         json.put("returnurl", "https://www.redpz.com/#/grab");
         //生成签名
