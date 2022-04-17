@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 public class PayRequest implements Serializable {
@@ -15,8 +16,10 @@ public class PayRequest implements Serializable {
     private String type;
 
     @ApiModelProperty(value = "充值金额id")
-    @NotBlank(message = "充值金额id不能为空")
     private String id;
+
+    @ApiModelProperty(value = "充值金额")
+    private BigDecimal amount;
 
     @ApiModelProperty(hidden = true)
     private String createBy;

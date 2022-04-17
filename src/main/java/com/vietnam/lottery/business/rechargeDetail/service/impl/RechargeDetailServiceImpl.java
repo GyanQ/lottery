@@ -18,11 +18,13 @@ import com.vietnam.lottery.common.global.StatusEnum;
 import com.vietnam.lottery.common.utils.DateUtils;
 import com.vietnam.lottery.common.utils.PaymentUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -48,10 +50,18 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String pay(PayRequest request) {
-        Recharge recharge = rechargeMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(recharge)) {
-            throw new GlobalException("Không thể nhận được số tiền, nạp tiền không thành công");
+        //金额
+        BigDecimal amount = BigDecimal.ZERO;
+        if (StringUtils.isBlank(request.getId())) {
+            amount = amount.add(request.getAmount());
+        } else {
+            Recharge recharge = rechargeMapper.selectById(request.getId());
+            if (ObjectUtil.isEmpty(recharge)) {
+                throw new GlobalException("Không thể nhận được số tiền, nạp tiền không thành công");
+            }
+            amount = amount.add(recharge.getAmount());
         }
+
         //生成订单号
         String date = DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATETIME_PATTERN);
         String orderNo = request.getCreateBy().toString() + date;
@@ -59,7 +69,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         //支付
         CreateOrderRequest orderRequest = new CreateOrderRequest();
         orderRequest.setOrderId(orderNo);
-        orderRequest.setAmount(recharge.getAmount());
+        orderRequest.setAmount(amount);
         orderRequest.setType(request.getType());
         log.info("创建支付申请传参:{}", orderRequest);
         String str = PaymentUtils.createOrder(orderRequest);
@@ -75,7 +85,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         rechargeDetail.setId(orderNo);
         rechargeDetail.setPayStatus(StatusEnum.WAIT_PAY.getCode());
         rechargeDetail.setPayType(request.getType());
-        rechargeDetail.setAmount(recharge.getAmount());
+        rechargeDetail.setAmount(amount);
         rechargeDetail.setCreateBy(request.getCreateBy());
         rechargeDetailMapper.insert(rechargeDetail);
         return data.getStr("pageurl");
