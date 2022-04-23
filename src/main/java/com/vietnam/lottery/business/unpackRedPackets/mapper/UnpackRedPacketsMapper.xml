@@ -21,7 +21,7 @@
 
     <select id="statistics" resultType="com.vietnam.lottery.business.basicIndicators.response.IndicatorsResponse">
         select
-        (select COUNT(*) from sys_login_detail
+        (select ifnull(COUNT(*),0) from sys_login_detail
         where 1=1
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
@@ -30,19 +30,20 @@
             and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
         </if>
         ) as visitorsTotalNumber,
-        (
-        SELECT count( 0 ) FROM (SELECT count( 0 ) AS newVisitors FROM sys_login_detail
+        (SELECT ifnull(count(0),0) FROM sys_login_detail
         where 1=1
+        <if test="request.beginDate == null and request.beginDate == ''">
+            and to_days(create_date) = to_days(now())
+        </if>
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
         <if test="request.endDate != null and request.endDate != ''">
             and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
         </if>
-        GROUP BY ip HAVING newVisitors = 1) c
+        group by ip
         ) newVisitors,
-        (
-        select COUNT(*) from sys_login_detail where temporary_user = '2'
+        (select ifnull(COUNT(*),0) from sys_login_detail where temporary_user = '0'
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
@@ -50,8 +51,10 @@
             and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
         </if>
         )as totalLogins,
-        (
-        SELECT COUNT(*) FROM sys_user where 1=1
+        (select ifnull(count(*)) from sys_user where 1=1
+        <if test="request.beginDate == null and request.beginDate == ''">
+            and to_days(create_date) = to_days(now())
+        </if>
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
@@ -59,9 +62,7 @@
             and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
         </if>
         )as newRegistration,
-        (
-        SELECT COUNT(*)FROM grab_red_packets
-        where 1=1
+        (select ifnull(COUNT(*),0) from sys_user_account where type = '2' and spending = '1'
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
@@ -69,9 +70,8 @@
             and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
         </if>
         )as envelopesNumber,
-        (
-        SELECT IFNULL(SUM(amount),0) FROM grab_red_packets
-        where 1=1
+        (select ifnull(SUM(amount),0) from sys_user_account
+        where type = '2' and spending = '1'
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
@@ -79,9 +79,8 @@
             and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
         </if>
         )as envelopesTotalAmount,
-        (
-        SELECT COUNT(*) FROM unpack_red_packets
-        where 1=1
+        (select ifnull(COUNT(*),0) from sys_user_account
+        where type = '1' and spending = '0'
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
@@ -89,9 +88,8 @@
             and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
         </if>
         )as envelopesRemoveNumber,
-        (
-        SELECT IFNULL(SUM(amount),0) FROM lottery_detail
-        where 1=1
+        (select IFNULL(SUM(amount),0) from sys_user_account
+        where type = '1' and spending = '0'
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
@@ -99,9 +97,8 @@
             and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
         </if>
         )as totalPrize,
-        (
-        SELECT IFNULL(SUM(amount),0) FROM recharge_detail
-        where 1=1
+        (select IFNULL(SUM(amount),0) from recharge_detail
+        where pay_status = '2'
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
@@ -109,9 +106,8 @@
             and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
         </if>
         )as totalRecharge,
-        (
-        SELECT IFNULL(SUM(amount),0) FROM withdraw_detail
-        where 1=1
+        (select IFNULL(SUM(amount),0) from sys_user_account
+        where type = '3' and spending = '1'
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
@@ -122,23 +118,23 @@
     </select>
 
     <select id="keep" resultType="com.vietnam.lottery.business.basicIndicators.response.KeepListResponse">
-        select count(distinct b.create_by)                                                               as secondStay,
-               count(distinct c.create_by)                                                               as three,
-               count(distinct d.create_by)                                                               as sevenStay,
-               count(distinct e.create_by)                                                               as fifteenStay,
-               count(distinct f.create_by)                                                               as monthStay,
+        select count(distinct b.create_by)                                                                 as secondStay,
+               count(distinct c.create_by)                                                                 as three,
+               count(distinct d.create_by)                                                                 as sevenStay,
+               count(distinct e.create_by)                                                                 as fifteenStay,
+               count(distinct f.create_by)                                                                 as monthStay,
                count(distinct b.create_by) / (select count(0)
                                               from sys_user
                                               where create_date between
-                                                        #{request.secondBegin} and #{request.secondEnd}) as secondPer,
+                                                        #{request.secondBegin} and #{request.secondEnd})   as secondPer,
                count(distinct c.create_by) / (select count(0)
                                               from sys_user
                                               where create_date between
-                                                        #{request.treeBegin} and #{request.treeEnd})     as threePer,
+                                                        #{request.treeBegin} and #{request.treeEnd})       as threePer,
                count(distinct d.create_by) / (select count(0)
                                               from sys_user
                                               where create_date between
-                                                        #{request.serverBegin} and #{request.serverEnd}) as sevenStayPer,
+                                                        #{request.serverBegin} and #{request.serverEnd})   as sevenStayPer,
                count(distinct e.create_by) / (select count(0)
                                               from sys_user
                                               where create_date between
@@ -146,7 +142,7 @@
                count(distinct f.create_by) / (select count(0)
                                               from sys_user
                                               where create_date between
-                                                        #{request.mothBegin} and #{request.mothEnd}) as monthStayPer
+                                                        #{request.mothBegin} and #{request.mothEnd})       as monthStayPer
         from sys_login_detail a
                  left join
              (select create_by
