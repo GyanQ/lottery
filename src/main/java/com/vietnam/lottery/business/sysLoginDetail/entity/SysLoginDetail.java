@@ -16,8 +16,8 @@ import java.util.Date;
 public class SysLoginDetail extends Model<SysLoginDetail> {
     //id
     private String id;
-    //临时用户(0否 1是)
-    private Boolean temporaryUser;
+    //临时用户(0是 1否)
+    private String temporaryUser;
     //ip地址
     private String ip;
     //创建人
@@ -34,11 +34,11 @@ public class SysLoginDetail extends Model<SysLoginDetail> {
         this.id = id;
     }
 
-    public Boolean getTemporaryUser() {
+    public String getTemporaryUser() {
         return temporaryUser;
     }
 
-    public void setTemporaryUser(Boolean temporaryUser) {
+    public void setTemporaryUser(String temporaryUser) {
         this.temporaryUser = temporaryUser;
     }
 

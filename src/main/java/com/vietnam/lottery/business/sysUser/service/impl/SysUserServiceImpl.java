@@ -492,6 +492,7 @@ public class SysUserServiceImpl implements SysUserService {
     private void addLoginDetail(String userId, String ip) {
         SysLoginDetail login = new SysLoginDetail();
         login.setCreateBy(userId);
+        login.setTemporaryUser("1");
         login.setIp(ip);
         sysLoginDetailMapper.insert(login);
     }
