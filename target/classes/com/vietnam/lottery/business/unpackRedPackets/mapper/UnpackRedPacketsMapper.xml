@@ -42,7 +42,7 @@
             and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
         </if>
         ) a ) newVisitors,
-        (select ifnull(COUNT(*),0) from sys_login_detail where temporary_user = '0'
+        (select ifnull(COUNT(*),0) from sys_login_detail where temporary_user = '1'
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
