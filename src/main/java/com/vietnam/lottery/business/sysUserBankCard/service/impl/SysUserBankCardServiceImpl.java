@@ -89,6 +89,7 @@ public class SysUserBankCardServiceImpl implements SysUserBankCardService {
 
         iPage.getRecords().forEach(o -> {
             BankCardListResponse response = new BankCardListResponse();
+            response.setId(o.getId());
             response.setCardName(o.getCardName());
             response.setCardNo(o.getCardNo());
             response.setBankId(o.getBankId());
