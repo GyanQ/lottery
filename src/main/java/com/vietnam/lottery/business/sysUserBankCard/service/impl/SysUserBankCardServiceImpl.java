@@ -57,8 +57,8 @@ public class SysUserBankCardServiceImpl implements SysUserBankCardService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel update(BankCardUpdateRequest request) {
-        SysBankCard sysBankCard = sysBankCardMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(sysBankCard)) return ResultUtil.failure(     "Không thể tìm thấy thông tin thẻ ngân hàng");
+        SysBankCard sysBankCard = sysBankCardMapper.selectById(request.getBankId());
+        if (ObjectUtil.isEmpty(sysBankCard)) return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
 
 
         SysUserBankCard userBankCard = sysUserBankCardMapper.selectById(request.getId());
