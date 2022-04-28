@@ -134,25 +134,25 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean selectOrder(SelectOrderRequest request) {
-        String body = PaymentUtils.selectOrder(request.getTicket());
-        log.info("主动获取订单信息:{}", body);
-        JSONObject json = JSONUtil.parseObj(body);
-        JSONObject data = json.getJSONObject("data");
-        log.info("获取data,{}", data);
-        if (data.getInt("ispay") != 1) {
-            return false;
-        }
-        GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(grabRedPackets)) {
-            return false;
-        }
-        SysUserAccount userAccount = new SysUserAccount();
-        userAccount.setProductId(request.getId());
-        userAccount.setType("2");
-        userAccount.setSpending("1");
-        userAccount.setAmount(grabRedPackets.getAmount());
-        userAccount.setCreateBy(request.getCreateBy());
-        sysUserAccountMapper.insert(userAccount);
+//        String body = PaymentUtils.selectOrder(request.getTicket());
+//        log.info("主动获取订单信息:{}", body);
+//        JSONObject json = JSONUtil.parseObj(body);
+//        JSONObject data = json.getJSONObject("data");
+//        log.info("获取data,{}", data);
+//        if (data.getInt("ispay") != 1) {
+//            return false;
+//        }
+//        GrabRedPackets grabRedPackets = grabRedPacketsMapper.selectById(request.getId());
+//        if (ObjectUtil.isEmpty(grabRedPackets)) {
+//            return false;
+//        }
+//        SysUserAccount userAccount = new SysUserAccount();
+//        userAccount.setProductId(request.getId());
+//        userAccount.setType("2");
+//        userAccount.setSpending("1");
+//        userAccount.setAmount(grabRedPackets.getAmount());
+//        userAccount.setCreateBy(request.getCreateBy());
+//        sysUserAccountMapper.insert(userAccount);
         return true;
     }
 }
