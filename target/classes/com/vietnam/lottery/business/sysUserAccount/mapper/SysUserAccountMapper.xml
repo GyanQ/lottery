@@ -148,7 +148,8 @@
               from sys_user_account
               where type = '2'
                 and del_flag = '0'
-                and create_by = #{userId}) a,
+                and create_by = #{userId}
+             ) a,
              (select count(0) as unpackCount
               from sys_user_account
               where type = '1'
@@ -219,5 +220,9 @@
           and a.spending = '1'
           and a.del_flag = '0'
     </select>
+    <select id="envelopeCount" resultType="java.lang.Integer">
+
+    </select>
+
 </mapper>
 
