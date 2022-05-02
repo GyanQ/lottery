@@ -13,8 +13,8 @@ import com.vietnam.lottery.business.sysUserAccount.response.*;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
 import com.vietnam.lottery.business.sysUserBankCard.entity.SysUserBankCard;
 import com.vietnam.lottery.business.sysUserBankCard.mapper.SysUserBankCardMapper;
-import com.vietnam.lottery.common.utils.PaymentUtils;
 import com.vietnam.lottery.common.global.GlobalException;
+import com.vietnam.lottery.common.utils.PaymentUtils;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -198,6 +198,25 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         sysUserAccount.setUpdateBy(sysUserAccount.getCreateBy());
         sysUserAccount.setUpdateDate(new Date());
         sysUserAccountMapper.updateById(sysUserAccount);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Long envelopeCount(String userId) {
+        Long grabCount = 0l;
+        Long unpackCount = 0l;
+        Map<String, Map<String, Long>> map = sysUserAccountMapper.getByIdCount(userId);
+        for (Map<String, Long> value : map.values()) {
+            grabCount += value.get("grabCount");
+            unpackCount += value.get("unpackCount");
+        }
+        Long count = 0l;
+        if (unpackCount >= grabCount) {
+            return count;
+        }
+        count = grabCount - unpackCount;
+
+        return count;
     }
 
 

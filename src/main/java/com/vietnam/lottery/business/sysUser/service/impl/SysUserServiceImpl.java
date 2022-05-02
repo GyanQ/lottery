@@ -103,7 +103,10 @@ public class SysUserServiceImpl implements SysUserService {
         user.setPhone(request.getPhone());
 
         String code = sysSmsMapper.selectByPhone(request.getPhone());
-        if (!code.equals(request.getCode())) {
+        if (StringUtils.isBlank(code)) {
+            return ResultUtil.failure("Lỗi mã xác minh");
+        }
+        if (code.equals(request.getCode())) {
             return ResultUtil.failure("Lỗi mã xác minh");
         }
         //推广代理

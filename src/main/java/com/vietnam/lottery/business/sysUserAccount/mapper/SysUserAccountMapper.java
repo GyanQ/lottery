@@ -50,5 +50,8 @@ public interface SysUserAccountMapper extends BaseMapper<SysUserAccount> {
 
     //根据userId查询提现记录
     Page<WithdrawDetailResponse> withdrawDetail(@Param("page") Page page, @Param("request") WithdrawDetailRequest request);
+
+    //根据userId查询拆红包数量
+    Integer envelopeCount(@Param("userId") String userId);
 }
 

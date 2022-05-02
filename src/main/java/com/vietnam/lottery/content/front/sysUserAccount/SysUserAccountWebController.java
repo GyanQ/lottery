@@ -17,10 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -76,5 +73,13 @@ public class SysUserAccountWebController {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setCreateBy(JwtUtil.parseToken(token));
         return ResultUtil.success(sysUserAccountService.withdrawDetail(request));
+    }
+
+    @GetMapping("/envelopeCount")
+    @ApiOperation("红包数量")
+    public ResultModel envelopeCount(HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
+        String userId = JwtUtil.parseToken(token);
+        return ResultUtil.success(sysUserAccountService.envelopeCount(userId));
     }
 }

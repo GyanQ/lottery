@@ -45,5 +45,8 @@ public interface SysUserAccountService {
 
     //提现回调
     void callBack(String body);
+
+    //根据userId查询拆红包数量
+    Long envelopeCount(String userId);
 }
 
