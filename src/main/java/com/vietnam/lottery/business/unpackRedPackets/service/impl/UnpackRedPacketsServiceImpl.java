@@ -3,6 +3,10 @@ package com.vietnam.lottery.business.unpackRedPackets.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.acting.entity.Acting;
+import com.vietnam.lottery.business.acting.mapper.ActingMapper;
+import com.vietnam.lottery.business.actingHierarchyRelation.entity.ActingHierarchyRelation;
+import com.vietnam.lottery.business.actingHierarchyRelation.mapper.ActingHierarchyRelationMapper;
 import com.vietnam.lottery.business.sysBroadcastConfig.mapper.SysBroadcastConfigMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
@@ -47,6 +51,10 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     private SysUserAccountMapper sysUserAccountMapper;
     @Resource
     private SysBroadcastConfigMapper sysBroadcastConfigMapper;
+    @Resource
+    private ActingHierarchyRelationMapper actingHierarchyRelationMapper;
+    @Resource
+    private ActingMapper actingMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -222,14 +230,44 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         response.setName(unpackOne.get(0).getName());
         response.setAmount(amount);
 
-        //新增拆红包明细
-        SysUserAccount sysUserAccount = new SysUserAccount();
-        sysUserAccount.setProductId(unpackOne.get(0).getId());
-        sysUserAccount.setType("1");
-        sysUserAccount.setSpending("0");
-        sysUserAccount.setAmount(new BigDecimal(amount));
-        sysUserAccount.setCreateBy(userId);
-        sysUserAccountMapper.insert(sysUserAccount);
+        QueryWrapper<ActingHierarchyRelation> actingQuery = new QueryWrapper<>();
+        actingQuery.eq("create_by", userId);
+        List<ActingHierarchyRelation> actingList = actingHierarchyRelationMapper.selectList(actingQuery);
+        if (CollectionUtils.isEmpty(actingList)) {
+            //新增拆红包明细
+            SysUserAccount sysUserAccount = new SysUserAccount();
+            sysUserAccount.setProductId(unpackOne.get(0).getId());
+            sysUserAccount.setType("1");
+            sysUserAccount.setSpending("0");
+            sysUserAccount.setAmount(new BigDecimal(amount));
+            sysUserAccount.setCreateBy(userId);
+            sysUserAccountMapper.insert(sysUserAccount);
+        }
+
+        for (ActingHierarchyRelation o : actingList) {
+            Double num = Double.valueOf(amount);
+            switch (o.getActingId()) {
+                case "1501592852484911106":
+                    num = commission(o.getActingId(), o.getSuperiorId(), amount, unpackOne.get(0).getId());
+                    break;
+                case "1502622021805215745":
+                    num = commission(o.getActingId(), o.getSuperiorId(), amount, unpackOne.get(0).getId());
+                    break;
+                case "1502622043628179459":
+                    num = commission(o.getActingId(), o.getSuperiorId(), amount, unpackOne.get(0).getId());
+                    break;
+                default:
+                    //新增拆红包明细
+                    SysUserAccount sysUserAccount = new SysUserAccount();
+                    sysUserAccount.setProductId(unpackOne.get(0).getId());
+                    sysUserAccount.setType("1");
+                    sysUserAccount.setSpending("0");
+                    sysUserAccount.setAmount(new BigDecimal(num));
+                    sysUserAccount.setCreateBy(userId);
+                    sysUserAccountMapper.insert(sysUserAccount);
+                    break;
+            }
+        }
         return response;
     }
 
@@ -272,6 +310,25 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         query.ne(ObjectUtil.isNotEmpty(id), "id", id);
         query.eq("del_flag", DelFlagEnum.CODE.getCode());
         return unpackRedPacketsMapper.selectList(query);
+    }
+
+    private double commission(String id, String userId, int amount, String unpackId) {
+        double num = 0d;
+        Acting acting = actingMapper.selectById(id);
+        if (!ObjectUtil.isEmpty(acting)) {
+            double i = acting.getCommissionRatio() * 0.01;
+            double commission = amount * i;
+            num = num - (amount * i);
+            //新增拆红包明细
+            SysUserAccount sysUserAccount = new SysUserAccount();
+            sysUserAccount.setProductId(unpackId);
+            sysUserAccount.setType("0");
+            sysUserAccount.setSpending("0");
+            sysUserAccount.setAmount(new BigDecimal(commission));
+            sysUserAccount.setCreateBy(userId);
+            sysUserAccountMapper.insert(sysUserAccount);
+        }
+        return num;
     }
 }
 
