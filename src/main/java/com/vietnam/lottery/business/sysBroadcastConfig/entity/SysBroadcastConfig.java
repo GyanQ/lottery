@@ -3,6 +3,7 @@ package com.vietnam.lottery.business.sysBroadcastConfig.entity;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * 广播配置(SysBroadcastConfig)表实体类
@@ -15,7 +16,7 @@ public class SysBroadcastConfig extends Model<SysBroadcastConfig> {
     //id
     private String id;
     //金额
-    private Double amount;
+    private BigDecimal amount;
 
 
     public String getId() {
@@ -26,11 +27,11 @@ public class SysBroadcastConfig extends Model<SysBroadcastConfig> {
         this.id = id;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

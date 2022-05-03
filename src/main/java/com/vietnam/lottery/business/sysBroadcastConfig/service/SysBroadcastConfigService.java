@@ -7,6 +7,5 @@ package com.vietnam.lottery.business.sysBroadcastConfig.service;
  * @since 2022-05-03 22:16:04
  */
 public interface SysBroadcastConfigService {
-
 }
 

@@ -258,7 +258,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
             response.setGrabResp(grabList);
         }
 
-        if (disList.size() + disList.size() < 50) {
+        if (disList.size() + disList.size() < 100) {
             response.setRandomResp(sysBroadcastConfigMapper.selectRandom());
         }
         return response;
