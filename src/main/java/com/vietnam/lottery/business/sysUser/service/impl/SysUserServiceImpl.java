@@ -106,7 +106,7 @@ public class SysUserServiceImpl implements SysUserService {
         if (StringUtils.isBlank(code)) {
             return ResultUtil.failure("Lỗi mã xác minh");
         }
-        if (code.equals(request.getCode())) {
+        if (!code.equals(request.getCode())) {
             return ResultUtil.failure("Lỗi mã xác minh");
         }
         //推广代理

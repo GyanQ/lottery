@@ -220,5 +220,28 @@
           and a.spending = '1'
           and a.del_flag = '0'
     </select>
+    <select id="broadcast"
+            resultType="com.vietnam.lottery.business.unpackRedPackets.response.BroadcastResponse">
+        select create_by as userId,
+               amount    as amount
+        from sys_user_account
+        where type = #{type}
+        order by create_date desc
+    </select>
+    <select id="selectDis"
+            resultType="com.vietnam.lottery.business.unpackRedPackets.response.DismantleResponse">
+        select create_by as userId,
+               amount    as amount
+        from sys_user_account
+        where type = "1"
+        order by create_date desc
+    </select>
+    <select id="selectGrab" resultType="com.vietnam.lottery.business.unpackRedPackets.response.GrabResponse">
+        select create_by as userId,
+               amount    as amount
+        from sys_user_account
+        where type = "2"
+        order by create_date desc
+    </select>
 </mapper>
 

@@ -6,6 +6,9 @@ import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
 import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
 import com.vietnam.lottery.business.sysUserAccount.request.*;
 import com.vietnam.lottery.business.sysUserAccount.response.*;
+import com.vietnam.lottery.business.unpackRedPackets.response.BroadcastResponse;
+import com.vietnam.lottery.business.unpackRedPackets.response.DismantleResponse;
+import com.vietnam.lottery.business.unpackRedPackets.response.GrabResponse;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -50,5 +53,14 @@ public interface SysUserAccountMapper extends BaseMapper<SysUserAccount> {
 
     //根据userId查询提现记录
     Page<WithdrawDetailResponse> withdrawDetail(@Param("page") Page page, @Param("request") WithdrawDetailRequest request);
+
+    //查询广播一条数据
+    BroadcastResponse broadcast(@Param("type") String type);
+
+    //查询广播拆红包数据
+    List<DismantleResponse> selectDis();
+
+    //查询广播抢红包数据
+    List<GrabResponse> selectGrab();
 }
 

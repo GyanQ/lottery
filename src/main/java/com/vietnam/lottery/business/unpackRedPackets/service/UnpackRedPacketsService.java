@@ -5,6 +5,7 @@ import com.vietnam.lottery.business.unpackRedPackets.request.UnPackAddRequest;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackDeleteRequest;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackListRequest;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackUpdateRequest;
+import com.vietnam.lottery.business.unpackRedPackets.response.BroadcastResponse;
 import com.vietnam.lottery.business.unpackRedPackets.response.UnPackDetailResponse;
 import com.vietnam.lottery.business.unpackRedPackets.response.UnPackListResponse;
 import com.vietnam.lottery.business.unpackRedPackets.response.UnpackLotteryResponse;
@@ -35,5 +36,8 @@ public interface UnpackRedPacketsService {
 
     /* 抽奖 */
     UnpackLotteryResponse lottery(String userId);
+
+    //广播  true代表只查询一条
+    BroadcastResponse broadcast(Boolean flag);
 }
 

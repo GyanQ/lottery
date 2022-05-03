@@ -3,6 +3,7 @@ package com.vietnam.lottery.business.unpackRedPackets.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.sysBroadcastConfig.mapper.SysBroadcastConfigMapper;
 import com.vietnam.lottery.business.sysOperateRecord.entity.SysOperateRecord;
 import com.vietnam.lottery.business.sysOperateRecord.service.SysOperateRecordService;
 import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
@@ -13,9 +14,7 @@ import com.vietnam.lottery.business.unpackRedPackets.request.UnPackAddRequest;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackDeleteRequest;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackListRequest;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackUpdateRequest;
-import com.vietnam.lottery.business.unpackRedPackets.response.UnPackDetailResponse;
-import com.vietnam.lottery.business.unpackRedPackets.response.UnPackListResponse;
-import com.vietnam.lottery.business.unpackRedPackets.response.UnpackLotteryResponse;
+import com.vietnam.lottery.business.unpackRedPackets.response.*;
 import com.vietnam.lottery.business.unpackRedPackets.service.UnpackRedPacketsService;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
@@ -46,6 +45,8 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     private SysOperateRecordService sysOperateRecordService;
     @Resource
     private SysUserAccountMapper sysUserAccountMapper;
+    @Resource
+    private SysBroadcastConfigMapper sysBroadcastConfigMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -229,6 +230,37 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         sysUserAccount.setAmount(new BigDecimal(amount));
         sysUserAccount.setCreateBy(userId);
         sysUserAccountMapper.insert(sysUserAccount);
+        return response;
+    }
+
+    @Override
+    public BroadcastResponse broadcast(Boolean flag) {
+        BroadcastResponse response = new BroadcastResponse();
+        if (flag) {
+            response = sysUserAccountMapper.broadcast("1");
+            response.setType("0");
+            if (!ObjectUtil.isEmpty(response)) {
+                return response;
+            }
+            response = sysUserAccountMapper.broadcast("2");
+            if (!ObjectUtil.isEmpty(response)) {
+                response.setType("1");
+                return response;
+            }
+            return sysBroadcastConfigMapper.broadcast();
+        }
+        List<DismantleResponse> disList = sysUserAccountMapper.selectDis();
+        List<GrabResponse> grabList = sysUserAccountMapper.selectGrab();
+        if (!CollectionUtils.isEmpty(disList)) {
+            response.setDisResp(disList);
+        }
+        if (!CollectionUtils.isEmpty(grabList)) {
+            response.setGrabResp(grabList);
+        }
+
+        if (disList.size() + disList.size() < 50) {
+            response.setRandomResp(sysBroadcastConfigMapper.selectRandom());
+        }
         return response;
     }
 
