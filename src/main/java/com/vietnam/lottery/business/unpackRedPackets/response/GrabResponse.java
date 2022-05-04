@@ -12,5 +12,7 @@ public class GrabResponse implements Serializable {
 
     private String userId;
 
+    private String type = "1";
+
     private BigDecimal amount;
 }

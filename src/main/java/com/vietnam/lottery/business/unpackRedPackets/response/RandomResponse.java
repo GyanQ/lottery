@@ -12,5 +12,7 @@ public class RandomResponse implements Serializable {
 
     private String userId;
 
+    private String type = "0";
+
     private BigDecimal amount;
 }
