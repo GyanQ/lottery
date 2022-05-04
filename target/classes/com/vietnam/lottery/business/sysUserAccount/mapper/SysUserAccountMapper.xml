@@ -226,7 +226,7 @@
                amount    as amount
         from sys_user_account
         where type = #{type}
-        order by create_date desc
+        order by create_date desc limit 1
     </select>
     <select id="selectDis"
             resultType="com.vietnam.lottery.business.unpackRedPackets.response.DismantleResponse">
