@@ -11,7 +11,7 @@
             resultType="com.vietnam.lottery.business.unpackRedPackets.response.RandomResponse">
         select id     as userId,
                amount as amount
-        from sys_broadcast_config
+        from sys_broadcast_config limit 100
     </select>
 </mapper>
 
