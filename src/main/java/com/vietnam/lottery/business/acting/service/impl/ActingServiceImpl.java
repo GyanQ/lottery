@@ -43,6 +43,10 @@ public class ActingServiceImpl implements ActingService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel add(ActingAddRequest request) {
+        Integer count = actingMapper.selectCount(new QueryWrapper<Acting>().eq("del_flag", DelFlagEnum.CODE.getCode()));
+        if (count >= 3) {
+            return ResultUtil.failure("最多添加三级代理");
+        }
         Acting acting = new Acting();
         acting.setLevel(request.getLevel());
         acting.setCommissionRatio(request.getCommissionRatio());
@@ -61,6 +65,10 @@ public class ActingServiceImpl implements ActingService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel update(ActingUpdateRequest request) {
+        Integer count = actingMapper.selectCount(new QueryWrapper<Acting>().eq("del_flag", DelFlagEnum.CODE.getCode()).ne("id", request.getId()));
+        if (count >= 3) {
+            return ResultUtil.failure("最多添加三级代理");
+        }
         Acting acting = actingMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(acting)) return ResultUtil.failure("fail to edit");
 

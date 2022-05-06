@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vietnam.lottery.business.sysSms.mapper.SysSmsMapper">
 
-    <select id="selectByPhone" resultType="java.lang.String">
+    <select id="selectByPhone" resultType="string">
         select code
         from sys_sms
         where phone = #{phone}

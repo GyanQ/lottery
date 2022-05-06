@@ -452,7 +452,11 @@ public class SysUserServiceImpl implements SysUserService {
     private void addActing(String superiorId, String userId) {
         //增加代理关系
         ActingHierarchyRelation relation = new ActingHierarchyRelation();
-        relation.setActingId(selectActingId(null, "一级代理").getId());
+        Acting selectActing = selectActingId(null, "一级代理");
+        if (ObjectUtil.isEmpty(selectActing)) {
+            return;
+        }
+        relation.setActingId(selectActing.getId());
         relation.setCreateBy(userId);
         relation.setSuperiorId(superiorId);
         actingHierarchyRelationMapper.insert(relation);
