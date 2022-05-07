@@ -73,10 +73,11 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
     }
 
     //保存递归对象
-    List<SubordinateListListResponse> list = new ArrayList<>();
+    public static List<SubordinateListListResponse> list;
 
     @Override
     public List<SubordinateListListResponse> subordinateList(SubordinateListListRequest request) {
+        list = new ArrayList<>();
         list = myLowerLevel(request.getUserId());
         return list;
     }
