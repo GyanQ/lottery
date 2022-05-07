@@ -143,7 +143,7 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel withdraw(WithdrawRequest request) {
         SysUserBankCard userBankCard = sysUserBankCardMapper.selectOne(new QueryWrapper<SysUserBankCard>().eq("bank_id", request.getBankCardId()));
-        if (ObjectUtil.isEmpty(userBankCard)){
+        if (ObjectUtil.isEmpty(userBankCard)) {
             return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
         }
         SysUserAccount sysUserAccount = new SysUserAccount();
@@ -151,7 +151,7 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         sysUserAccount.setSpending("1");
         sysUserAccount.setAmount(request.getAmount());
         sysUserAccount.setAudit("1");
-        sysUserAccount.setBankCardId(request.getBankCardId());
+        sysUserAccount.setBankCardId(userBankCard.getId());
         sysUserAccount.setCreateBy(request.getCreateBy());
         return ResultUtil.success(sysUserAccountMapper.insert(sysUserAccount));
     }
