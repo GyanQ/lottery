@@ -3,6 +3,7 @@ package com.vietnam.lottery.business.sysUserAccount.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
 import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
@@ -141,6 +142,10 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel withdraw(WithdrawRequest request) {
+        SysUserBankCard userBankCard = sysUserBankCardMapper.selectOne(new QueryWrapper<SysUserBankCard>().eq("bankId", request.getBankCardId()));
+        if (ObjectUtil.isEmpty(userBankCard)){
+            return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+        }
         SysUserAccount sysUserAccount = new SysUserAccount();
         sysUserAccount.setType("3");
         sysUserAccount.setSpending("1");
