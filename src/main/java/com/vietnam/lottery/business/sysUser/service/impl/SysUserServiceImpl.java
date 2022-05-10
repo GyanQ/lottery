@@ -346,6 +346,8 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("phone", request.getPhone()).eq("del_flag", DelFlagEnum.CODE.getCode()));
         if (ObjectUtil.isEmpty(user)) {
             user = new SysUser();
+            String uuid = IdUtil.simpleUUID();
+            user.setId(uuid);
             user.setLoginWay("4");
             user.setAccount(request.getPhone());
             user.setName(request.getPhone());
@@ -360,6 +362,10 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("userId", user.getId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
+
+        if (!StringUtils.isBlank(request.getUserId())) {
+            addActing(request.getUserId(), user.getId());
+        }
         addLoginDetail(user.getId(), request.getIp());
         return map;
     }
