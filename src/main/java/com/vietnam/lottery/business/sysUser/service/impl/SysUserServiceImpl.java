@@ -1,5 +1,6 @@
 package com.vietnam.lottery.business.sysUser.service.impl;
 
+import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -23,10 +24,7 @@ import com.vietnam.lottery.business.sysUserRoleRelation.entity.SysUserRoleRelati
 import com.vietnam.lottery.business.sysUserRoleRelation.mapper.SysUserRoleRelationMapper;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
-import com.vietnam.lottery.common.utils.JwtUtil;
-import com.vietnam.lottery.common.utils.ResultModel;
-import com.vietnam.lottery.common.utils.ResultUtil;
-import com.vietnam.lottery.common.utils.SmsUtils;
+import com.vietnam.lottery.common.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,10 +33,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
@@ -348,6 +343,7 @@ public class SysUserServiceImpl implements SysUserService {
             user = new SysUser();
             String uuid = IdUtil.simpleUUID();
             user.setId(uuid);
+            user.setPhone(request.getPhone());
             user.setLoginWay("4");
             user.setAccount(request.getPhone());
             user.setName(request.getPhone());
