@@ -208,6 +208,7 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long envelopeCount(String userId) {
+        log.info("envelopeCount入参:{}", userId);
         Long grabCount = 0l;
         Long unpackCount = 0l;
         Map<String, Map<String, Long>> map = sysUserAccountMapper.getByIdCount(userId);
@@ -217,10 +218,11 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         }
         Long count = 0l;
         if (unpackCount >= grabCount) {
+            log.info("envelopeCount抢红包大于等于抢红包返回参数:{}", count);
             return count;
         }
         count = grabCount - unpackCount;
-
+        log.info("envelopeCount抢红包小于抢红包返回参数:{}", count);
         return count;
     }
 
