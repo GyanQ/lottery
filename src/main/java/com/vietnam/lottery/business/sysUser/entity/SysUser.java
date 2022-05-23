@@ -1,7 +1,8 @@
 package com.vietnam.lottery.business.sysUser.entity;
 
 
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,9 +13,9 @@ import java.util.Date;
  * @author Gyan
  * @since 2022-01-24 17:57:19
  */
-@SuppressWarnings("sysUser")
-public class SysUser extends Model<SysUser> {
+public class SysUser implements Serializable {
     //id
+    @TableId(type = IdType.AUTO)
     private String id;
     //账号
     private String account;
@@ -123,16 +124,6 @@ public class SysUser extends Model<SysUser> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
-    }
-
-    /**
-     * 获取主键值
-     *
-     * @return 主键值
-     */
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
     }
 }
 

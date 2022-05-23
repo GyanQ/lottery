@@ -505,4 +505,9 @@ public class SysUserServiceImpl implements SysUserService {
         login.setIp(ip);
         sysLoginDetailMapper.insert(login);
     }
+
+
+    public static void main(String[] args) {
+        System.out.println(DigestUtils.md5DigestAsHex("admin".getBytes()));
+    }
 }
