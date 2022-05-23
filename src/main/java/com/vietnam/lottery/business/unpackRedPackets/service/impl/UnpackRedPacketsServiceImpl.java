@@ -276,16 +276,17 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         BroadcastResponse response = new BroadcastResponse();
         if (flag) {
             response = sysUserAccountMapper.broadcast("1");
+            if (ObjectUtil.isEmpty(response)) {
+                response = sysUserAccountMapper.broadcast("2");
+                if (ObjectUtil.isEmpty(response)) {
+                    return sysBroadcastConfigMapper.broadcast();
+                } else {
+                    response.setType("1");
+                    return response;
+                }
+            }
             response.setType("0");
-            if (!ObjectUtil.isEmpty(response)) {
-                return response;
-            }
-            response = sysUserAccountMapper.broadcast("2");
-            if (!ObjectUtil.isEmpty(response)) {
-                response.setType("1");
-                return response;
-            }
-            return sysBroadcastConfigMapper.broadcast();
+            return response;
         }
         List<DismantleResponse> disList = sysUserAccountMapper.selectDis();
         List<GrabResponse> grabList = sysUserAccountMapper.selectGrab();
