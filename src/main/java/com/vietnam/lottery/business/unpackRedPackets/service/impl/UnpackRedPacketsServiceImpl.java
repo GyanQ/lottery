@@ -188,14 +188,16 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         List<UnpackRedPackets> unpackList = unpackList(null);
         if (CollectionUtils.isEmpty(unpackList)) throw new GlobalException("no data");
 
-        //提取所有中奖概率
+        //提取所有抢红包配置中奖概率
         List<BigDecimal> probability = unpackList.stream().map(o -> o.getProbability()).collect(Collectors.toList());
 
         //临时存放概率
         List<BigDecimal> probabilityList = new ArrayList<>();
+        //计算总概率
+        BigDecimal sum = BigDecimal.ZERO;
         probability.forEach(o -> {
             BigDecimal pro = o.divide(new BigDecimal(100));
-            probabilityList.add(pro);
+            sum.add(pro);
         });
 
         //生成随机数
@@ -274,20 +276,20 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     @Override
     public BroadcastResponse broadcast(Boolean flag) {
         BroadcastResponse response = new BroadcastResponse();
-        if (flag) {
-            response = sysUserAccountMapper.broadcast("1");
-            if (ObjectUtil.isEmpty(response)) {
-                response = sysUserAccountMapper.broadcast("2");
-                if (ObjectUtil.isEmpty(response)) {
-                    return sysBroadcastConfigMapper.broadcast();
-                } else {
-                    response.setType("1");
-                    return response;
-                }
-            }
-            response.setType("0");
-            return response;
-        }
+
+//        response = sysUserAccountMapper.broadcast("1");
+//        if (ObjectUtil.isEmpty(response)) {
+//            response = sysUserAccountMapper.broadcast("2");
+//            if (ObjectUtil.isEmpty(response)) {
+//                return sysBroadcastConfigMapper.broadcast();
+//            } else {
+//                response.setType("1");
+//                return response;
+//            }
+//        }
+//        response.setType("0");
+        //return response;
+
         List<DismantleResponse> disList = sysUserAccountMapper.selectDis();
         List<GrabResponse> grabList = sysUserAccountMapper.selectGrab();
         if (!CollectionUtils.isEmpty(disList)) {
