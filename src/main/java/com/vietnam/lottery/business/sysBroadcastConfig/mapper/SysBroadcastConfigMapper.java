@@ -3,7 +3,6 @@ package com.vietnam.lottery.business.sysBroadcastConfig.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.vietnam.lottery.business.sysBroadcastConfig.entity.SysBroadcastConfig;
 import com.vietnam.lottery.business.unpackRedPackets.response.BroadcastResponse;
-import com.vietnam.lottery.business.unpackRedPackets.response.RandomResponse;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
