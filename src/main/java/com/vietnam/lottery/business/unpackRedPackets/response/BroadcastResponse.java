@@ -20,13 +20,4 @@ public class BroadcastResponse implements Serializable {
     private String type;
 
     private BigDecimal amount;
-
-    @ApiModelProperty(value = "拆到")
-    private List<DismantleResponse> disResp = new ArrayList<>();
-
-    @ApiModelProperty(value = "抢到")
-    private List<GrabResponse> grabResp = new ArrayList<>();
-
-    @ApiModelProperty(value = "随机")
-    private List<RandomResponse> randomResp = new ArrayList<>();
 }

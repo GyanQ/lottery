@@ -58,9 +58,9 @@ public interface SysUserAccountMapper extends BaseMapper<SysUserAccount> {
     BroadcastResponse broadcast(@Param("type") String type);
 
     //查询广播拆红包数据
-    List<DismantleResponse> selectDis();
+    List<BroadcastResponse> selectDis();
 
     //查询广播抢红包数据
-    List<GrabResponse> selectGrab();
+    List<BroadcastResponse> selectGrab();
 }
 

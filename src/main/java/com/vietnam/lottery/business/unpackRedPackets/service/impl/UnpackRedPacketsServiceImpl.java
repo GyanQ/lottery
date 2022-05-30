@@ -18,7 +18,10 @@ import com.vietnam.lottery.business.unpackRedPackets.request.UnPackAddRequest;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackDeleteRequest;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackListRequest;
 import com.vietnam.lottery.business.unpackRedPackets.request.UnPackUpdateRequest;
-import com.vietnam.lottery.business.unpackRedPackets.response.*;
+import com.vietnam.lottery.business.unpackRedPackets.response.BroadcastResponse;
+import com.vietnam.lottery.business.unpackRedPackets.response.UnPackDetailResponse;
+import com.vietnam.lottery.business.unpackRedPackets.response.UnPackListResponse;
+import com.vietnam.lottery.business.unpackRedPackets.response.UnpackLotteryResponse;
 import com.vietnam.lottery.business.unpackRedPackets.service.UnpackRedPacketsService;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
@@ -274,9 +277,8 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     }
 
     @Override
-    public BroadcastResponse broadcast(Boolean flag) {
-        BroadcastResponse response = new BroadcastResponse();
-
+    public List<BroadcastResponse> broadcast(Boolean flag) {
+        List<BroadcastResponse> resp = new ArrayList<>();
 //        response = sysUserAccountMapper.broadcast("1");
 //        if (ObjectUtil.isEmpty(response)) {
 //            response = sysUserAccountMapper.broadcast("2");
@@ -290,19 +292,33 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
 //        response.setType("0");
         //return response;
 
-        List<DismantleResponse> disList = sysUserAccountMapper.selectDis();
-        List<GrabResponse> grabList = sysUserAccountMapper.selectGrab();
+        List<BroadcastResponse> disList = sysUserAccountMapper.selectDis();
         if (!CollectionUtils.isEmpty(disList)) {
-            response.setDisResp(disList);
+            disList.forEach(o -> {
+                o.setType("0");
+            });
+            List<BroadcastResponse> grabList = sysUserAccountMapper.selectGrab();
+            if (!CollectionUtils.isEmpty(grabList)) {
+                grabList.forEach(o -> {
+                    o.setType("1");
+                });
+            }
+            if (disList.size() + grabList.size() <= 50) {
+                List<BroadcastResponse> ranList = sysBroadcastConfigMapper.selectRandom();
+                ranList.forEach(o -> {
+                    o.setType("0");
+                });
+            } else {
+                resp.addAll(disList);
+                resp.addAll(grabList);
+                return resp.stream().sorted(Comparator.comparing(BroadcastResponse::getType)).collect(Collectors.toList());
+            }
         }
-        if (!CollectionUtils.isEmpty(grabList)) {
-            response.setGrabResp(grabList);
-        }
-
-        if (disList.size() + disList.size() < 50) {
-            response.setRandomResp(sysBroadcastConfigMapper.selectRandom());
-        }
-        return response;
+        List<BroadcastResponse> ranList = sysBroadcastConfigMapper.selectRandom();
+        ranList.forEach(o -> {
+            o.setType("0");
+        });
+        return ranList;
     }
 
     /**

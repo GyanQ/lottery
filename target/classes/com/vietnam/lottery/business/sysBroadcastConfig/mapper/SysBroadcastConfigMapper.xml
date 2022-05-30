@@ -8,7 +8,7 @@
         from sys_broadcast_config limit 1
     </select>
     <select id="selectRandom"
-            resultType="com.vietnam.lottery.business.unpackRedPackets.response.RandomResponse">
+            resultType="com.vietnam.lottery.business.unpackRedPackets.response.BroadcastResponse">
         select id     as userId,
                amount as amount
         from sys_broadcast_config limit 100

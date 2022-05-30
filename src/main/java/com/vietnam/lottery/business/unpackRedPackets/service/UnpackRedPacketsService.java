@@ -11,6 +11,8 @@ import com.vietnam.lottery.business.unpackRedPackets.response.UnPackListResponse
 import com.vietnam.lottery.business.unpackRedPackets.response.UnpackLotteryResponse;
 import com.vietnam.lottery.common.utils.ResultModel;
 
+import java.util.List;
+
 /**
  * 拆红包(UnpackRedPackets)表服务接口
  *
@@ -38,6 +40,6 @@ public interface UnpackRedPacketsService {
     UnpackLotteryResponse lottery(String userId);
 
     //广播  true代表只查询一条
-    BroadcastResponse broadcast(Boolean flag);
+    List<BroadcastResponse> broadcast(Boolean flag);
 }
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @Api(tags = "拆红包")
@@ -32,7 +33,7 @@ public class UnpackRedPacketsWebController {
 
     @GetMapping("/broadcast")
     @ApiOperation("广播")
-    public ResultModel<BroadcastResponse> broadcast(Boolean flag) {
+    public ResultModel<List<BroadcastResponse>> broadcast(Boolean flag) {
         return ResultUtil.success(unpackRedPacketsService.broadcast(flag));
     }
 }

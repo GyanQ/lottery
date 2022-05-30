@@ -20,6 +20,6 @@ public interface SysBroadcastConfigMapper extends BaseMapper<SysBroadcastConfig>
     BroadcastResponse broadcast();
 
     //查询全部广播
-    List<RandomResponse> selectRandom();
+    List<BroadcastResponse> selectRandom();
 }
 
