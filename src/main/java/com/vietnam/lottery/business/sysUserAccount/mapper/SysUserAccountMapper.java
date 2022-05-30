@@ -7,8 +7,6 @@ import com.vietnam.lottery.business.sysUserAccount.entity.SysUserAccount;
 import com.vietnam.lottery.business.sysUserAccount.request.*;
 import com.vietnam.lottery.business.sysUserAccount.response.*;
 import com.vietnam.lottery.business.unpackRedPackets.response.BroadcastResponse;
-import com.vietnam.lottery.business.unpackRedPackets.response.DismantleResponse;
-import com.vietnam.lottery.business.unpackRedPackets.response.GrabResponse;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
