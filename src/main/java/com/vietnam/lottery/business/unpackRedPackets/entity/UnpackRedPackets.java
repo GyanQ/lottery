@@ -17,6 +17,8 @@ import java.util.Date;
 public class UnpackRedPackets extends Model<UnpackRedPackets> {
     //id
     private String id;
+    //grabRedPacketsId
+    private String grabRedPacketsId;
     //奖项名称
     private String name;
     //区间开始值
@@ -43,6 +45,14 @@ public class UnpackRedPackets extends Model<UnpackRedPackets> {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getGrabRedPacketsId() {
+        return grabRedPacketsId;
+    }
+
+    public void setGrabRedPacketsId(String grabRedPacketsId) {
+        this.grabRedPacketsId = grabRedPacketsId;
     }
 
     public String getName() {

@@ -27,6 +27,7 @@ import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +72,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
             }
         }
         UnpackRedPackets unpackRedPackets = new UnpackRedPackets();
+        unpackRedPackets.setGrabRedPacketsId(request.getGrabId());
         unpackRedPackets.setName(request.getName());
         unpackRedPackets.setIntervalBeginValue(request.getBegin());
         unpackRedPackets.setIntervalEndValue(request.getEnd());
@@ -102,6 +104,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
             }
         }
 
+        unpackRedPackets.setGrabRedPacketsId(request.getGrabId());
         unpackRedPackets.setName(request.getName());
         unpackRedPackets.setIntervalBeginValue(request.getBegin());
         unpackRedPackets.setIntervalEndValue(request.getEnd());
@@ -152,7 +155,10 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     @Override
     public Page<UnPackListResponse> list(UnPackListRequest request) {
         Page<UnpackRedPackets> page = new Page<>(request.getCurrent(), request.getSize());
-        Page<UnpackRedPackets> iPage = unpackRedPacketsMapper.selectPage(page, new QueryWrapper<UnpackRedPackets>().eq("del_flag", DelFlagEnum.CODE.getCode()));
+        QueryWrapper<UnpackRedPackets> query = new QueryWrapper<>();
+        query.eq("del_flag", DelFlagEnum.CODE.getCode());
+        query.eq(!StringUtils.isBlank(request.getGrabId()), "grab_red_packets_id", request.getGrabId());
+        Page<UnpackRedPackets> iPage = unpackRedPacketsMapper.selectPage(page, query);
 
         Page<UnPackListResponse> responsePage = new Page<>(iPage.getCurrent(), iPage.getSize(), iPage.getTotal());
         List<UnPackListResponse> list = new ArrayList<>();

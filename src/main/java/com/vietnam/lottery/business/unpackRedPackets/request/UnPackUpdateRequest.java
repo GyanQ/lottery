@@ -27,6 +27,10 @@ public class UnPackUpdateRequest implements Serializable {
     @ApiModelProperty(value = "中奖概率")
     private BigDecimal probability;
 
+    @ApiModelProperty(value = "抢红包id")
+    @NotBlank(message = "抢红包id不能为空")
+    private String grabId;
+
     @ApiModelProperty(hidden = true)
     private String updateBy;
 }

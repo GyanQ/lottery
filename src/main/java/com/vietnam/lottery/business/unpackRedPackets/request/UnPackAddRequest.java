@@ -28,6 +28,10 @@ public class UnPackAddRequest implements Serializable {
     @NotNull(message = "中奖概率不能为空")
     private BigDecimal probability;
 
+    @ApiModelProperty(value = "抢红包id")
+    @NotBlank(message = "抢红包id不能为空")
+    private String grabId;
+
     @ApiModelProperty(hidden = true)
     private String createBy;
 }
