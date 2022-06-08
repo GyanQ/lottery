@@ -150,7 +150,7 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultModel bet(BetRequest request) {
+    public ResultModel bet(BetRequest request, String language) {
         //用户支入金额
         BigDecimal incomeAmount = BigDecimal.ZERO;
         //用户支出金额
@@ -171,10 +171,21 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
 
         //查询抢红包余额
         GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(redPackets)) throw new GlobalException("Không truy vấn được số dư trong phong bì đỏ");
+        if (ObjectUtil.isEmpty(redPackets)) {
+            if ("0".equals(language)) {
+                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+            } else {
+                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+            }
+        }
 
         if (userAmount.compareTo(redPackets.getAmount()) == -1) {
-            throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+            if ("0".equals(language)) {
+                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+            } else {
+                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+            }
+
         }
 
         //生成订单号

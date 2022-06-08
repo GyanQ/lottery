@@ -140,10 +140,15 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultModel withdraw(WithdrawRequest request) {
+    public ResultModel withdraw(WithdrawRequest request, String language) {
         SysUserBankCard userBankCard = sysUserBankCardMapper.selectById(request.getBankCardId());
         if (ObjectUtil.isEmpty(userBankCard)) {
-            return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+            if ("0".equals(language)) {
+                return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+            } else {
+                return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+            }
+
         }
         SysUserAccount sysUserAccount = new SysUserAccount();
         sysUserAccount.setType("3");

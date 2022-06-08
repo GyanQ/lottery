@@ -28,4 +28,9 @@ public class UserRegisterRequest implements Serializable {
 
     @ApiModelProperty(value = "推广渠道必传推广人userId")
     private String userId;
+
+    @ApiModelProperty(value = "语言类型(0英文 1越南)")
+    @NotBlank(message = "语言类型不能为空")
+    private String type;
+
 }

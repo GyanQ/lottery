@@ -32,7 +32,7 @@ public interface SysUserAccountService {
     ResultModel withdrawAudit(WithdrawAuditRequest request);
 
     //提现
-    ResultModel withdraw(WithdrawRequest request);
+    ResultModel withdraw(WithdrawRequest request,String language);
 
     /* 账户余额 */
     AccountBalanceResponse accountBalance(String userId);

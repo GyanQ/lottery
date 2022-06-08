@@ -77,11 +77,22 @@ public class JwtUtil {
         return true;
     }
 
-    // 解析token
+    // 解析token 获取userId
     public static String parseToken(String token) {
         try {
             String userId = JWT.decode(token).getClaim("userId").asString();
             return userId;
+        } catch (JWTDecodeException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // 解析token 获取语言 改动太大 懒得改!
+    public static String parseLanguage(String token) {
+        try {
+            String language = JWT.decode(token).getClaim("language").asString();
+            return language;
         } catch (JWTDecodeException e) {
             e.printStackTrace();
         }

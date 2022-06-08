@@ -16,7 +16,7 @@ import com.vietnam.lottery.common.utils.ResultModel;
  */
 public interface SysUserBankCardService {
     /* 新增 */
-    ResultModel add(BankCardAddRequest request);
+    ResultModel add(BankCardAddRequest request,String language);
 
     /* 修改*/
     ResultModel update(BankCardUpdateRequest request);

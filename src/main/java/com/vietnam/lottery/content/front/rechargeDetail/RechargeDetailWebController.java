@@ -37,7 +37,8 @@ public class RechargeDetailWebController {
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setCreateBy(JwtUtil.parseToken(token));
-        return ResultUtil.success(rechargeDetailService.pay(request));
+        String language = JwtUtil.parseLanguage(token);
+        return ResultUtil.success(rechargeDetailService.pay(request,language));
     }
 
     @PostMapping("/callBack")

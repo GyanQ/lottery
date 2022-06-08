@@ -39,7 +39,8 @@ public class SysUserBankCardWebController {
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setCreateBy(JwtUtil.parseToken(token));
-        return ResultUtil.success(sysUserBankCardService.add(request));
+        String language = JwtUtil.parseLanguage(token);
+        return ResultUtil.success(sysUserBankCardService.add(request,language));
     }
 
     @PostMapping("/update")

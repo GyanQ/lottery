@@ -20,7 +20,7 @@ public interface RechargeDetailService {
     Page<RechargeListResponse> list(RechargeListRequest request);
 
     //充值
-    Map<String,Object> pay(PayRequest request);
+    Map<String,Object> pay(PayRequest request,String language);
 
     //回调
     void callBack(String body);

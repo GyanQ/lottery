@@ -38,7 +38,8 @@ public class SysUserAccountWebController {
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setCreateBy(JwtUtil.parseToken(token));
-        return ResultUtil.success(sysUserAccountService.withdraw(request));
+        String language = JwtUtil.parseLanguage(token);
+        return ResultUtil.success(sysUserAccountService.withdraw(request,language));
     }
 
     @PostMapping("/accountBalance")

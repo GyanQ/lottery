@@ -1,6 +1,5 @@
 package com.vietnam.lottery.business.sysUser.service.impl;
 
-import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -24,7 +23,10 @@ import com.vietnam.lottery.business.sysUserRoleRelation.entity.SysUserRoleRelati
 import com.vietnam.lottery.business.sysUserRoleRelation.mapper.SysUserRoleRelationMapper;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
-import com.vietnam.lottery.common.utils.*;
+import com.vietnam.lottery.common.utils.JwtUtil;
+import com.vietnam.lottery.common.utils.ResultModel;
+import com.vietnam.lottery.common.utils.ResultUtil;
+import com.vietnam.lottery.common.utils.SmsUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
@@ -99,10 +104,18 @@ public class SysUserServiceImpl implements SysUserService {
 
         String code = sysSmsMapper.selectByPhone(request.getPhone());
         if (StringUtils.isBlank(code)) {
-            return ResultUtil.failure("Lỗi mã xác minh");
+            if ("0".equals(request.getType())) {
+                return ResultUtil.failure("Lỗi mã xác minh");
+            } else {
+                return ResultUtil.failure("Lỗi mã xác minh");
+            }
         }
         if (!code.equals(request.getCode())) {
-            return ResultUtil.failure("Lỗi mã xác minh");
+            if ("0".equals(request.getType())) {
+                return ResultUtil.failure("Lỗi mã xác minh");
+            } else {
+                return ResultUtil.failure("Lỗi mã xác minh");
+            }
         }
         //推广代理
         if (!StringUtils.isBlank(request.getUserId())) {
@@ -116,16 +129,29 @@ public class SysUserServiceImpl implements SysUserService {
     public Map<String, Object> amountLogin(LoginRequest request) {
         //查询账号是否存在
         SysUser user = accountIsExist(request.getAccount());
-        if (ObjectUtil.isEmpty(user)) throw new GlobalException("Không thể truy vấn thông tin người dùng");
+        if (ObjectUtil.isEmpty(user)) {
+            if ("0".equals(request.getType())) {
+                throw new GlobalException("Không thể truy vấn thông tin người dùng");
+            } else {
+                throw new GlobalException("Không thể truy vấn thông tin người dùng");
+            }
+        }
         user.setLoginWay("2");
         sysUserMapper.updateById(user);
         //校验密码
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
-        if (!flag) throw new GlobalException("sai mật khẩu");
+        if (!flag) {
+            if ("0".equals(request.getType())) {
+                throw new GlobalException("Không thể truy vấn thông tin người dùng");
+            } else {
+                throw new GlobalException("Không thể truy vấn thông tin người dùng");
+            }
+        }
 
         Map<String, Object> map = new HashMap<>();
         //创建token
         map.put("userId", user.getId());
+        map.put("language", request.getType());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
 
@@ -297,6 +323,7 @@ public class SysUserServiceImpl implements SysUserService {
         //创建token
         Map<String, Object> map = new HashMap<>();
         map.put("userId", request.getUserId());
+        map.put("language", request.getType());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
 

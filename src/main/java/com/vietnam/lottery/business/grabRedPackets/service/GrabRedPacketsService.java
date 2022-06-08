@@ -34,6 +34,6 @@ public interface GrabRedPacketsService {
     Page<ListResponse> list(ListRequest request);
 
     /* 下注 */
-    ResultModel bet(BetRequest request);
+    ResultModel bet(BetRequest request,String language);
 }
 

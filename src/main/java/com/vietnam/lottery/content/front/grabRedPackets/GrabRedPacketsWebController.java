@@ -43,6 +43,7 @@ public class GrabRedPacketsWebController {
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setCreateBy(JwtUtil.parseToken(token));
-        return ResultUtil.success(grabRedPacketsService.bet(request));
+        String language = JwtUtil.parseLanguage(token);
+        return ResultUtil.success(grabRedPacketsService.bet(request,language));
     }
 }

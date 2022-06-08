@@ -59,7 +59,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Map<String, Object> pay(PayRequest request) {
+    public Map<String, Object> pay(PayRequest request, String language) {
         //金额
         BigDecimal amount;
         if (null == request.getId()) {
@@ -67,7 +67,11 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         } else {
             Recharge recharge = rechargeMapper.selectById(request.getId());
             if (ObjectUtil.isEmpty(recharge)) {
-                throw new GlobalException("Không thể nhận được số tiền, nạp tiền không thành công");
+                if ("0".equals(language)) {
+                    throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+                } else {
+                    throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+                }
             }
             amount = BigDecimal.ZERO.add(recharge.getAmount());
         }
@@ -88,7 +92,11 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         JSONObject data = json.getJSONObject("data");
         log.info("获取data,{}", data);
         if (json.getInt("code") != 1) {
-            throw new GlobalException("Nạp tiền không thành công");
+            if ("0".equals(language)) {
+                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+            } else {
+                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+            }
         }
         //增加充值记录
         RechargeDetail rechargeDetail = new RechargeDetail();

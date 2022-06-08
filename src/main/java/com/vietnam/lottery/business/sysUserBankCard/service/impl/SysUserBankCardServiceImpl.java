@@ -40,9 +40,15 @@ public class SysUserBankCardServiceImpl implements SysUserBankCardService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultModel add(BankCardAddRequest request) {
+    public ResultModel add(BankCardAddRequest request, String language) {
         SysBankCard sysBankCard = sysBankCardMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(sysBankCard)) return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+        if (ObjectUtil.isEmpty(sysBankCard)) {
+            if ("0".equals(language)) {
+                return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+            } else {
+                return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+            }
+        }
 
         SysUserBankCard userBankCard = new SysUserBankCard();
         userBankCard.setCardName(request.getCardName());

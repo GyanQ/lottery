@@ -18,6 +18,10 @@ public class LoginRequest implements Serializable {
     @NotBlank(message = "密码不能为空")
     private String passWord;
 
+    @ApiModelProperty(value = "语言类型(0英文 1越南)")
+    @NotBlank(message = "语言类型不能为空")
+    private String type;
+
     @ApiModelProperty(hidden = true)
     private String ip;
 }

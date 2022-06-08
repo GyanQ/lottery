@@ -23,4 +23,9 @@ public class FaceBookLoginRequest implements Serializable {
 
     @ApiModelProperty(hidden = true)
     private String ip;
+
+    @ApiModelProperty(value = "语言类型(0英文 1越南)")
+    @NotBlank(message = "语言类型不能为空")
+    private String type;
+
 }

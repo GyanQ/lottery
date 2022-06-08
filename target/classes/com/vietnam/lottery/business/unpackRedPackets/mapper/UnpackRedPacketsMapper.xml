@@ -183,7 +183,7 @@
         group by product_id
         ) b on a.id = b.product_id
         where a.grab_red_packets_id = #{id} and a.del_flag = '0'
-        order by a.name desc 
+        order by a.name
     </select>
 </mapper>
 
