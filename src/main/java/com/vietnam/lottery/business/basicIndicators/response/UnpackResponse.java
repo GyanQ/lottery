@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class ProbabilityResponse implements Serializable {
+public class UnpackResponse implements Serializable {
 
     private static final long serialVersionUID = 1154048350591550556L;
 

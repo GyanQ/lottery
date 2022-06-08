@@ -63,7 +63,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultModel add(UnPackAddRequest request) {
-        List<UnpackRedPackets> unpackList = unpackList(null);
+        List<UnpackRedPackets> unpackList = unpackList(null, request.getGrabId());
         if (!CollectionUtils.isEmpty(unpackList)) {
             BigDecimal probability = unpackList.stream().map(UnpackRedPackets::getProbability).reduce(BigDecimal.ZERO, BigDecimal::add);
             BigDecimal total = probability.add(request.getProbability());
@@ -95,7 +95,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         UnpackRedPackets unpackRedPackets = unpackRedPacketsMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(unpackRedPackets)) return ResultUtil.failure("fail to edit");
 
-        List<UnpackRedPackets> unpackList = unpackList(unpackRedPackets.getId());
+        List<UnpackRedPackets> unpackList = unpackList(unpackRedPackets.getId(), request.getGrabId());
         if (!CollectionUtils.isEmpty(unpackList)) {
             BigDecimal probability = unpackList.stream().map(UnpackRedPackets::getProbability).reduce(BigDecimal.ZERO, BigDecimal::add);
             BigDecimal total = probability.add(request.getProbability());
@@ -179,107 +179,69 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public UnpackLotteryResponse lottery(String userId) {
+        UnpackLotteryResponse resp = new UnpackLotteryResponse();
         //======判断用户是否还有拆红包机会
-        Long grabCount = 0l;
-        Long unpackCount = 0l;
-        Map<String, Map<String, Long>> count = sysUserAccountMapper.getByIdCount(userId);
-        for (Map<String, Long> value : count.values()) {
-            grabCount += value.get("grabCount");
-            unpackCount += value.get("unpackCount");
-        }
+        QueryWrapper<SysUserAccount> grabQuery = new QueryWrapper<>();
+        grabQuery.eq("create_by", userId);
+        grabQuery.eq("type", "2");
+        grabQuery.eq("lottery_status", "0");
+        List<SysUserAccount> grabList = sysUserAccountMapper.selectList(grabQuery);
+        if (CollectionUtils.isEmpty(grabList)) throw new GlobalException("");
 
-        if (unpackCount >= grabCount) {
-            throw new GlobalException("Không có cơ hội xổ số, bạn cần lấy một phong bì đỏ");
-        }
+//        QueryWrapper<SysUserAccount> unpackQuery = new QueryWrapper<>();
+//        unpackQuery.eq("create_by", userId);
+//        unpackQuery.eq("type", "1");
+//        List<SysUserAccount> unpackList = sysUserAccountMapper.selectList(unpackQuery);
 
-        UnpackLotteryResponse response = new UnpackLotteryResponse();
+        if (CollectionUtils.isEmpty(grabList)) throw new GlobalException("");
+
+        //List<SysUserAccount> collect = grabList.stream().filter(o -> !unpackList.contains(o)).collect(Collectors.toList());
         //查询所有拆红包配置
-        List<UnpackRedPackets> unpackList = unpackList(null);
-        if (CollectionUtils.isEmpty(unpackList)) throw new GlobalException("no data");
+        List<UnpackRedPackets> unpackConfig = unpackList(null, grabList.get(0).getProductId());
+        int index = lottery(unpackConfig);
 
-        //提取所有抢红包配置中奖概率
-        List<BigDecimal> probability = unpackList.stream().map(o -> o.getProbability()).collect(Collectors.toList());
-
-        //临时存放概率
-        List<BigDecimal> probabilityList = new ArrayList<>();
-        //计算总概率
-        BigDecimal sum = BigDecimal.ZERO;
-        probability.forEach(o -> {
-            BigDecimal pro = o.divide(new BigDecimal(100));
-            sum.add(pro);
-        });
-
-        //生成随机数
-        ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
-        double random = threadLocalRandom.nextDouble(0, 1);
-
-        //把随机数加到概率集合并排序
-        BigDecimal value = BigDecimal.valueOf(random);
-        probabilityList.add(value);
-        Collections.sort(probabilityList);
-        //取出随机数的下标值
-        int index = probabilityList.indexOf(value);
-
-        BigDecimal gift = BigDecimal.ZERO;
-        //如果随机数是集合起始下标 取集合第二位奖项
-        if (index == 0) {
-            gift = probabilityList.get(index + 1);
-        } else if ((index == probabilityList.size() - 1)) {
-            //如果随机数是集合结束下标 取集合倒数二位奖项
-            gift = probabilityList.get(index - 1);
-        } else {
-            Boolean flag = Math.max(probabilityList.get(index - 1).doubleValue(), random) == Math.min(random, probabilityList.get(index + 1).doubleValue());
-            if (flag) {
-                gift = probabilityList.get(index + 1);
-            }
-        }
-
-        //拆红包区间值
-        BigDecimal multiply = gift.multiply(new BigDecimal(100));
-        List<UnpackRedPackets> unpackOne = unpackList.stream().filter(o -> o.getProbability().compareTo(multiply) == 0).collect(Collectors.toList());
-        int amount = threadLocalRandom.nextInt(unpackOne.get(0).getIntervalBeginValue(), unpackOne.get(0).getIntervalEndValue());
-        response.setName(unpackOne.get(0).getName());
-        response.setAmount(amount);
-
+        int amount = ThreadLocalRandom.current().nextInt(unpackConfig.get(index).getIntervalBeginValue(), unpackConfig.get(index).getIntervalEndValue());
+        //代理
         QueryWrapper<ActingHierarchyRelation> actingQuery = new QueryWrapper<>();
         actingQuery.eq("create_by", userId);
         List<ActingHierarchyRelation> actingList = actingHierarchyRelationMapper.selectList(actingQuery);
-        if (CollectionUtils.isEmpty(actingList)) {
-            //新增拆红包明细
-            SysUserAccount sysUserAccount = new SysUserAccount();
-            sysUserAccount.setProductId(unpackOne.get(0).getId());
-            sysUserAccount.setType("1");
-            sysUserAccount.setSpending("0");
-            sysUserAccount.setAmount(new BigDecimal(amount));
-            sysUserAccount.setCreateBy(userId);
-            sysUserAccountMapper.insert(sysUserAccount);
-        }
 
-        for (ActingHierarchyRelation o : actingList) {
-            Double num = Double.valueOf(amount);
-            switch (o.getActingId()) {
-                case "1501592852484911106":
-                    num = commission(o.getActingId(), o.getSuperiorId(), amount, unpackOne.get(0).getId());
-                    break;
-                case "1502622021805215745":
-                    num = commission(o.getActingId(), o.getSuperiorId(), amount, unpackOne.get(0).getId());
-                    break;
-                case "1502622043628179459":
-                    num = commission(o.getActingId(), o.getSuperiorId(), amount, unpackOne.get(0).getId());
-                    break;
-                default:
-                    //新增拆红包明细
-                    SysUserAccount sysUserAccount = new SysUserAccount();
-                    sysUserAccount.setProductId(unpackOne.get(0).getId());
-                    sysUserAccount.setType("1");
-                    sysUserAccount.setSpending("0");
-                    sysUserAccount.setAmount(new BigDecimal(num));
-                    sysUserAccount.setCreateBy(userId);
-                    sysUserAccountMapper.insert(sysUserAccount);
-                    break;
+        BigDecimal num = new BigDecimal(amount);
+
+        if (!CollectionUtils.isEmpty(actingList)) {
+            for (ActingHierarchyRelation o : actingList) {
+                switch (o.getActingId()) {
+                    case "1501592852484911106":
+                        num = commission(o.getActingId(), o.getSuperiorId(), num, unpackConfig.get(index).getId());
+                        break;
+                    case "1502622021805215745":
+                        num = commission(o.getActingId(), o.getSuperiorId(), num, unpackConfig.get(index).getId());
+                        break;
+                    case "1502622043628179459":
+                        num = commission(o.getActingId(), o.getSuperiorId(), num, unpackConfig.get(index).getId());
+                        break;
+                }
             }
         }
-        return response;
+        //新增拆红包明细
+        SysUserAccount sysUserAccount = new SysUserAccount();
+        sysUserAccount.setProductId(unpackConfig.get(index).getId());
+        sysUserAccount.setType("1");
+        sysUserAccount.setSpending("0");
+        sysUserAccount.setAmount(num);
+        sysUserAccount.setCreateBy(userId);
+        sysUserAccountMapper.insert(sysUserAccount);
+
+        SysUserAccount grabOrder = sysUserAccountMapper.selectById(grabList.get(0).getId());
+        if (ObjectUtil.isEmpty(grabOrder)) throw new GlobalException("");
+        grabOrder.setLotteryStatus("1");
+        grabOrder.setUpdateBy(userId);
+        grabOrder.setUpdateDate(new Date());
+        sysUserAccountMapper.updateById(grabOrder);
+
+        resp.setAmount(num);
+        resp.setName(unpackConfig.get(index).getName());
+        return resp;
     }
 
     @Override
@@ -330,30 +292,64 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     /**
      * 查询全部拆红包
      */
-    private List<UnpackRedPackets> unpackList(String id) {
+    private List<UnpackRedPackets> unpackList(String id, String grabId) {
         QueryWrapper<UnpackRedPackets> query = new QueryWrapper<>();
+        query.eq(ObjectUtil.isNotEmpty(grabId), "grab_red_packets_id", grabId);
         query.ne(ObjectUtil.isNotEmpty(id), "id", id);
         query.eq("del_flag", DelFlagEnum.CODE.getCode());
+        query.orderByDesc("create_date");
         return unpackRedPacketsMapper.selectList(query);
     }
 
-    private double commission(String id, String userId, int amount, String unpackId) {
-        double num = 0d;
+    @Transactional(rollbackFor = Exception.class)
+    public BigDecimal commission(String id, String userId, BigDecimal amount, String unpackId) {
+        BigDecimal num = BigDecimal.ZERO;
         Acting acting = actingMapper.selectById(id);
         if (!ObjectUtil.isEmpty(acting)) {
             double i = acting.getCommissionRatio() * 0.01;
-            double commission = amount * i;
-            num = num - (amount * i);
+            //上级分佣金额
+            BigDecimal commission = amount.multiply(new BigDecimal(new Double(i).toString()));
+            //用户实际得到的金额
+            num = amount.subtract(commission);
             //新增拆红包明细
             SysUserAccount sysUserAccount = new SysUserAccount();
             sysUserAccount.setProductId(unpackId);
             sysUserAccount.setType("0");
             sysUserAccount.setSpending("0");
-            sysUserAccount.setAmount(new BigDecimal(commission));
+            sysUserAccount.setAmount(commission);
             sysUserAccount.setCreateBy(userId);
             sysUserAccountMapper.insert(sysUserAccount);
         }
         return num;
+    }
+
+    /**
+     * 抽奖
+     */
+    private int lottery(List<UnpackRedPackets> list) {
+        if (CollectionUtils.isEmpty(list)) throw new GlobalException("");
+        //计算总概率 换算成1
+        double total = 0d;
+        List<Double> collect = list.stream().map(o -> o.getProbability().doubleValue()).collect(Collectors.toList());
+//        for (UnpackRedPackets unpackRedPackets : list) {
+//            total = total.add(unpackRedPackets.getProbability().multiply(new BigDecimal(0.01)));
+//        }
+        for (Double o : collect) {
+            total += (o * 0.01);
+        }
+
+        double temp = 0d;
+        //计算每个奖项在总概率下的概率
+        List<Double> probabilityList = new ArrayList<>();
+        for (Double o : collect) {
+            temp += (o * 0.01);
+            probabilityList.add(temp / total);
+        }
+        //根据区块值来获取抽取到的物品索引
+        double nextDouble = Math.random();
+        probabilityList.add(nextDouble);
+        Collections.sort(probabilityList);
+        return probabilityList.indexOf(nextDouble);
     }
 }
 

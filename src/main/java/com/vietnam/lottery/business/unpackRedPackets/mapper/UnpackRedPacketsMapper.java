@@ -3,10 +3,10 @@ package com.vietnam.lottery.business.unpackRedPackets.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.vietnam.lottery.business.basicIndicators.request.IndicatorsRequest;
 import com.vietnam.lottery.business.basicIndicators.request.KeepRequest;
-import com.vietnam.lottery.business.basicIndicators.request.ProbabilityRequest;
+import com.vietnam.lottery.business.basicIndicators.response.GrabResponse;
 import com.vietnam.lottery.business.basicIndicators.response.IndicatorsResponse;
 import com.vietnam.lottery.business.basicIndicators.response.KeepListResponse;
-import com.vietnam.lottery.business.basicIndicators.response.ProbabilityResponse;
+import com.vietnam.lottery.business.basicIndicators.response.UnpackResponse;
 import com.vietnam.lottery.business.unpackRedPackets.entity.UnpackRedPackets;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,13 +22,16 @@ import java.util.List;
 @Mapper
 public interface UnpackRedPacketsMapper extends BaseMapper<UnpackRedPackets> {
 
-    /* 开奖概率 */
-    List<ProbabilityResponse> drawProbability(@Param("request") ProbabilityRequest request);
-
     /* 数据统计 */
     IndicatorsResponse statistics(@Param("request") IndicatorsRequest request);
 
     /* 留存 */
     KeepListResponse keep(@Param("request") KeepRequest request);
+
+    /* 查询所有抢红包*/
+    List<GrabResponse> selectGrab();
+
+    //根据抢红包id查询拆红包
+    List<UnpackResponse> selectUnpackById(@Param("id") String id, @Param("begin") String begin, @Param("end") String end);
 }
 

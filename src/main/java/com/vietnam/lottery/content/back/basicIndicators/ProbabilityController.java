@@ -3,9 +3,9 @@ package com.vietnam.lottery.content.back.basicIndicators;
 import com.vietnam.lottery.business.basicIndicators.request.IndicatorsRequest;
 import com.vietnam.lottery.business.basicIndicators.request.KeepRequest;
 import com.vietnam.lottery.business.basicIndicators.request.ProbabilityRequest;
+import com.vietnam.lottery.business.basicIndicators.response.GrabResponse;
 import com.vietnam.lottery.business.basicIndicators.response.IndicatorsResponse;
 import com.vietnam.lottery.business.basicIndicators.response.KeepListResponse;
-import com.vietnam.lottery.business.basicIndicators.response.ProbabilityResponse;
 import com.vietnam.lottery.business.basicIndicators.service.BasicIndicatorsService;
 import com.vietnam.lottery.common.utils.ResultModel;
 import com.vietnam.lottery.common.utils.ResultUtil;
@@ -29,7 +29,7 @@ public class ProbabilityController {
 
     @PostMapping("/drawProbability")
     @ApiOperation("开奖概率")
-    public ResultModel<List<ProbabilityResponse>> drawProbability(@RequestBody ProbabilityRequest request) {
+    public ResultModel<List<GrabResponse>> drawProbability(@RequestBody ProbabilityRequest request) {
         return ResultUtil.success(basicIndicatorsService.drawProbability(request));
     }
 

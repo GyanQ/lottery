@@ -25,6 +25,8 @@ public class SysUserAccount extends Model<SysUserAccount> {
     private String spending;
     //金额
     private BigDecimal amount;
+    //开奖状态(0:未开奖 1:已开奖)
+    private String lotteryStatus;
     //审核状态(1未审核 2审核未通过 3审核通过)
     private String audit;
     //bank_card_id
@@ -40,6 +42,13 @@ public class SysUserAccount extends Model<SysUserAccount> {
     //更新时间
     private Date updateDate;
 
+    public String getLotteryStatus() {
+        return lotteryStatus;
+    }
+
+    public void setLotteryStatus(String lotteryStatus) {
+        this.lotteryStatus = lotteryStatus;
+    }
 
     public String getId() {
         return id;

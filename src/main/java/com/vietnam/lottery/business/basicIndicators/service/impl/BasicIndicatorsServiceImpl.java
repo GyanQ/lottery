@@ -3,14 +3,15 @@ package com.vietnam.lottery.business.basicIndicators.service.impl;
 import com.vietnam.lottery.business.basicIndicators.request.IndicatorsRequest;
 import com.vietnam.lottery.business.basicIndicators.request.KeepRequest;
 import com.vietnam.lottery.business.basicIndicators.request.ProbabilityRequest;
+import com.vietnam.lottery.business.basicIndicators.response.GrabResponse;
 import com.vietnam.lottery.business.basicIndicators.response.IndicatorsResponse;
 import com.vietnam.lottery.business.basicIndicators.response.KeepListResponse;
-import com.vietnam.lottery.business.basicIndicators.response.ProbabilityResponse;
 import com.vietnam.lottery.business.basicIndicators.service.BasicIndicatorsService;
 import com.vietnam.lottery.business.unpackRedPackets.mapper.UnpackRedPacketsMapper;
 import com.vietnam.lottery.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,8 +25,14 @@ public class BasicIndicatorsServiceImpl implements BasicIndicatorsService {
     private UnpackRedPacketsMapper unpackRedPacketsMapper;
 
     @Override
-    public List<ProbabilityResponse> drawProbability(ProbabilityRequest request) {
-        return unpackRedPacketsMapper.drawProbability(request);
+    public List<GrabResponse> drawProbability(ProbabilityRequest request) {
+        List<GrabResponse> resp = unpackRedPacketsMapper.selectGrab();
+        if (CollectionUtils.isEmpty(resp)) return resp;
+
+        for (GrabResponse o : resp) {
+            o.setUnpackList(unpackRedPacketsMapper.selectUnpackById(o.getId(), request.getBeginDate(), request.getEndDate()));
+        }
+        return resp;
     }
 
     @Override

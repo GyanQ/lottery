@@ -2,25 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vietnam.lottery.business.unpackRedPackets.mapper.UnpackRedPacketsMapper">
 
-    <select id="drawProbability" resultType="com.vietnam.lottery.business.basicIndicators.response.ProbabilityResponse">
-        select
-        a.probability,
-        a.`name`,
-        ifnull(b.total,0) as amount
-        from unpack_red_packets a
-        left join
-        (select sum(amount) total,product_id from sys_user_account
-        where 1=1
-        <if test="request.beginDate != null and request.beginDate != ''">
-            and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
-        </if>
-        <if test="request.endDate != null and request.endDate != ''">
-            and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
-        </if>
-        group by product_id
-        ) b on a.id = b.product_id
-    </select>
-
     <select id="statistics" resultType="com.vietnam.lottery.business.basicIndicators.response.IndicatorsResponse">
         select
         (select ifnull(COUNT(*),0) from sys_login_detail
@@ -34,7 +15,7 @@
         ) as visitorsTotalNumber,
         (SELECT ifnull(a.count,0) FROM
         (select count(distinct ip) as count from sys_login_detail where 1=1
-        <if test="request.beginDate == null and request.beginDate == ''">
+        <if test="request.beginDate == ''">
             and to_days(create_date) = to_days(now())
         </if>
         <if test="request.beginDate != null and request.beginDate != ''">
@@ -53,7 +34,7 @@
         </if>
         )as totalLogins,
         (select ifnull(count(*),0) from sys_user where 1=1
-        <if test="request.beginDate == null and request.beginDate == ''">
+        <if test=" request.beginDate == ''">
             and to_days(create_date) = to_days(now())
         </if>
         <if test="request.beginDate != null and request.beginDate != ''">
@@ -175,6 +156,34 @@
                             from sys_login_detail
                             where datediff(#{request.beginDate}, #{request.moth}) = 30
                             group by create_by) f on a.create_by = b.create_by
+    </select>
+    <select id="selectGrab" resultType="com.vietnam.lottery.business.basicIndicators.response.GrabResponse">
+        select amount as amount,
+               id     as id
+        from grab_red_packets
+        where del_flag = '0'
+        order by amount
+    </select>
+    <select id="selectUnpackById"
+            resultType="com.vietnam.lottery.business.basicIndicators.response.UnpackResponse">
+        select
+        a.probability,
+        a.`name`,
+        ifnull(b.total,0) as amount
+        from unpack_red_packets a
+        left join
+        (select sum(amount) total,product_id from sys_user_account
+        where del_flag = '0'
+        <if test="begin != null and begin != ''">
+            and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{begin},'%Y-%m-%d')
+        </if>
+        <if test="end != null and end != ''">
+            and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{end},'%Y-%m-%d')
+        </if>
+        group by product_id
+        ) b on a.id = b.product_id
+        where a.grab_red_packets_id = #{id} and a.del_flag = '0'
+        order by a.name desc 
     </select>
 </mapper>
 
