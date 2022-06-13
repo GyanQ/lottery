@@ -144,9 +144,9 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
         SysUserBankCard userBankCard = sysUserBankCardMapper.selectById(request.getBankCardId());
         if (ObjectUtil.isEmpty(userBankCard)) {
             if ("0".equals(language)) {
-                return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+                return ResultUtil.failure("No bank card result");
             } else {
-                return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+                return ResultUtil.failure("Không kiểm tra được thông tin ngân hàng");
             }
 
         }

@@ -40,7 +40,7 @@ public class SysUserBankCardWebController {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setCreateBy(JwtUtil.parseToken(token));
         String language = JwtUtil.parseLanguage(token);
-        return ResultUtil.success(sysUserBankCardService.add(request,language));
+        return ResultUtil.success(sysUserBankCardService.add(request, language));
     }
 
     @PostMapping("/update")
@@ -51,7 +51,8 @@ public class SysUserBankCardWebController {
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setUpdateBy(JwtUtil.parseToken(token));
-        return ResultUtil.success(sysUserBankCardService.update(request));
+        String language = JwtUtil.parseLanguage(token);
+        return ResultUtil.success(sysUserBankCardService.update(request, language));
     }
 
     @PostMapping("/list")
@@ -70,6 +71,7 @@ public class SysUserBankCardWebController {
         }
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         request.setUserId(JwtUtil.parseToken(token));
-        return ResultUtil.success(sysUserBankCardService.delete(request));
+        String language = JwtUtil.parseLanguage(token);
+        return ResultUtil.success(sysUserBankCardService.delete(request,language));
     }
 }

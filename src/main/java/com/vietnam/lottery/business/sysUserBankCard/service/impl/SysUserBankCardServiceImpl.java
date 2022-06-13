@@ -44,9 +44,9 @@ public class SysUserBankCardServiceImpl implements SysUserBankCardService {
         SysBankCard sysBankCard = sysBankCardMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(sysBankCard)) {
             if ("0".equals(language)) {
-                return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+                return ResultUtil.failure("Data do not exist");
             } else {
-                return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+                return ResultUtil.failure("Số liệu không tồn tại");
             }
         }
 
@@ -62,13 +62,25 @@ public class SysUserBankCardServiceImpl implements SysUserBankCardService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultModel update(BankCardUpdateRequest request) {
+    public ResultModel update(BankCardUpdateRequest request, String language) {
         SysBankCard sysBankCard = sysBankCardMapper.selectById(request.getBankId());
-        if (ObjectUtil.isEmpty(sysBankCard)) return ResultUtil.failure("Không thể tìm thấy thông tin thẻ ngân hàng");
+        if (ObjectUtil.isEmpty(sysBankCard)) {
+            if ("0".equals(language)) {
+                return ResultUtil.failure("Data do not exist");
+            } else {
+                return ResultUtil.failure("Số liệu không tồn tại");
+            }
+        }
 
 
         SysUserBankCard userBankCard = sysUserBankCardMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(userBankCard)) return ResultUtil.failure("không thể chỉnh sửa");
+        if (ObjectUtil.isEmpty(userBankCard)) {
+            if ("0".equals(language)) {
+                return ResultUtil.failure("Data do not exist");
+            } else {
+                return ResultUtil.failure("Số liệu không tồn tại");
+            }
+        }
 
         userBankCard.setCardName(request.getCardName());
         userBankCard.setCardNo(request.getCardNo());
@@ -108,9 +120,15 @@ public class SysUserBankCardServiceImpl implements SysUserBankCardService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultModel delete(BankCardDeleteRequest request) {
+    public ResultModel delete(BankCardDeleteRequest request, String language) {
         SysUserBankCard userBankCard = sysUserBankCardMapper.selectById(request.getId());
-        if (ObjectUtil.isEmpty(userBankCard)) return ResultUtil.failure("không xóa được");
+        if (ObjectUtil.isEmpty(userBankCard)) {
+            if ("0".equals(language)) {
+                return ResultUtil.failure("Data do not exist");
+            } else {
+                return ResultUtil.failure("Số liệu không tồn tại");
+            }
+        }
 
         userBankCard.setDelFlag(DelFlagEnum.MESSAGE.getCode());
         return ResultUtil.success(sysUserBankCardMapper.updateById(userBankCard));

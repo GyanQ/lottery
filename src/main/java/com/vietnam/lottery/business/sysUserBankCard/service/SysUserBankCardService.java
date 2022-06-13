@@ -19,12 +19,12 @@ public interface SysUserBankCardService {
     ResultModel add(BankCardAddRequest request,String language);
 
     /* 修改*/
-    ResultModel update(BankCardUpdateRequest request);
+    ResultModel update(BankCardUpdateRequest request,String language);
 
     /* 列表 */
     Page<BankCardListResponse> list(BankCardListRequest request);
 
     /* 删除 */
-    ResultModel delete(BankCardDeleteRequest request);
+    ResultModel delete(BankCardDeleteRequest request,String language);
 }
 

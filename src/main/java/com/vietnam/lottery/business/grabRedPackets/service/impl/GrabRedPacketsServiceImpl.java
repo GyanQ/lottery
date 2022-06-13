@@ -173,19 +173,18 @@ public class GrabRedPacketsServiceImpl implements GrabRedPacketsService {
         GrabRedPackets redPackets = grabRedPacketsMapper.selectById(request.getId());
         if (ObjectUtil.isEmpty(redPackets)) {
             if ("0".equals(language)) {
-                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+                throw new GlobalException("Insuffcient balance");
             } else {
-                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+                throw new GlobalException("Số dư không đủ");
             }
         }
 
         if (userAmount.compareTo(redPackets.getAmount()) == -1) {
             if ("0".equals(language)) {
-                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+                throw new GlobalException("Insuffcient balance");
             } else {
-                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+                throw new GlobalException("Số dư không đủ");
             }
-
         }
 
         //生成订单号

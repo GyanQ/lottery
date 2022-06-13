@@ -70,7 +70,7 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
                 if ("0".equals(language)) {
                     throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
                 } else {
-                    throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+                    throw new GlobalException("Data do not exist");
                 }
             }
             amount = BigDecimal.ZERO.add(recharge.getAmount());
@@ -93,9 +93,9 @@ public class RechargeDetailServiceImpl implements RechargeDetailService {
         log.info("获取data,{}", data);
         if (json.getInt("code") != 1) {
             if ("0".equals(language)) {
-                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+                throw new GlobalException("Recharge failed");
             } else {
-                throw new GlobalException("Số dư không đủ vui lòng nạp tiền");
+                throw new GlobalException("Nạp tiền thất bại");
             }
         }
         //增加充值记录

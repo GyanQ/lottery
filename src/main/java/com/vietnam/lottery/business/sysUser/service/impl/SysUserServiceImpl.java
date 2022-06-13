@@ -91,7 +91,13 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel register(UserRegisterRequest request) {
         Boolean flag = isExist(request.getAccount());
-        if (!flag) return ResultUtil.failure("tài khoản đã tồn tại");
+        if (!flag) {
+            if ("0".equals(request.getType())) {
+                return ResultUtil.failure("Duplicate account");
+            } else {
+                return ResultUtil.failure("Tài khoản trùng lặp");
+            }
+        }
 
         String passWord = DigestUtils.md5DigestAsHex(request.getPassWord().getBytes());
         SysUser user = new SysUser();
@@ -105,16 +111,16 @@ public class SysUserServiceImpl implements SysUserService {
         String code = sysSmsMapper.selectByPhone(request.getPhone());
         if (StringUtils.isBlank(code)) {
             if ("0".equals(request.getType())) {
-                return ResultUtil.failure("Lỗi mã xác minh");
+                return ResultUtil.failure("OTP incorrect");
             } else {
-                return ResultUtil.failure("Lỗi mã xác minh");
+                return ResultUtil.failure("Mã xác nhận sai");
             }
         }
         if (!code.equals(request.getCode())) {
             if ("0".equals(request.getType())) {
-                return ResultUtil.failure("Lỗi mã xác minh");
+                return ResultUtil.failure("OTP incorrect");
             } else {
-                return ResultUtil.failure("Lỗi mã xác minh");
+                return ResultUtil.failure("Mã xác nhận sai");
             }
         }
         //推广代理
@@ -131,9 +137,9 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser user = accountIsExist(request.getAccount());
         if (ObjectUtil.isEmpty(user)) {
             if ("0".equals(request.getType())) {
-                throw new GlobalException("Không thể truy vấn thông tin người dùng");
+                throw new GlobalException("Account doesn't exist");
             } else {
-                throw new GlobalException("Không thể truy vấn thông tin người dùng");
+                throw new GlobalException("Người dùng không tồn tại");
             }
         }
         user.setLoginWay("2");
@@ -142,9 +148,9 @@ public class SysUserServiceImpl implements SysUserService {
         Boolean flag = checkPassWord(request.getPassWord(), user.getPassWord());
         if (!flag) {
             if ("0".equals(request.getType())) {
-                throw new GlobalException("Không thể truy vấn thông tin người dùng");
+                throw new GlobalException("Mật khẩu không chính xác");
             } else {
-                throw new GlobalException("Không thể truy vấn thông tin người dùng");
+                throw new GlobalException("Password incorrect");
             }
         }
 
@@ -353,9 +359,21 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public ResultModel retrievePaw(retrievePwdRequest request) {
         SysUser user = accountIsExist(request.getAccount());
-        if (ObjectUtil.isEmpty(user)) return ResultUtil.failure("Account does not exist");
+        if (ObjectUtil.isEmpty(user)) {
+            if ("0".equals(request.getType())) {
+                throw new GlobalException("Account doesn't exist");
+            } else {
+                throw new GlobalException("Người dùng không tồn tại");
+            }
+        }
         String code = sysSmsMapper.selectByPhone(request.getPhone());
-        if (!code.equals(request.getCode())) return ResultUtil.failure("Verification code error");
+        if (!code.equals(request.getCode())) {
+            if ("0".equals(request.getType())) {
+                throw new GlobalException("OTP incorrect");
+            } else {
+                throw new GlobalException("Mã xác nhận sai");
+            }
+        }
 
         user.setPassWord(DigestUtils.md5DigestAsHex(request.getPassWord().getBytes()));
         user.setUpdateDate(new Date());
@@ -378,7 +396,14 @@ public class SysUserServiceImpl implements SysUserService {
         }
 
         String code = sysSmsMapper.selectByPhone(request.getPhone());
-        if (!code.equals(request.getCode())) throw new GlobalException("Lỗi mã xác minh");
+        if (!code.equals(request.getCode())) {
+            if ("0".equals(request.getType())) {
+                throw new GlobalException("OTP incorrect");
+            } else {
+                throw new GlobalException("Mã xác nhận sai");
+            }
+
+        }
 
         //创建token
         Map<String, Object> map = new HashMap<>();
