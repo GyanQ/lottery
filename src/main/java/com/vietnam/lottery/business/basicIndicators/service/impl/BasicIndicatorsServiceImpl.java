@@ -30,7 +30,12 @@ public class BasicIndicatorsServiceImpl implements BasicIndicatorsService {
         if (CollectionUtils.isEmpty(resp)) return resp;
 
         for (GrabResponse o : resp) {
-            o.setUnpackList(unpackRedPacketsMapper.selectUnpackById(o.getId(), request.getBeginDate(), request.getEndDate()));
+            List<String> ids = unpackRedPacketsMapper.ids(o.getId());
+            if (CollectionUtils.isEmpty(ids)) continue;
+            int total = unpackRedPacketsMapper.allTotal(ids);
+
+            o.setUnpackList(unpackRedPacketsMapper.selectUnpackById(o.getId(), request.getBeginDate(), request.getEndDate(),total));
+
         }
         return resp;
     }

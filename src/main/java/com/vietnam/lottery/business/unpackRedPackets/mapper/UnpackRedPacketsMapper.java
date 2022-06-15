@@ -32,6 +32,10 @@ public interface UnpackRedPacketsMapper extends BaseMapper<UnpackRedPackets> {
     List<GrabResponse> selectGrab();
 
     //根据抢红包id查询拆红包
-    List<UnpackResponse> selectUnpackById(@Param("id") String id, @Param("begin") String begin, @Param("end") String end);
+    List<UnpackResponse> selectUnpackById(@Param("id") String id, @Param("begin") String begin, @Param("end") String end, @Param("total") int total);
+
+    List<String> ids(@Param("id") String id);
+
+    int allTotal(@Param("ids") List<String> ids);
 }
 

@@ -14,6 +14,5 @@ public class ExceptionHandle {
     @ResponseBody
     public ResultModel handle(Exception e) {
         return ResultUtil.failure(-1, e.getMessage());
-
     }
 }

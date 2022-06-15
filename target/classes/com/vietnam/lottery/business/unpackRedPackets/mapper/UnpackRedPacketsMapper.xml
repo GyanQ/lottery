@@ -167,12 +167,12 @@
     <select id="selectUnpackById"
             resultType="com.vietnam.lottery.business.basicIndicators.response.UnpackResponse">
         select
-        a.probability,
+        ROUND((ifnull(b.num,0) / #{total}) * 100,1) as probability,
         a.`name`,
         ifnull(b.total,0) as amount
         from unpack_red_packets a
         left join
-        (select sum(amount) total,product_id from sys_user_account
+        (select sum(amount) total,count(0) num,product_id from sys_user_account
         where del_flag = '0'
         <if test="begin != null and begin != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{begin},'%Y-%m-%d')
@@ -183,7 +183,20 @@
         group by product_id
         ) b on a.id = b.product_id
         where a.grab_red_packets_id = #{id} and a.del_flag = '0'
-        order by a.name
+    </select>
+    <select id="ids" resultType="java.lang.String">
+        select id
+        from unpack_red_packets
+        where grab_red_packets_id = #{id}
+          and del_flag = '0'
+    </select>
+    <select id="allTotal" resultType="java.lang.Integer">
+        select count(product_id)
+        from sys_user_account
+        where product_id in
+        <foreach item="item" collection="ids" index="index" open="(" separator="," close=")">
+            (#{item})
+        </foreach>
     </select>
 </mapper>
 
