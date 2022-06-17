@@ -1,14 +1,13 @@
 package com.vietnam.lottery.business.sysUser.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.vietnam.lottery.common.utils.PageRequest;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class GrabRedPacketsListResponse extends PageRequest implements Serializable {
+public class GrabRedPacketsListResponse implements Serializable {
     private static final long serialVersionUID = -9191474827254230835L;
 
     @ApiModelProperty(value = "红包id")

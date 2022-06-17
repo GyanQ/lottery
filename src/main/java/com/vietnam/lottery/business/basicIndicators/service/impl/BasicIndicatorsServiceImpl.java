@@ -9,6 +9,7 @@ import com.vietnam.lottery.business.basicIndicators.response.KeepListResponse;
 import com.vietnam.lottery.business.basicIndicators.service.BasicIndicatorsService;
 import com.vietnam.lottery.business.unpackRedPackets.mapper.UnpackRedPacketsMapper;
 import com.vietnam.lottery.common.utils.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -34,7 +35,7 @@ public class BasicIndicatorsServiceImpl implements BasicIndicatorsService {
             if (CollectionUtils.isEmpty(ids)) continue;
             int total = unpackRedPacketsMapper.allTotal(ids);
 
-            o.setUnpackList(unpackRedPacketsMapper.selectUnpackById(o.getId(), request.getBeginDate(), request.getEndDate(),total));
+            o.setUnpackList(unpackRedPacketsMapper.selectUnpackById(o.getId(), request.getBeginDate(), request.getEndDate(), total));
 
         }
         return resp;
@@ -49,68 +50,30 @@ public class BasicIndicatorsServiceImpl implements BasicIndicatorsService {
     public KeepListResponse keepList(KeepRequest request) {
         //开始时间格式化
         DateTimeFormatter formatBegin = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00");
-        formatBegin.format(LocalDateTime.now());
         //结束时间格式化
         DateTimeFormatter formatEnd = DateTimeFormatter.ofPattern("yyyy-MM-dd 23:59:59");
-        formatEnd.format(LocalDateTime.now());
 
-        //当前时间
-        request.setBeginDate((null != request.getBeginDate()) ? request.getBeginDate() : DateUtils.getCurrentTimeStr(DateUtils.UNSIGNED_DATE_PATTERN));
-
-        if (null != request.getSecondBegin()) {
-            //获取当前时间转换localDateTime
-            LocalDateTime begin = DateUtils.parseLocalDateTime(request.getBeginDate(), DateUtils.UNSIGNED_DATE_PATTERN);
-            //次留
-            LocalDateTime minus = DateUtils.minus(begin, 1, ChronoUnit.DAYS);
-            request.setSecond(DateUtils.localDateParseStr(minus, DateUtils.UNSIGNED_DATE_PATTERN));
-            request.setSecondBegin(formatBegin.format(minus));
-            request.setSecondEnd(formatEnd.format(minus));
-            //3留
-            LocalDateTime treeStay = DateUtils.minus(begin, 3, ChronoUnit.DAYS);
-            request.setTree(DateUtils.localDateParseStr(treeStay, DateUtils.UNSIGNED_DATE_PATTERN));
-            request.setTreeBegin(formatBegin.format(treeStay));
-            request.setTreeEnd(formatEnd.format(treeStay));
-            //7留
-            LocalDateTime serverStay = DateUtils.minus(begin, 7, ChronoUnit.DAYS);
-            request.setServer(DateUtils.localDateParseStr(serverStay, DateUtils.UNSIGNED_DATE_PATTERN));
-            request.setServerBegin(formatBegin.format(serverStay));
-            request.setServerEnd(formatEnd.format(serverStay));
-            //15留
-            LocalDateTime fifteenStay = DateUtils.minus(begin, 15, ChronoUnit.DAYS);
-            request.setFifteen(DateUtils.localDateParseStr(fifteenStay, DateUtils.UNSIGNED_DATE_PATTERN));
-            request.setFifteenBegin(formatBegin.format(fifteenStay));
-            request.setFifteenEnd(formatEnd.format(fifteenStay));
-            //30留
-            LocalDateTime monthStay = DateUtils.minus(begin, 30, ChronoUnit.DAYS);
-            request.setMoth(DateUtils.localDateParseStr(monthStay, DateUtils.UNSIGNED_DATE_PATTERN));
-            request.setMothBegin(formatBegin.format(monthStay));
-            request.setMothEnd(formatEnd.format(monthStay));
-            return unpackRedPacketsMapper.keep(request);
-        }
+        //筛选时间
+        LocalDateTime local = (!StringUtils.isBlank(request.getBeginDate())) ? DateUtils.parseLocalDateTime(request.getBeginDate(), DateUtils.UNSIGNED_DATE_PATTERN) : LocalDateTime.now();
 
         //次留
-        LocalDateTime minus = DateUtils.minus(LocalDateTime.now(), 1, ChronoUnit.DAYS);
-        request.setSecond(DateUtils.localDateParseStr(minus, DateUtils.UNSIGNED_DATE_PATTERN));
+        LocalDateTime minus = DateUtils.minus(local, 1, ChronoUnit.DAYS);
         request.setSecondBegin(formatBegin.format(minus));
         request.setSecondEnd(formatEnd.format(minus));
         //3留
-        LocalDateTime treeStay = DateUtils.minus(LocalDateTime.now(), 3, ChronoUnit.DAYS);
-        request.setTree(DateUtils.localDateParseStr(treeStay, DateUtils.UNSIGNED_DATE_PATTERN));
+        LocalDateTime treeStay = DateUtils.minus(local, 3, ChronoUnit.DAYS);
         request.setTreeBegin(formatBegin.format(treeStay));
         request.setTreeEnd(formatEnd.format(treeStay));
         //7留
-        LocalDateTime serverStay = DateUtils.minus(LocalDateTime.now(), 7, ChronoUnit.DAYS);
-        request.setServer(DateUtils.localDateParseStr(serverStay, DateUtils.UNSIGNED_DATE_PATTERN));
+        LocalDateTime serverStay = DateUtils.minus(local, 7, ChronoUnit.DAYS);
         request.setServerBegin(formatBegin.format(serverStay));
         request.setServerEnd(formatEnd.format(serverStay));
         //15留
-        LocalDateTime fifteenStay = DateUtils.minus(LocalDateTime.now(), 15, ChronoUnit.DAYS);
-        request.setFifteen(DateUtils.localDateParseStr(fifteenStay, DateUtils.UNSIGNED_DATE_PATTERN));
+        LocalDateTime fifteenStay = DateUtils.minus(local, 15, ChronoUnit.DAYS);
         request.setFifteenBegin(formatBegin.format(fifteenStay));
         request.setFifteenEnd(formatEnd.format(fifteenStay));
         //30留
-        LocalDateTime monthStay = DateUtils.minus(LocalDateTime.now(), 30, ChronoUnit.DAYS);
-        request.setMoth(DateUtils.localDateParseStr(monthStay, DateUtils.UNSIGNED_DATE_PATTERN));
+        LocalDateTime monthStay = DateUtils.minus(local, 30, ChronoUnit.DAYS);
         request.setMothBegin(formatBegin.format(monthStay));
         request.setMothEnd(formatEnd.format(monthStay));
         return unpackRedPacketsMapper.keep(request);

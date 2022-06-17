@@ -114,14 +114,16 @@
     </select>
     <select id="redPacketsList"
             resultType="com.vietnam.lottery.business.sysUser.response.GrabRedPacketsListResponse">
-        select b.id          as id,
-               b.amount      as amount,
-               a.amount      as winningAmount,
-               b.create_date as createDate,
-               a.create_date as lotteryAmount
-        from lottery_detail a
-                 inner join grab_red_packets b on a.grab_red_packets_id = b.id
-        where b.create_by = #{request.userId}
+        select a.product_id  as id,
+               a.amount      as amount,
+               a.create_date as createDate,
+               b.amount      as winningAmount,
+               b.create_date as lotteryAmount
+        from (select product_id, amount, create_date
+              from sys_user_account
+              where type = '2'
+                and create_by = #{request.userId}) a,
+             (select amount, create_date from sys_user_account where type = '1' and create_by = #{request.userId}) b
     </select>
     <select id="detail" resultType="com.vietnam.lottery.business.sysUser.response.UserDetailResponse">
         select a.account as account,

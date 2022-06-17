@@ -38,6 +38,6 @@ public class KeepListResponse implements Serializable {
     @ApiModelProperty(value = "月留")
     private Integer monthStay;
 
-    @ApiModelProperty(value = "月留")
+    @ApiModelProperty(value = "月留百分率")
     private BigDecimal monthStayPer;
 }

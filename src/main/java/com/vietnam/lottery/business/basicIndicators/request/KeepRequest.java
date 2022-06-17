@@ -16,27 +16,6 @@ public class KeepRequest implements Serializable {
     private String beginDate;
 
     @ApiModelProperty(hidden = true)
-    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
-    private String second;
-
-    @ApiModelProperty(hidden = true)
-    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
-    private String tree;
-
-    @ApiModelProperty(hidden = true)
-    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
-    private String server;
-
-    @ApiModelProperty(hidden = true)
-    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
-    private String fifteen;
-
-    @ApiModelProperty(hidden = true)
-    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
-    private String moth;
-
-
-    @ApiModelProperty(hidden = true)
     private String secondBegin;
 
     @ApiModelProperty(hidden = true)

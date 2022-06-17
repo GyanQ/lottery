@@ -44,7 +44,7 @@
             and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{request.endDate},'%Y-%m-%d')
         </if>
         )as newRegistration,
-        (select ifnull(COUNT(*),0) from sys_user_account where type = '2' and spending = '1'
+        (select ifnull(COUNT(*),0) from sys_user_account where type = '2'
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
@@ -62,7 +62,7 @@
         </if>
         )as envelopesTotalAmount,
         (select ifnull(COUNT(*),0) from sys_user_account
-        where type = '1' and spending = '0'
+        where type = '1'
         <if test="request.beginDate != null and request.beginDate != ''">
             and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{request.beginDate},'%Y-%m-%d')
         </if>
@@ -100,62 +100,56 @@
     </select>
 
     <select id="keep" resultType="com.vietnam.lottery.business.basicIndicators.response.KeepListResponse">
-        select ifnull(count(distinct b.create_by), 0) as secondStay,
-               ifnull(count(distinct c.create_by), 0) as three,
-               ifnull(count(distinct d.create_by), 0) as sevenStay,
-               ifnull(count(distinct e.create_by), 0) as fifteenStay,
-               ifnull(count(distinct f.create_by), 0) as monthStay,
-               ifnull(count(distinct b.create_by) / (select count(0)
-                                                     from sys_user
-                                                     where create_date between
-                                                               #{request.secondBegin} and #{request.secondEnd}),
-                      0)                              as secondPer,
+        select ifnull(b.sencondStayCount, 0) as secondStay,
+               ifnull(c.threeCount, 0)       as three,
+               ifnull(d.sevenStayCount, 0)   as sevenStay,
+               ifnull(e.fifteenStay, 0)      as fifteenStay,
+               ifnull(f.monthStay, 0)        as monthStay,
+               ifnull(b.sencondStayCount / (select count(0)
+                                            from sys_user
+                                            where create_date between #{request.secondBegin} and #{request.secondEnd}),
+                      0)                     as secondPer,
                ifnull(count(distinct c.create_by) / (select count(0)
                                                      from sys_user
                                                      where create_date between
                                                                #{request.treeBegin} and #{request.treeEnd}),
-                      0)                              as threePer,
+                      0)                     as threePer,
                ifnull(count(distinct d.create_by) / (select count(0)
                                                      from sys_user
                                                      where create_date between
                                                                #{request.serverBegin} and #{request.serverEnd}),
-                      0)                              as sevenStayPer,
+                      0)                     as sevenStayPer,
                ifnull(count(distinct e.create_by) / (select count(0)
                                                      from sys_user
                                                      where create_date between
                                                                #{request.fifteenBegin} and #{request.fifteenEnd}),
-                      0)                              as fifteenStayPer,
+                      0)                     as fifteenStayPer,
                ifnull(count(distinct f.create_by) / (select count(0)
                                                      from sys_user
                                                      where create_date between
                                                                #{request.mothBegin} and #{request.mothEnd}),
-                      0)                              as monthStayPer
+                      0)                     as monthStayPer
         from sys_login_detail a
                  left join
-             (select create_by
+             (select count(distinct create_by) as sencondStayCount, create_by
               from sys_login_detail
-              where datediff(#{request.beginDate}, #{request.second}) = 1
-              group by create_by) b
-             on a.create_by = b.create_by
+              where create_date between #{request.secondBegin} and #{request.secondEnd}) b on a.create_by = b.create_by
                  left join
-             (select create_by
+             (select count(distinct create_by) as threeCount, create_by
               from sys_login_detail
-              where datediff(#{request.beginDate}, #{request.tree}) = 3
-              group by create_by) c on a.create_by = b.create_by
+              where datediff(#{request.beginDate}, #{request.tree}) = 3) c on a.create_by = c.create_by
                  left join
-             (select create_by
+             (select count(distinct create_by) as sevenStayCount, create_by
               from sys_login_detail
-              where datediff(#{request.beginDate}, #{request.server}) = 7
-              group by create_by) d on a.create_by = b.create_by
+              where datediff(#{request.beginDate}, #{request.server}) = 7) d on a.create_by = d.create_by
                  left join
-             (select create_by
+             (select count(distinct create_by) as fifteenStay, create_by
               from sys_login_detail
-              where datediff(#{request.beginDate}, #{request.fifteen}) = 15
-              group by create_by) e on a.create_by = b.create_by
-                 left join (select create_by
-                            from sys_login_detail
-                            where datediff(#{request.beginDate}, #{request.moth}) = 30
-                            group by create_by) f on a.create_by = b.create_by
+              where datediff(#{request.beginDate}, #{request.fifteen}) = 15) e on a.create_by = e.create_by
+                 left join
+             (select count(distinct create_by) as monthStay, create_by
+              from sys_login_detail
+              where datediff(#{request.beginDate}, #{request.moth}) = 30) f on a.create_by = f.create_by
     </select>
     <select id="selectGrab" resultType="com.vietnam.lottery.business.basicIndicators.response.GrabResponse">
         select amount as amount,
