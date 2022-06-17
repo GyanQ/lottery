@@ -15,29 +15,29 @@ public class KeepListResponse implements Serializable {
     private Integer secondStay;
 
     @ApiModelProperty(value = "次留百分率")
-    private BigDecimal secondPer;
+    private Integer secondPer;
 
     @ApiModelProperty(value = "3留")
     private Integer three;
 
     @ApiModelProperty(value = "3留百分率")
-    private BigDecimal threePer;
+    private Integer threePer;
 
     @ApiModelProperty(value = "7留")
     private Integer sevenStay;
 
     @ApiModelProperty(value = "7留百分率")
-    private BigDecimal sevenStayPer;
+    private Integer sevenStayPer;
 
     @ApiModelProperty(value = "15留")
     private Integer fifteenStay;
 
     @ApiModelProperty(value = "15留百分率")
-    private BigDecimal fifteenStayPer;
+    private Integer fifteenStayPer;
 
     @ApiModelProperty(value = "月留")
     private Integer monthStay;
 
     @ApiModelProperty(value = "月留百分率")
-    private BigDecimal monthStayPer;
+    private Integer monthStayPer;
 }

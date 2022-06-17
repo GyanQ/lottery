@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BasicIndicatorsServiceImpl implements BasicIndicatorsService {
@@ -48,6 +49,7 @@ public class BasicIndicatorsServiceImpl implements BasicIndicatorsService {
 
     @Override
     public KeepListResponse keepList(KeepRequest request) {
+        KeepListResponse resp = new KeepListResponse();
         //开始时间格式化
         DateTimeFormatter formatBegin = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00");
         //结束时间格式化
@@ -55,27 +57,38 @@ public class BasicIndicatorsServiceImpl implements BasicIndicatorsService {
 
         //筛选时间
         LocalDateTime local = (!StringUtils.isBlank(request.getBeginDate())) ? DateUtils.parseLocalDateTime(request.getBeginDate(), DateUtils.UNSIGNED_DATE_PATTERN) : LocalDateTime.now();
-
-        //次留
+        //统计当天所有新增用户
+        List<String> userIds = unpackRedPacketsMapper.loginTotal(formatBegin.format(local), formatEnd.format(local));
+        //统计次留
         LocalDateTime minus = DateUtils.minus(local, 1, ChronoUnit.DAYS);
-        request.setSecondBegin(formatBegin.format(minus));
-        request.setSecondEnd(formatEnd.format(minus));
+        List<String> secondCount = unpackRedPacketsMapper.keep(formatBegin.format(minus), formatEnd.format(minus));
+        int secondSize = userIds.stream().filter(o -> secondCount.contains(o)).collect(Collectors.toList()).size();
+        resp.setSecondStay(secondSize);
+        resp.setSecondPer((secondSize / userIds.size()) * 100);
         //3留
         LocalDateTime treeStay = DateUtils.minus(local, 3, ChronoUnit.DAYS);
-        request.setTreeBegin(formatBegin.format(treeStay));
-        request.setTreeEnd(formatEnd.format(treeStay));
+        List<String> treeCount = unpackRedPacketsMapper.keep(formatBegin.format(treeStay), formatEnd.format(treeStay));
+        int treeSize = userIds.stream().filter(o -> treeCount.contains(o)).collect(Collectors.toList()).size();
+        resp.setThree(treeSize);
+        resp.setThreePer((treeSize / userIds.size()) * 100);
         //7留
         LocalDateTime serverStay = DateUtils.minus(local, 7, ChronoUnit.DAYS);
-        request.setServerBegin(formatBegin.format(serverStay));
-        request.setServerEnd(formatEnd.format(serverStay));
+        List<String> serverCount = unpackRedPacketsMapper.keep(formatBegin.format(serverStay), formatEnd.format(serverStay));
+        int serverSize = userIds.stream().filter(o -> serverCount.contains(o)).collect(Collectors.toList()).size();
+        resp.setSevenStay(serverSize);
+        resp.setSevenStayPer((serverSize / userIds.size()) * 100);
         //15留
         LocalDateTime fifteenStay = DateUtils.minus(local, 15, ChronoUnit.DAYS);
-        request.setFifteenBegin(formatBegin.format(fifteenStay));
-        request.setFifteenEnd(formatEnd.format(fifteenStay));
+        List<String> fifteenCount = unpackRedPacketsMapper.keep(formatBegin.format(fifteenStay), formatEnd.format(fifteenStay));
+        int fifteenSize = userIds.stream().filter(o -> fifteenCount.contains(o)).collect(Collectors.toList()).size();
+        resp.setFifteenStay(fifteenSize);
+        resp.setFifteenStayPer((fifteenSize / userIds.size()) * 100);
         //30留
         LocalDateTime monthStay = DateUtils.minus(local, 30, ChronoUnit.DAYS);
-        request.setMothBegin(formatBegin.format(monthStay));
-        request.setMothEnd(formatEnd.format(monthStay));
-        return unpackRedPacketsMapper.keep(request);
+        List<String> monthCount = unpackRedPacketsMapper.keep(formatBegin.format(monthStay), formatEnd.format(monthStay));
+        int monthSize = userIds.stream().filter(o -> monthCount.contains(o)).collect(Collectors.toList()).size();
+        resp.setMonthStay(monthSize);
+        resp.setMonthStayPer((monthSize / userIds.size()) * 100);
+        return resp;
     }
 }

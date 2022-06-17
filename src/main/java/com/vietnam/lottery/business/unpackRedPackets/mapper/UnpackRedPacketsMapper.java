@@ -25,8 +25,9 @@ public interface UnpackRedPacketsMapper extends BaseMapper<UnpackRedPackets> {
     /* 数据统计 */
     IndicatorsResponse statistics(@Param("request") IndicatorsRequest request);
 
-    /* 留存 */
-    KeepListResponse keep(@Param("request") KeepRequest request);
+    List<String> keep(@Param("begin") String begin, @Param("end") String end);
+
+    List<String> loginTotal(@Param("begin") String begin, @Param("end") String end);
 
     /* 查询所有抢红包*/
     List<GrabResponse> selectGrab();

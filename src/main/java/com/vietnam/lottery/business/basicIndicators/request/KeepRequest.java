@@ -14,34 +14,4 @@ public class KeepRequest implements Serializable {
     @ApiModelProperty(value = "开始时间")
     @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
     private String beginDate;
-
-    @ApiModelProperty(hidden = true)
-    private String secondBegin;
-
-    @ApiModelProperty(hidden = true)
-    private String secondEnd;
-
-    @ApiModelProperty(hidden = true)
-    private String treeBegin;
-
-    @ApiModelProperty(hidden = true)
-    private String treeEnd;
-
-    @ApiModelProperty(hidden = true)
-    private String serverBegin;
-
-    @ApiModelProperty(hidden = true)
-    private String serverEnd;
-
-    @ApiModelProperty(hidden = true)
-    private String fifteenBegin;
-
-    @ApiModelProperty(hidden = true)
-    private String fifteenEnd;
-
-    @ApiModelProperty(hidden = true)
-    private String mothBegin;
-
-    @ApiModelProperty(hidden = true)
-    private String mothEnd;
 }
