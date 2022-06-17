@@ -2,6 +2,7 @@ package com.vietnam.lottery.business.sysUser.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vietnam.lottery.business.sysLoginDetail.entity.SysLoginDetail;
 import com.vietnam.lottery.business.sysUser.entity.SysUser;
 import com.vietnam.lottery.business.sysUser.request.GrabRedPacketsListRequest;
 import com.vietnam.lottery.business.sysUser.request.UserListRequest;
@@ -40,5 +41,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /* 根据userId查询详情 */
     UserDetailResponse detail(@Param("id") String id);
+
+    SysLoginDetail loginInfo(@Param("userId") String userId);
 }
 

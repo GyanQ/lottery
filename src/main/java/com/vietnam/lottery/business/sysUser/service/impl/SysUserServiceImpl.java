@@ -23,10 +23,7 @@ import com.vietnam.lottery.business.sysUserRoleRelation.entity.SysUserRoleRelati
 import com.vietnam.lottery.business.sysUserRoleRelation.mapper.SysUserRoleRelationMapper;
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
-import com.vietnam.lottery.common.utils.JwtUtil;
-import com.vietnam.lottery.common.utils.ResultModel;
-import com.vietnam.lottery.common.utils.ResultUtil;
-import com.vietnam.lottery.common.utils.SmsUtils;
+import com.vietnam.lottery.common.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -281,7 +278,15 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public Page<UserManageListResponse> manageList(UserManageListRequest request) {
         Page<UserManageListResponse> page = new Page<>(request.getCurrent(), request.getSize());
-        return sysUserMapper.manageList(page, request);
+        Page<UserManageListResponse> iPage = sysUserMapper.manageList(page, request);
+        if (CollectionUtils.isEmpty(iPage.getRecords())) return iPage;
+        for (UserManageListResponse o : iPage.getRecords()) {
+            SysLoginDetail loginInfo = sysUserMapper.loginInfo(o.getUserId());
+            if (ObjectUtil.isEmpty(loginInfo)) continue;
+            o.setEndDate(DateUtils.dateConversionStr(loginInfo.getCreateDate(),DateUtils.DATETIME_PATTERN));
+            o.setIp(loginInfo.getIp());
+        }
+        return iPage;
     }
 
     @Override
