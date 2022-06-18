@@ -2,10 +2,8 @@ package com.vietnam.lottery.business.unpackRedPackets.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.vietnam.lottery.business.basicIndicators.request.IndicatorsRequest;
-import com.vietnam.lottery.business.basicIndicators.request.KeepRequest;
 import com.vietnam.lottery.business.basicIndicators.response.GrabResponse;
 import com.vietnam.lottery.business.basicIndicators.response.IndicatorsResponse;
-import com.vietnam.lottery.business.basicIndicators.response.KeepListResponse;
 import com.vietnam.lottery.business.basicIndicators.response.UnpackResponse;
 import com.vietnam.lottery.business.unpackRedPackets.entity.UnpackRedPackets;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,6 +35,6 @@ public interface UnpackRedPacketsMapper extends BaseMapper<UnpackRedPackets> {
 
     List<String> ids(@Param("id") String id);
 
-    int allTotal(@Param("ids") List<String> ids);
+    int allTotal(@Param("ids") List<String> ids, @Param("begin") String begin, @Param("end") String end);
 }
 

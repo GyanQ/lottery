@@ -139,6 +139,12 @@
         <foreach item="item" collection="ids" index="index" open="(" separator="," close=")">
             (#{item})
         </foreach>
+        <if test="begin != null and begin != ''">
+            and date_format(create_date,'%Y-%m-%d') &gt;= date_format(#{begin},'%Y-%m-%d')
+        </if>
+        <if test="end != null and end != ''">
+            and date_format(create_date,'%Y-%m-%d') &lt;= date_format(#{end},'%Y-%m-%d')
+        </if>
     </select>
     <select id="loginTotal" resultType="java.lang.String">
         select id

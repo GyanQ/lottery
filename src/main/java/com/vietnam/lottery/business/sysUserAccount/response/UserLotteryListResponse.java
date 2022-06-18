@@ -16,6 +16,9 @@ public class UserLotteryListResponse implements Serializable {
     @ApiModelProperty(value = "红包id")
     private String redPacketsId;
 
+    @ApiModelProperty(value = "红包金额")
+    private String redPacketsAmount;
+
     @ApiModelProperty(value = "奖项")
     private String awards;
 

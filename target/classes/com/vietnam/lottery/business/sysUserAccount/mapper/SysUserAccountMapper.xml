@@ -9,9 +9,11 @@
         a.product_id as redPacketsId,
         b.name as awards,
         a.amount as amount,
-        a.create_date as createDate
+        a.create_date as createDate,
+        g.amount as redPacketsAmount
         from sys_user_account a
         left join unpack_red_packets b on a.product_id = b.id
+        left join grab_red_packets g on b.grab_red_packets_id = a.id
         left join sys_user c on a.create_by = c.id
         where a.type = '1'
         and a.spending = '0'
