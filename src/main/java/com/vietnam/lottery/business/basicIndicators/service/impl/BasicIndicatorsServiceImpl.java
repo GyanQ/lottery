@@ -17,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,8 +56,10 @@ public class BasicIndicatorsServiceImpl implements BasicIndicatorsService {
         //结束时间格式化
         DateTimeFormatter formatEnd = DateTimeFormatter.ofPattern("yyyy-MM-dd 23:59:59");
 
+
+        String date = DateUtils.getCurrentTimeStr(DateUtils.DATETIME_PATTERN);
         //筛选时间
-        LocalDateTime local = (!StringUtils.isBlank(request.getBeginDate())) ? DateUtils.parseLocalDateTime(request.getBeginDate(), DateUtils.UNSIGNED_DATE_PATTERN) : LocalDateTime.now();
+        LocalDateTime local = DateUtils.parseLocalDateTime(request.getBeginDate(), DateUtils.DATETIME_PATTERN);
         //统计当天所有新增用户
         List<String> userIds = unpackRedPacketsMapper.loginTotal(formatBegin.format(local), formatEnd.format(local));
         //统计次留
