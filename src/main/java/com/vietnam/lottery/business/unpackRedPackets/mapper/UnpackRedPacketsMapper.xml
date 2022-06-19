@@ -109,7 +109,7 @@
     <select id="selectUnpackById"
             resultType="com.vietnam.lottery.business.basicIndicators.response.UnpackResponse">
         select
-        ifnull(ROUND((ifnull(b.num,0) / #{total}) * 100,1),0) as probability,
+        ifnull(ROUND((ifnull(b.num,0) / #{total}) * 100,0),0) as probability,
         a.`name`,
         ifnull(b.total,0) as amount
         from unpack_red_packets a

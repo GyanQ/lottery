@@ -53,12 +53,7 @@ public class SysUserAccountController {
 
     @PostMapping("/subordinateList")
     @ApiOperation("下级列表")
-    public ResultModel<List<SubordinateListListResponse>> withdrawList(@RequestBody @Valid SubordinateListListRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
-        if (bindingResult.hasErrors()) {
-            return ResultUtil.failure(bindingResult.getFieldError().getDefaultMessage());
-        }
-        String token = httpServletRequest.getHeader(JwtUtil.getHeader());
-        request.setUserId(JwtUtil.parseToken(token));
+    public ResultModel<List<SubordinateListListResponse>> withdrawList(@RequestBody @Valid SubordinateListListRequest request) {
         return ResultUtil.success(sysUserAccountService.subordinateList(request));
     }
 
