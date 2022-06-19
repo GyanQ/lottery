@@ -17,5 +17,5 @@ public class UnpackResponse implements Serializable {
     private Long amount;
 
     @ApiModelProperty(value = "中奖概率")
-    private Long probability;
+    private double probability;
 }

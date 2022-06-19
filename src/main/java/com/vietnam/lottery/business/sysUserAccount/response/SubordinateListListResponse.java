@@ -23,7 +23,7 @@ public class SubordinateListListResponse implements Serializable {
     @ApiModelProperty(value = "分佣金额")
     private BigDecimal commissionAmount;
 
-    @ApiModelProperty(value = " 充值金额")
+    @ApiModelProperty(value = "充值金额")
     private BigDecimal rechargeAmount;
 
     @ApiModelProperty(value = "注册时间")

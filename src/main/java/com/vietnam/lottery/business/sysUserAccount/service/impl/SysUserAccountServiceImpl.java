@@ -3,6 +3,7 @@ package com.vietnam.lottery.business.sysUserAccount.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vietnam.lottery.business.rechargeDetail.mapper.RechargeDetailMapper;
 import com.vietnam.lottery.business.sysUser.response.AccountBalanceResponse;
@@ -13,6 +14,7 @@ import com.vietnam.lottery.business.sysUserAccount.response.*;
 import com.vietnam.lottery.business.sysUserAccount.service.SysUserAccountService;
 import com.vietnam.lottery.business.sysUserBankCard.entity.SysUserBankCard;
 import com.vietnam.lottery.business.sysUserBankCard.mapper.SysUserBankCardMapper;
+import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.PaymentUtils;
 import com.vietnam.lottery.common.utils.ResultModel;
@@ -67,7 +69,6 @@ public class SysUserAccountServiceImpl implements SysUserAccountService {
             subordinate.setUserId(o.getUserId());
             List<SubordinateListListResponse> list = subordinateList(subordinate);
             o.setAmount(list.stream().map(SubordinateListListResponse::getRechargeAmount).reduce(BigDecimal.ZERO, BigDecimal::add));
-            o.setCommissionAmount(list.stream().map(SubordinateListListResponse::getCommissionAmount).reduce(BigDecimal.ZERO, BigDecimal::add));
         }
         return iPage;
     }
