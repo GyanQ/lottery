@@ -440,7 +440,7 @@ public class SysUserServiceImpl implements SysUserService {
 
         //创建token
         Map<String, Object> map = new HashMap<>();
-        map.put("userId", request.getUserId());
+        map.put("userId", user.getId());
         String token = JwtUtil.createToken(map);
         map.put("token", token);
 
