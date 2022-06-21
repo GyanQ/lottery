@@ -1,6 +1,5 @@
 package com.vietnam.lottery.business.sysUser.service.impl;
 
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -122,7 +121,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
         sysUserMapper.insert(user);
         //推广代理
-        if (!StringUtils.isBlank(request.getUserId())) {
+        if (!StringUtils.isBlank(request.getUserId()) && flag) {
             addActing(request.getUserId(), user.getId());
         }
         return ResultUtil.success();
@@ -340,7 +339,8 @@ public class SysUserServiceImpl implements SysUserService {
         String token = JwtUtil.createToken(map);
         map.put("token", token);
 
-        if (!StringUtils.isBlank(request.getId())) {
+        Boolean flag = isExist(request.getUserId());
+        if (!StringUtils.isBlank(request.getId()) && flag) {
             addActing(request.getId(), user.getId());
         }
         addLoginDetail(user.getId(), request.getIp());
@@ -416,7 +416,8 @@ public class SysUserServiceImpl implements SysUserService {
         String token = JwtUtil.createToken(map);
         map.put("token", token);
 
-        if (!StringUtils.isBlank(request.getUserId())) {
+        Boolean flag = isExist(request.getUserId());
+        if (!StringUtils.isBlank(request.getUserId()) && flag) {
             addActing(request.getUserId(), user.getId());
         }
         addLoginDetail(user.getId(), request.getIp());
@@ -444,7 +445,8 @@ public class SysUserServiceImpl implements SysUserService {
         String token = JwtUtil.createToken(map);
         map.put("token", token);
 
-        if (!StringUtils.isBlank(request.getId())) {
+        Boolean flag = isExist(request.getUserId());
+        if (!StringUtils.isBlank(request.getId()) && flag) {
             addActing(request.getId(), user.getId());
         }
         addLoginDetail(user.getId(), request.getIp());
