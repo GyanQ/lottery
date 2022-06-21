@@ -24,6 +24,7 @@ import com.vietnam.lottery.business.sysUserRoleRelation.mapper.SysUserRoleRelati
 import com.vietnam.lottery.common.global.DelFlagEnum;
 import com.vietnam.lottery.common.global.GlobalException;
 import com.vietnam.lottery.common.utils.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class SysUserServiceImpl implements SysUserService {
     @Autowired
     private SysUserMapper sysUserMapper;
@@ -98,8 +100,6 @@ public class SysUserServiceImpl implements SysUserService {
 
         String passWord = DigestUtils.md5DigestAsHex(request.getPassWord().getBytes());
         SysUser user = new SysUser();
-        String uuid = IdUtil.simpleUUID();
-        user.setId(uuid);
         user.setAccount(request.getAccount());
         user.setPassWord(passWord);
         user.setLoginWay("1");
@@ -120,11 +120,12 @@ public class SysUserServiceImpl implements SysUserService {
                 return ResultUtil.failure("Mã xác nhận sai");
             }
         }
+        sysUserMapper.insert(user);
         //推广代理
         if (!StringUtils.isBlank(request.getUserId())) {
-            addActing(request.getUserId(), uuid);
+            addActing(request.getUserId(), user.getId());
         }
-        return ResultUtil.success(sysUserMapper.insert(user));
+        return ResultUtil.success();
     }
 
     @Override
@@ -320,6 +321,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> faceBookLogin(FaceBookLoginRequest request) {
+        log.info("facebook入参:{}", request);
         //查询账号是否存在
         SysUser user = accountIsExist(request.getUserId().toString());
         if (ObjectUtil.isEmpty(user)) {
@@ -426,6 +428,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> googleLogin(GoogleLoginRequest request) {
+        log.info("Google入参:{}", request);
         //查询账号是否存在
         SysUser user = accountIsExist(request.getUserId().toString());
         if (ObjectUtil.isEmpty(user)) {
