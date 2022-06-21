@@ -393,8 +393,6 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("phone", request.getPhone()).eq("del_flag", DelFlagEnum.CODE.getCode()));
         if (ObjectUtil.isEmpty(user)) {
             user = new SysUser();
-            String uuid = IdUtil.simpleUUID();
-            user.setId(uuid);
             user.setPhone(request.getPhone());
             user.setLoginWay("4");
             user.setAccount(request.getPhone());
