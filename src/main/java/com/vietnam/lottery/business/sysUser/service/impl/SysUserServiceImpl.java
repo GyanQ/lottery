@@ -321,6 +321,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> faceBookLogin(FaceBookLoginRequest request) {
         log.info("facebook入参:{}", request);
+        Boolean flag = isExist(request.getUserId());
         //查询账号是否存在
         SysUser user = accountIsExist(request.getUserId().toString());
         if (ObjectUtil.isEmpty(user)) {
@@ -339,7 +340,6 @@ public class SysUserServiceImpl implements SysUserService {
         String token = JwtUtil.createToken(map);
         map.put("token", token);
 
-        Boolean flag = isExist(request.getUserId());
         if (!StringUtils.isBlank(request.getId()) && flag) {
             addActing(request.getId(), user.getId());
         }
@@ -390,6 +390,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> pawFreeLogin(PawFreeLoginRequest request) {
+        Boolean flag = isExist(request.getUserId());
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("phone", request.getPhone()).eq("del_flag", DelFlagEnum.CODE.getCode()));
         if (ObjectUtil.isEmpty(user)) {
             user = new SysUser();
@@ -416,7 +417,6 @@ public class SysUserServiceImpl implements SysUserService {
         String token = JwtUtil.createToken(map);
         map.put("token", token);
 
-        Boolean flag = isExist(request.getUserId());
         if (!StringUtils.isBlank(request.getUserId()) && flag) {
             addActing(request.getUserId(), user.getId());
         }
@@ -428,6 +428,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> googleLogin(GoogleLoginRequest request) {
         log.info("Google入参:{}", request);
+        Boolean flag = isExist(request.getUserId());
         //查询账号是否存在
         SysUser user = accountIsExist(request.getUserId().toString());
         if (ObjectUtil.isEmpty(user)) {
@@ -445,7 +446,6 @@ public class SysUserServiceImpl implements SysUserService {
         String token = JwtUtil.createToken(map);
         map.put("token", token);
 
-        Boolean flag = isExist(request.getUserId());
         if (!StringUtils.isBlank(request.getId()) && flag) {
             addActing(request.getId(), user.getId());
         }
