@@ -283,7 +283,7 @@ public class SysUserServiceImpl implements SysUserService {
         for (UserManageListResponse o : iPage.getRecords()) {
             SysLoginDetail loginInfo = sysUserMapper.loginInfo(o.getUserId());
             if (ObjectUtil.isEmpty(loginInfo)) continue;
-            o.setEndDate(DateUtils.dateConversionStr(loginInfo.getCreateDate(),DateUtils.DATETIME_PATTERN));
+            o.setEndDate(DateUtils.dateConversionStr(loginInfo.getCreateDate(), DateUtils.DATETIME_PATTERN));
             o.setIp(loginInfo.getIp());
         }
         return iPage;
@@ -508,10 +508,11 @@ public class SysUserServiceImpl implements SysUserService {
      * superiorId: 父级userId
      * userid: 下级
      */
-    private void addActing(String superiorId, String userId) {
-        //增加代理关系
+    @Transactional
+    public void addActing(String superiorId, String userId) {
+        //========增加代理关系
         ActingHierarchyRelation relation = new ActingHierarchyRelation();
-        Acting selectActing = selectActingId(null, "一级代理");
+        Acting selectActing = selectActingId("1501592852484911106", null);
         if (ObjectUtil.isEmpty(selectActing)) {
             return;
         }
@@ -521,27 +522,32 @@ public class SysUserServiceImpl implements SysUserService {
         actingHierarchyRelationMapper.insert(relation);
 
         //查询父级的上级代理
-        List<ActingHierarchyRelation> list = actingHierarchyRelationMapper.selectList(new QueryWrapper<ActingHierarchyRelation>().eq("del_flag", DelFlagEnum.CODE.getCode()).eq("create_by", superiorId));
+        QueryWrapper<ActingHierarchyRelation> querySuper = new QueryWrapper<>();
+        querySuper.eq("create_by", superiorId);
+        querySuper.eq("del_flag", DelFlagEnum.CODE.getCode());
+        List<ActingHierarchyRelation> list = actingHierarchyRelationMapper.selectList(querySuper);
         if (CollectionUtils.isEmpty(list)) return;
 
         //二级、三级代理
         for (ActingHierarchyRelation o : list) {
             ActingHierarchyRelation byActingUserId = new ActingHierarchyRelation();
-            //查询代理等级
-            Acting acting = selectActingId(o.getActingId(), null);
-            if (ObjectUtil.isEmpty(acting)) continue;
 
-            switch (acting.getLevel()) {
-                case "一级代理":
-                    byActingUserId.setActingId(selectActingId(null, "二级代理").getId());
+            switch (o.getActingId()) {
+                //一级
+                case "1501592852484911106":
+                    byActingUserId.setActingId("1502622021805215745");
+                    byActingUserId.setCreateBy(userId);
+                    byActingUserId.setSuperiorId(o.getSuperiorId());
+                    actingHierarchyRelationMapper.insert(byActingUserId);
                     break;
-                case "二级代理":
-                    byActingUserId.setActingId(selectActingId(null, "三级代理").getId());
+                //二级
+                case "1502622021805215745":
+                    byActingUserId.setActingId("1502622043628179459");
+                    byActingUserId.setCreateBy(userId);
+                    byActingUserId.setSuperiorId(o.getSuperiorId());
+                    actingHierarchyRelationMapper.insert(byActingUserId);
                     break;
             }
-            byActingUserId.setCreateBy(userId);
-            byActingUserId.setSuperiorId(o.getSuperiorId());
-            actingHierarchyRelationMapper.insert(byActingUserId);
         }
     }
 

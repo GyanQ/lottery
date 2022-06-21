@@ -37,7 +37,7 @@ public interface UnpackRedPacketsService {
     Page<UnPackListResponse> list(UnPackListRequest request);
 
     /* 抽奖 */
-    UnpackLotteryResponse lottery(String userId);
+    UnpackLotteryResponse lottery(String userId,String language);
 
     //广播  true代表只查询一条
     List<BroadcastResponse> broadcast(Boolean flag);

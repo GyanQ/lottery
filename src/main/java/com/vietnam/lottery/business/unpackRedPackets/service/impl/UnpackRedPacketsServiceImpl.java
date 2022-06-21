@@ -178,7 +178,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public UnpackLotteryResponse lottery(String userId) {
+    public UnpackLotteryResponse lottery(String userId, String language) {
         UnpackLotteryResponse resp = new UnpackLotteryResponse();
         //======判断用户是否还有拆红包机会
         QueryWrapper<SysUserAccount> grabQuery = new QueryWrapper<>();
@@ -186,8 +186,13 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         grabQuery.eq("type", "2");
         grabQuery.eq("lottery_status", "0");
         List<SysUserAccount> grabList = sysUserAccountMapper.selectList(grabQuery);
-        if (CollectionUtils.isEmpty(grabList)) throw new GlobalException("");
-
+        if (CollectionUtils.isEmpty(grabList)) {
+            if ("0".equals(language)) {
+                throw new GlobalException("Insuffcient withdraw chance");
+            } else {
+                throw new GlobalException("Số liệu túi khuyến mãi trống");
+            }
+        }
 //        QueryWrapper<SysUserAccount> unpackQuery = new QueryWrapper<>();
 //        unpackQuery.eq("create_by", userId);
 //        unpackQuery.eq("type", "1");
@@ -228,7 +233,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         sysUserAccount.setProductId(unpackConfig.get(index).getId());
         sysUserAccount.setType("1");
         sysUserAccount.setSpending("0");
-        sysUserAccount.setAmount(num);
+        sysUserAccount.setAmount(num.setScale(0, BigDecimal.ROUND_DOWN));
         sysUserAccount.setCreateBy(userId);
         sysUserAccountMapper.insert(sysUserAccount);
 
@@ -239,7 +244,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         grabOrder.setUpdateDate(new Date());
         sysUserAccountMapper.updateById(grabOrder);
 
-        resp.setAmount(num);
+        resp.setAmount(num.setScale(0, BigDecimal.ROUND_DOWN));
         resp.setName(unpackConfig.get(index).getName());
         return resp;
     }

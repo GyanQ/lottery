@@ -28,7 +28,8 @@ public class UnpackRedPacketsWebController {
     public ResultModel lottery(HttpServletRequest httpServletRequest) {
         String token = httpServletRequest.getHeader(JwtUtil.getHeader());
         String userId = JwtUtil.parseToken(token);
-        return ResultUtil.success(unpackRedPacketsService.lottery(userId));
+        String language = JwtUtil.parseLanguage(token);
+        return ResultUtil.success(unpackRedPacketsService.lottery(userId,language));
     }
 
     @GetMapping("/broadcast")
