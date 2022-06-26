@@ -433,7 +433,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser user = accountIsExist(request.getUserId().toString());
         if (ObjectUtil.isEmpty(user)) {
             user = new SysUser();
-            user.setLoginWay("2");
+            user.setLoginWay("3");
             user.setAccount(request.getUserId().toString());
             user.setCreateBy(request.getUserId());
             user.setName(request.getName());
