@@ -235,6 +235,7 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
         sysUserAccount.setSpending("0");
         sysUserAccount.setAmount(num.setScale(0, BigDecimal.ROUND_DOWN));
         sysUserAccount.setCreateBy(userId);
+        sysUserAccount.setLotteryStatus("1");
         sysUserAccountMapper.insert(sysUserAccount);
 
         SysUserAccount grabOrder = sysUserAccountMapper.selectById(grabList.get(0).getId());
@@ -297,7 +298,8 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     /**
      * 查询全部拆红包
      */
-    private List<UnpackRedPackets> unpackList(String id, String grabId) {
+    @Transactional(rollbackFor = Exception.class)
+    public List<UnpackRedPackets> unpackList(String id, String grabId) {
         QueryWrapper<UnpackRedPackets> query = new QueryWrapper<>();
         query.eq(ObjectUtil.isNotEmpty(grabId), "grab_red_packets_id", grabId);
         query.ne(ObjectUtil.isNotEmpty(id), "id", id);
@@ -331,7 +333,8 @@ public class UnpackRedPacketsServiceImpl implements UnpackRedPacketsService {
     /**
      * 抽奖
      */
-    private int lottery(List<UnpackRedPackets> list) {
+    @Transactional(rollbackFor = Exception.class)
+    public int lottery(List<UnpackRedPackets> list) {
         if (CollectionUtils.isEmpty(list)) throw new GlobalException("");
         //计算总概率 换算成1
         double total = 0d;
